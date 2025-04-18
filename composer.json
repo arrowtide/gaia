@@ -1,7 +1,7 @@
 {
     "name": "arrowtide/gaia",
     "description": "The rapid development starterkit for your next headless Shopify store",
-    "license": "proprietary",
+    "license": "Arrowtide Ltd. See https://github.com/arrowtide/gaia/blob/main/LICENCE.md for licence information.",
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
