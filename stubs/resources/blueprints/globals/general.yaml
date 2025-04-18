@@ -1,0 +1,82 @@
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        display: Address
+        fields:
+          -
+            handle: address_line_1
+            field:
+              type: text
+              display: 'Address line 1'
+          -
+            handle: address_line_2
+            field:
+              type: text
+              display: 'Address line 2'
+          -
+            handle: address_line_3
+            field:
+              type: text
+              display: 'Address line 3'
+          -
+            handle: country
+            field:
+              dictionary: countries
+              max_items: 1
+              type: dictionary
+              display: Country
+              width: 50
+          -
+            handle: city
+            field:
+              type: text
+              display: City
+              width: 50
+          -
+            handle: region
+            field:
+              type: text
+              display: Region
+              width: 50
+              instructions: 'State, province, county, etc.'
+              instructions_position: below
+          -
+            handle: postal_code
+            field:
+              type: text
+              display: 'Postal code'
+              width: 50
+              instructions: 'Postcode, zip code, etc.'
+              instructions_position: below
+      -
+        display: Copyright
+        fields:
+          -
+            handle: copyright_since
+            field:
+              type: text
+              display: 'Copyright since'
+              instructions: 'The year the copyright became active.'
+              placeholder: '2019'
+              prepend: ©
+              width: 33
+          -
+            handle: copyright_message
+            field:
+              type: text
+              display: 'Copyright message'
+              instructions: 'The company or message. Shown after the years active.'
+              placeholder: 'Acme Limited'
+              width: 66
+      -
+        display: Payments
+        fields:
+          -
+            handle: payment_methods
+            field:
+              dictionary: payment_icons
+              type: dictionary
+              display: 'Payment methods'
+              instructions: 'A list of payment methods your store accepts.'

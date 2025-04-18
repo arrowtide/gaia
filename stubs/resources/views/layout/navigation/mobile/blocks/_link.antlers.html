@@ -1,0 +1,38 @@
+{{ if url }}
+    <li>
+        <a
+            href="{{ url }}"
+            {{ link_settings.is_new_tab ?= 'target="_blank rel="noopener""'}}
+            class="nav-link"
+            data-depth="d{{ depth }}"
+        >
+            <span class="inline-flex items-center">
+                {{ if icon && icon.icon }}
+                    <span class="{{ icon.position == 'before' ?= 'mr-2' }} {{ icon.position == 'after' ?= 'ml-2 order-1' }}" aria-hidden="true">
+                        {{ svg :src="icon.icon" class="w-4 h-4" }}
+                    </span>
+                {{ /if }}
+
+                {{ title }}
+            </span>
+        </a>
+    </li>
+{{ else }}
+<li>
+    <span
+        class="nav-link"
+        data-depth="d{{ depth }}"
+    >
+        <span clas="flex items-center">
+            {{ title }}
+
+            {{ if icon && icon.icon }}
+                <span class="{{ icon.position == 'before' ?= 'mr-2 order-0' }} {{ icon.position == 'after' ?= 'ml-2' }}">
+                    {{ icon.icon }}
+                </span>
+            {{ /if }}
+        </span>
+
+    </span>
+</li>
+{{ /if }}

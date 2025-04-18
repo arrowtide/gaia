@@ -1,0 +1,8 @@
+{{ isDiscounted = estimatedCost.totalAmount.amount !== estimatedCost.subtotalAmount.amount }}
+
+<div class="flex items-center">
+    {{ if isDiscounted }}
+        <p class="block text-sm tracking-wide line-through text-slate-500">{{ gaia:currency :price="estimatedCost.subtotalAmount.amount" }}</p>
+    {{ /if }}
+    <p class="ml-2 {{ isDiscounted ?= 'text-red-700'}}">{{ gaia:currency :price="estimatedCost.totalAmount.amount" }}</p>
+</div>

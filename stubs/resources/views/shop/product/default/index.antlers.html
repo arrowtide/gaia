@@ -1,0 +1,266 @@
+
+<div class="container-fluid pb-head md:pt-head">
+    <div class="md:grid md:grid-cols-2 md:gap-8 lg:gap-14 col-span-full md:col-span-content">
+        <div class="mb-6 md:mb-0">
+            {{ partial:shop/product/default/gallery }}
+        </div>
+
+        <div class="px-gutter lg:px-0">
+            <div class="flex ">
+                <h1 class="mb-4 text-4xl font-medium leading-tight tracking-tighter lg:text-5xl">
+                    {{ title }}
+                </h1>
+                <div class="pl-5 ml-auto">
+                    {{ partial:features/wishlist/trigger }}
+                </div>
+            </div>
+
+            {{ partial:shop/product/default/description }}
+
+            <form class="mt-5" class="mt-5">
+                <div class="flex flex-col mb-3">
+                    {{ partial:shop/product/default/options }}
+
+
+                    <div class="flex flex-wrap items-center pt-5 my-8 border-t border-t-slate-200">
+
+                        <div class="flex items-center justify-between w-full mb-5">
+                            {{ partial:shop/product/default/price }}
+                        </div>
+
+
+                        <div class="flex items-center mt-5 grow">
+                            <div class="mr-5">
+                                {{ partial:shop/product/default/quantity }}
+                            </div>
+
+                            {{ partial:shop/product/default/add_to_cart }}
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{{ once }}
+    {{ push:stores }}
+        <script type="module">
+            Alpine.store('product', {
+                title: '{{ title }}',
+                price: '{{ gaia:product:price }}{{min_price}}{{ /gaia:product:price}}',
+                variants:  JSON.parse(` {{ { collection:variants :product_slug:is="slug" :site="site" } | pluck_with_keys('option1', 'option2', 'option3', 'inventory_quantity', 'slug', 'price', 'image') | to_json }} `),
+                currentVariants: JSON.parse(` {{ { collection:variants :product_slug:is="slug" :site="site" } | pluck_with_keys('option1', 'option2', 'option3', 'inventory_quantity', 'slug', 'price', 'image') | to_json }} `),
+                currentProduct: null,
+                selectedOptions: null,
+                stockStatus: 'inStock',
+                cart: {
+                    quantity: 1
+                },
+                init() {
+                    this.updateProductData();
+                },
+                findVariantBySelectedOptions(options) {
+                    if (!options || Object.keys(options).length < 3) return undefined;
+                    return this.variants.find(variant => {
+                        return Object.keys(options).every(key => {
+                            const optionNumber = parseInt(key);
+                            const optionKey = `option${optionNumber}`;
+                            return variant[optionKey] === options[key].value;
+                        });
+                    });
+                },
+                updateProductData() {
+                    this.updateCurrentVariants();
+                    this.updateCurrentProduct();
+                    this.updateDisplayedPrice();
+
+                    window.dispatchEvent(new CustomEvent('product-data-reloaded'));
+                },
+                updateCurrentProduct() {
+                    let variant;
+
+                    variant = this.variants.length === 1 ? this.variants[0] : this.findVariantBySelectedOptions(this.selectedOptions);
+
+                    if (!variant) {
+                        this.currentProduct = undefined;
+                        return;
+                    }
+
+                    this.currentProduct =  {
+                        ...variant,
+                        isSaleable: variant.inventory_quantity > 0,
+                        inStock: variant.inventory_quantity > 0,
+                        formattedPrice: gaia.formatPrice(variant.price),
+                        productId: '{{ product_id }}'
+                    }
+                },
+                updateDisplayedPrice() {
+                    if (this.variants.length === 1) {
+                        this.price = this.currentProduct.formattedPrice;
+                        return;
+                    }
+
+                    function calculateMinMaxPrices(variants) {
+                        return variants.reduce((acc, variant) => {
+                            return {
+                            smallestPrice: Math.min(acc.smallestPrice, variant.price),
+                            largestPrice: Math.max(acc.largestPrice, variant.price)
+                            };
+                        }, { smallestPrice: Infinity, largestPrice: -Infinity });
+                    }
+
+                    const { smallestPrice, largestPrice } = calculateMinMaxPrices(this.currentVariants);
+
+                    if (smallestPrice === Infinity || largestPrice === Infinity) {
+                        let { smallestPrice, largestPrice } = calculateMinMaxPrices(this.variants);
+                        this.price = `${gaia.formatPrice(smallestPrice)} - ${gaia.formatPrice(largestPrice)}`;
+                        return;
+                    }
+
+                    if (smallestPrice === largestPrice) {
+                        this.price = gaia.formatPrice(largestPrice);
+                        return;
+                    }
+
+                    this.price = `${gaia.formatPrice(smallestPrice)} - ${gaia.formatPrice(largestPrice)}`;
+                },
+                updateCurrentVariants() {
+                    if (!this.selectedOptions) {
+                        this.currentVariants = this.variants;
+                        return;
+                    }
+
+                    this.currentVariants = this.variants.filter(variant => {
+                        return Object.keys(this.selectedOptions).every(key => {
+                            const optionNumber = parseInt(key);
+                            const optionKey = `option${optionNumber}`;
+
+                            return variant[optionKey] === this.selectedOptions[key].value;
+                        });
+                    });
+                },
+                updateStockStatus(variantHierarchy) {
+                    const isAllVariantsOutOfStock = () => {
+                        return Object.values(variantHierarchy).every(option => !option._is_saleable)
+                    }
+
+                    const noOptionSelected = () => {
+                        return !this.selectedOptions
+                    }
+
+                    const isProductUnavailable = () => {
+                        return areAllOptionsSelected() && !this.currentProduct;
+                    };
+
+                    const areAllOptionsSelected = () => {
+                        return this.selectedOptions && Object.keys(this.selectedOptions).length === 3;
+                    };
+
+                    const isXLeft = () => {
+                        return (
+                            JSON.parse('{{ config:gaia:inventory:x_left_threshold }}') &&
+                            this.currentProduct &&
+                            this.currentProduct.inventory_quantity <= JSON.parse('{{ config:gaia:inventory:x_left_threshold }}') &&
+                            this.currentProduct.inventory_quantity > 0
+                        );
+                    };
+
+                    const getStockStatusByOptions = (key = 1, option = variantHierarchy[this.selectedOptions[key].value]) => {
+                        if (!option || !option._is_saleable) {
+                            return false;
+                        }
+
+                        if (this.selectedOptions[key + 1]) {
+                            return getStockStatusByOptions(key + 1, option.children[this.selectedOptions[key + 1].value]);
+                        }
+
+                        return true;
+                    };
+
+                    if (isAllVariantsOutOfStock()) {
+                        this.stockStatus = 'outOfStock';
+                    }
+
+                    if (noOptionSelected()) {
+                        return;
+                    }
+
+                    if (isProductUnavailable()) {
+                        this.stockStatus = 'unavailable';
+                    }
+                    else if (isXLeft()) {
+                        this.stockStatus = 'xLeft';
+                    }
+                    else if (this.selectedOptions[1]) {
+                        this.stockStatus = getStockStatusByOptions() ? 'inStock' : 'outOfStock';
+                    }
+                },
+
+                // Product form
+                loading: false,
+                disabled: false,
+                async handleProductFormSubmit($event) {
+                    $event.preventDefault();
+
+                    if (this.disabled) {
+                        return;
+                    }
+
+                    if (this.isProductQtyMoreThanAvailable) {
+                        // TODO: fix this, alerts no longer exist
+                        gaia.alert({
+                            title: 'Not enough stock',
+                            text: `Sorry, we don't have enough stock for that quantity. Please select something less than ${this.currentProduct.inventory_quantity + 1}`,
+                            type: 'error'
+                        });
+
+                        return;
+                    }
+
+                    if (this.isProductDataMissing) {
+                        gaia.toast({
+                            text: 'Something went wrong, please try again',
+                            type: 'error'
+                        });
+
+                        return;
+                    }
+
+                    try {
+                        this.disabled = true;
+                        this.loading = true;
+
+                        const response = await gaia.fetch.url('/!/gaia/cart/add').post({
+                            product_id: this.currentProduct.slug,
+                            quantity: this.cart.quantity
+                        });
+
+                        gaia.toast({
+                            text: `Added ${ this.title } to cart`,
+                            type: 'success'
+                        });
+                    }
+                    catch {
+                        gaia.toast({
+                            text: `Couldn't add ${ this.title } to cart at this time`,
+                            type: 'error'
+                        });
+                    }
+                    finally {
+                        this.loading = false;
+                        this.disabled = false;
+
+                        window.dispatchEvent(new CustomEvent('update-cart'));
+                    }
+                },
+                get isProductDataMissing() {
+                    return this.currentProduct == null && this.currentProduct.productId == null;
+                },
+                get isProductQtyMoreThanAvailable() {
+                    return this.cart.quantity > this.currentProduct.inventory_quantity;
+                },
+            });
+        </script>
+    {{ /push:stores }}
+{{ /once }}

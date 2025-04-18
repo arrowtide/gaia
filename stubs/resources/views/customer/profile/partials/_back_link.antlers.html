@@ -1,0 +1,16 @@
+
+{{ container = switch(
+    (container == 'full') => '',
+    () => 'max-w-5xl'
+)}}
+
+<div class="sticky top-0 z-20 shadow-lg sm:mb-5 border-y shadow-slate-100 bg-slate-50 border-slate-200 ">
+    <div class="container {{ container }}"> 
+        <a href="{{ url }}" class="inline-flex items-center py-4 sm:py-6">
+            {{ svg src="arrow_left_alt" class="w-4 h-4 mr-2" }}
+            <span class="inline-flex items-center btn-link">
+                {{ text }}
+            </span>
+        </a>
+    </div>
+</div>

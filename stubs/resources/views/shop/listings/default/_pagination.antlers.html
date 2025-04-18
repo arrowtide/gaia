@@ -1,0 +1,29 @@
+{{ paginator }}
+    <nav class="grid items-center justify-between w-full grid-cols-2 py-12 md:flex gap-x-10">
+        <button 
+            wire:click="previousPage"
+            x-on:click="($el.closest('#catalog') || document.querySelector('body')).scrollIntoView({ behavior: 'smooth'})"
+            wire:loading.attr="disabled" 
+            rel="prev" 
+            class="gap-2 btn btn-primary min-w-32"
+            {{ !prev_page_url ?= 'disabled' }}
+        >
+                {{ svg src="arrow_left_alt" class="fill-current size-4" aria-disabled="true" }}
+            <span class="ml-2">Previous</span>
+        </button>
+
+        <span class="order-first col-span-2 mb-5 text-xs text-center md:mb-0 md:order-none">{{ current_page }} of {{ last_page }} pages (There are <strong class="font-medium">{{ total }}</strong> products)</span>
+
+        <button 
+            wire:click="nextPage"
+            wire:loading.attr="disabled" 
+            x-on:click="($el.closest('#catalog') || document.querySelector('body')).scrollIntoView({ behavior: 'smooth'})"
+            rel="next" 
+            class="gap-2 btn btn-primary min-w-32"
+            {{ !next_page_url ?= 'disabled' }}
+        >
+            <span>Next</span>
+            {{ svg src="arrow_right_alt" class="fill-current size-4" aria-disabled="true" }}
+        </button>
+    </nav>
+{{ /paginator }}

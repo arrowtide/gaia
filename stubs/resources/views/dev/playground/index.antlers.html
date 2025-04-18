@@ -1,0 +1,150 @@
+---
+nav:
+    -
+        title: Navigation
+        items:
+            -
+                title: Headings
+                url: '#headings'
+            - 
+                title: Buttons
+                url: "#buttons"
+            - 
+                title: Messages
+                url: "#toasts"
+            - 
+                title: Modal
+                url: "#modal"
+            - 
+                title: Drawer
+                url: "#drawer"
+            - 
+                title: Dropdown
+                url: "#dropdown"
+            - 
+                title: Divider
+                url: "#divider"
+            - 
+                title: Forms
+                url: "#forms"
+---
+
+<div class="container grid grid-cols-12">
+    <aside class="col-span-3 pt-12 text-sm">
+        <menu class="sticky grid gap-5 top-12">
+            {{ view:nav }}
+                <li>
+                    <h2 class="text-lg font-medium lg:text-base font-display text-slate-900">{{ title }}</h2>
+                    <ul class="grid gap-5 mt-2 border-l border-black/10 lg:mt-4">
+                        {{ items }}
+                            <a href="{{ url }}" class="pl-3 hover:text-blue-700 hover:underline">{{ title }}</a>
+                        {{ /items }}
+                    </ul>
+                </li>
+            {{ /view:nav }}
+        </menu>
+
+        <div class="flex justify-center mt-24 md:hidden">
+            <a class="group" aria-label="GitHub" href="https://github.com">
+                {{ svg src="socials/github" class="w-6 h-6 fill-slate-400 group-hover:fill-slate-500 dark:group-hover:fill-slate-300" }}
+            </a>
+        </div>
+    </aside>
+    <div class="col-span-9">        
+        {{ partial:dev/playground/sections/headings }}
+        {{ partial:dev/playground/sections/buttons }}
+        {{ partial:dev/playground/sections/toasts }}
+        {{ partial:dev/playground/sections/dropdown }}
+        {{ partial:dev/playground/sections/drawer }}
+        {{ partial:dev/playground/sections/modal }}
+        {{ partial:dev/playground/sections/divider }}
+        {{ partial:dev/playground/sections/forms }}
+    </div>
+</div>
+
+
+
+
+
+<div class="py-10">
+    <div class="container-fluid">
+        <p class="mb-5 text-lg">No child classes</p>
+    </div>
+    
+    <div class="container-fluid min-h-32">
+        <div class="bg-red-100 border border-red-600 border-dashed"></div>
+    </div>
+</div>
+
+
+<div class="py-10">
+    <div class="container-fluid">
+        <p class="mb-5 text-lg">Responsive</p>
+    </div>
+    
+    <div class="container-fluid min-h-32">
+        <div class="bg-red-100 border border-red-600 border-dashed col-span-full sm:col-span-content md:col-span-full lg:col-span-content xl:col-span-full"></div>
+    </div>
+</div>
+
+<div class="py-10">
+    <div class="container-fluid">
+        <p class="mb-5 text-lg">Child grid</p>
+    </div>
+    
+    <div class="container-fluid">
+        <div class="p-5 bg-red-100 border border-red-600 border-dashed">
+            <div class="grid grid-cols-2 gap-5">
+                <div class="col-span-1 p-12 bg-blue-100 border border-blue-600 border-dashed"></div>
+                <div class="col-span-1 p-12 bg-blue-100 border border-blue-600 border-dashed"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="py-10">
+    <div class="container-fluid">
+        <p class="mb-5 text-lg">Grid within a grid</p>
+    </div>
+    
+    <div class="container-fluid">
+        <div class="bg-red-100 border border-red-600 border-dashed col-span-bleed lg:col-span-content">
+            <div class="grid grid-cols-1 gap-5 lg:grid-cols-2">
+                <div class="col-span-1 p-12 bg-blue-100 border border-blue-600 border-dashed"></div>
+                <div class="col-span-1 bg-green-100 border border-green-600 border-dashed min-h-32 mx-gutter lg:mx-0"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="py-10">
+    <div class="container-fluid">
+        <p class="mb-5 text-lg">Grid within a grid</p>
+    </div>
+    
+    <div class="container-fluid">
+        <div class="bg-red-100 border border-red-600 border-dashed col-span-bleed lg:col-span-content">
+            <div class="grid grid-cols-1 gap-5 lg:grid-cols-2">
+                <div class="col-span-1 p-12 bg-blue-100 border border-blue-600 border-dashed">
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis totam tempora deleniti impedit, deserunt, quasi dicta illum ea numquam distinctio id doloribus. Eligendi fugit vero aperiam earum voluptatum repudiandae animi.</p>
+                    <div class="p-2 bg-yellow-200 border border-yellow-600 border-dashed breakout">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit quisquam enim commodi consequatur dolorem eveniet deserunt dolores hic assumenda. Odio alias vitae quasi quaerat delectus tenetur ullam officiis dicta recusandae.</p>
+                    </div>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui molestiae asperiores laudantium excepturi iure iusto beatae deserunt ullam, sequi placeat, in, sunt nostrum reprehenderit magni eveniet fugiat! Eveniet, rem sequi.</p>
+                    <div class="max-w-xs p-2 bg-yellow-200 border border-yellow-600 border-dashed">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit quisquam enim commodi consequatur dolorem eveniet deserunt dolores hic assumenda. Odio alias vitae quasi quaerat delectus tenetur ullam officiis dicta recusandae.</p>
+                        <div class="p-2 bg-yellow-200 border border-yellow-600 border-dashed breakout">
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum accusantium nisi sunt ea, sint voluptatibus facilis harum recusandae quas nam atque? Cum facilis magni iure error dolores optio atque ratione!</p>
+                        </div>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora quis minima tempore. Dolor numquam eveniet nisi mollitia accusantium possimus deleniti, aut, soluta culpa quaerat quis exercitationem. Corporis nesciunt dolor quae?</p>
+                    </div>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui molestiae asperiores laudantium excepturi iure iusto beatae deserunt ullam, sequi placeat, in, sunt nostrum reprehenderit magni eveniet fugiat! Eveniet, rem sequi.</p>
+                </div>
+                <div class="col-span-1 bg-green-100 border border-green-600 border-dashed min-h-32 mx-gutter lg:mx-0"></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,168 @@
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: type
+            field:
+              options:
+                -
+                  key: megamenu
+                  value: Megamenu
+                -
+                  key: column
+                  value: Column
+                -
+                  key: row
+                  value: Row
+                -
+                  key: mobile_stack
+                  value: 'Mobile Stack'
+                -
+                  key: link_group
+                  value: 'Link Group'
+                -
+                  key: link
+                  value: Link
+                -
+                  key: image
+                  value: Image
+              type: select
+              display: Type
+              default: link
+      -
+        display: Megamenu
+        fields:
+          -
+            handle: megamenu_title
+            field:
+              type: text
+              display: 'Megamenu Title'
+              validate:
+                - 'required_if:type,megamenu'
+              if:
+                type: 'equals megamenu'
+      -
+        display: 'Mobile Stack'
+        fields:
+          -
+            handle: stack_title
+            field:
+              type: text
+              display: 'Stack Title'
+              validate:
+                - sometimes
+              always_save: false
+              if:
+                type: 'equals mobile_stack'
+      -
+        display: Column
+        fields:
+          -
+            handle: column_span
+            field:
+              type: select
+              display: 'Column Width'
+              instructions: 'The number of columns this block spans.'
+              options:
+                -
+                  key: 1
+                  value: '1 / 12'
+                -
+                  key: 2
+                  value: '2 / 12'
+                -
+                  key: 3
+                  value: '3 / 12'
+                -
+                  key: 4
+                  value: '4 / 12'
+                -
+                  key: 5
+                  value: '5 / 12'
+                -
+                  key: 6
+                  value: '6 / 12'
+                -
+                  key: 7
+                  value: '7 / 12'
+                -
+                  key: 8
+                  value: '8 / 12'
+                -
+                  key: 9
+                  value: '9 / 12'
+                -
+                  key: 10
+                  value: '10 / 12'
+                -
+                  key: 11
+                  value: '11 / 12'
+                -
+                  key: 12
+                  value: '12 / 12'
+              if:
+                type: 'equals column'
+      -
+        display: 'Link Group'
+        fields:
+          -
+            handle: links_group_title
+            field:
+              type: text
+              display: 'Links Group Title'
+              always_save: false
+              if:
+                type: 'equals link_group'
+          -
+            handle: links_group_hide_title
+            field:
+              options:
+                -
+                  key: nowhere
+                  value: "Don't hide (default)"
+                -
+                  key: mobile
+                  value: 'Hide on mobile only'
+                -
+                  key: desktop
+                  value: 'Hide on desktop only'
+                -
+                  key: all
+                  value: 'Hide everywhere'
+              default: nowhere
+              type: button_group
+              display: 'Hide Title'
+              validate:
+                - sometimes
+              if:
+                type: 'equals link_group'
+      -
+        display: Image
+        fields:
+          -
+            handle: image_img
+            field:
+              max_files: 1
+              container: assets
+              type: assets
+              display: Image
+              if:
+                type: 'equals image'
+              mode: grid
+          -
+            handle: image_heading
+            field:
+              type: text
+              display: Heading
+              if:
+                type: 'equals image'
+          -
+            handle: image_text
+            field:
+              type: text
+              display: Text
+              if:
+                type: 'equals image'

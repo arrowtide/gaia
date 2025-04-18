@@ -1,0 +1,30 @@
+{{ if logged_in }}
+    {{ redirect to="/account" }}
+{{ /if }}
+
+<div class="container py-head md:py-32">
+    <div class="px-5 sm:px-0">
+        <x-heading level="1" class="mb-10 text-center">{{ trans:auth.recover_heading }}</x-heading>
+
+        <div class="w-full max-w-lg mx-auto mt-8">
+            {{ user:forgot_password_form reset_url="/account/recover/reset" }}
+
+                {{ if success }}
+                    <x-alert variant="success" class="mb-10">
+                        {{ trans:auth.recover_success_text }}
+                    </x-alert>
+                {{ /if }}
+            
+                {{ unless success }}
+                    <div class="grid gap-6">
+                        <x-input name="email" label="Email" value="{{ old:email }}" required autocomplete="email" autocapitalize="none" spellcheck="false" />
+                        <x-button variant="primary" type="submit" class="w-full mt-5">
+                            {{ trans:auth.recover_button_text }}
+                        </x-button>
+                    </div>
+                {{ /unless }}
+            
+            {{ /user:forgot_password_form }}
+        </div>
+    </div>
+</div>

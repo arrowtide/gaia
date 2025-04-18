@@ -1,0 +1,247 @@
+{{ nocache }}
+    {{ if ! logged_in }}
+        {{ 404 }}
+    {{ /if }}
+
+    {{ partial:customer/profile/partials/back_link text="Back to orders" url="/account/orders" show_on_desktop="true" }}
+
+    <div class="container max-w-5xl py-head">
+        {{ gaia:customer:order order_id="{ order_id }"}}
+            {{ financialStatusText = switch(
+                (displayFinancialStatus == 'PAID') => 'Paid',
+                (displayFinancialStatus == 'REFUNDED') => 'Refunded',
+                (displayFinancialStatus == 'AUTHORIZED') => 'Authorized',
+                (displayFinancialStatus == 'EXPIRED') => 'Expired',
+                (displayFinancialStatus == 'PARTIALLY_PAID') => 'Partially Paid',
+                (displayFinancialStatus == 'PARTIALLY_REFUNDED') => 'Partially Refunded',
+                (displayFinancialStatus == 'PENDING') => 'Pending',
+                (displayFinancialStatus == 'VOIDED') => 'Voided',
+                () => 'Unknown Status'
+            )}}
+            
+            {{ financialStatusClass = switch(
+                (displayFinancialStatus == 'PAID') => 'text-emerald-700',
+                (displayFinancialStatus == 'REFUNDED') => 'text-emerald-700',
+                (displayFinancialStatus == 'AUTHORIZED') => 'text-blue-700',
+                (displayFinancialStatus == 'EXPIRED') => 'text-gray-700',
+                (displayFinancialStatus == 'PARTIALLY_PAID') => 'text-amber-700',
+                (displayFinancialStatus == 'PARTIALLY_REFUNDED') => 'text-amber-700',
+                (displayFinancialStatus == 'PENDING') => 'text-indigo-700',
+                (displayFinancialStatus == 'VOIDED') => 'text-red-700',
+                () => 'text-gray-700'
+            )}}
+
+            {{ orderStatusText = switch(
+                (cancelReason) => 'Cancelled',
+                (displayFulfillmentStatus == '') => 'Pending',
+                (displayFulfillmentStatus == 'FULFILLED') => 'Completed',
+                (displayFulfillmentStatus == 'IN_PROGRESS') => 'In Progress',
+                (displayFulfillmentStatus == 'ON_HOLD') => 'On Hold',
+                (displayFulfillmentStatus == 'OPEN' || displayFulfillmentStatus == 'UNFULFILLED') => 'Pending',
+                (displayFulfillmentStatus == 'PARTIALLY_FULFILLED') => 'Partially Fulfilled',
+                (displayFulfillmentStatus == 'PENDING_FULFILLMENT') => 'Pending Fulfillment',
+                (displayFulfillmentStatus == 'REQUEST_DECLINED') => 'Request Declined',
+                (displayFulfillmentStatus == 'RESTOCKED') => 'Restocked',
+                (displayFulfillmentStatus == 'SCHEDULED') => 'Scheduled',
+                () => 'Pending'
+            )}}
+            
+            {{ orderStatusClass = switch(
+                (cancelReason) => 'text-rose-700',
+                (displayFulfillmentStatus == '') => 'text-sky-700',
+                (displayFulfillmentStatus == 'FULFILLED') => 'text-emerald-700',
+                (displayFulfillmentStatus == 'IN_PROGRESS') => 'text-blue-700',
+                (displayFulfillmentStatus == 'ON_HOLD') => 'text-yellow-700',
+                (displayFulfillmentStatus == 'OPEN' || displayFulfillmentStatus == 'UNFULFILLED') => 'text-sky-700',
+                (displayFulfillmentStatus == 'PARTIALLY_FULFILLED') => 'text-sky-700',
+                (displayFulfillmentStatus == 'PENDING_FULFILLMENT') => 'text-sky-700',
+                (displayFulfillmentStatus == 'REQUEST_DECLINED') => 'text-red-700',
+                (displayFulfillmentStatus == 'RESTOCKED') => 'text-sky-700',
+                (displayFulfillmentStatus == 'SCHEDULED') => 'text-sky-700',
+                () => 'text-sky-700'
+            )}}
+
+            {{ if no_results }}
+                <p class="flex flex-col items-center justify-center py-32 text-lg text-center font-display card">
+                    {{ svg src="orders" class="w-12 h-12 mb-6 fill-slate-500" aria-hidden="true" }}
+                    We couldn’t find this order
+                </p>
+            {{ /if  }}
+
+            {{ unless no_results }}
+                <x-heading level="1" class="mb-4">"Order {{ name }}</x-heading>
+
+                <div class="grid grid-cols-1 gap-6 mt-12">
+                    {{ fulfillments }}
+                        <div class="flex flex-col p-10 bg-white border-2 border-dashed rounded-lg border-slate-500">
+                            {{ trackingInfo }}
+                                <x-heading level="2" size="3" class="w-full">Your package has shipped with {{ company }}</x-heading>
+
+                                <p class="mt-4 text-sm">
+                                    <span class="text-sm text-slate-700">Tracking number:</span>
+                                    <span class="font-medium">{{ number }}</span>
+                                </p>
+                                
+                                {{ if url }}
+                                    <x-button variant="primary" as="a" href="{ url }" target="_blank" class="mt-8">Track your package</x-button>
+                                {{ /if }}
+                            {{ /trackingInfo }}
+                        </div>
+                    {{ /fulfillments }}
+
+                    <section class="card">
+                        <div class="grid grid-cols-2 gap-x-2 gap-y-10 sm:grid-cols-3 xl:grid-cols-5">
+                            <p class="flex flex-col">
+                                <span class="text-sm text-slate-700">Order Status:</span>
+                                <span class="font-medium {{ orderStatusClass }}">{{ orderStatusText }}</span>
+                            </p>
+
+                            <p class="flex flex-col">
+                                <span class="text-sm text-slate-700">Order Number:</span>
+                                <span class="font-medium">{{ name }}</span>
+                            </p>
+
+                            <p class="flex flex-col">
+                                <span class="text-sm text-slate-700">Ordered On:</span>
+                                <span class="font-medium">{{ createdAt | format('j M o') }}</span>
+                            </p>
+
+                            <p class="flex flex-col">
+                                <span class="text-sm text-slate-700">Payment:</span>
+                                <span class="font-medium {{ financialStatusClass }}">{{ financialStatusText }}</span>
+                            </p>
+                            
+                            <p class="flex flex-col">
+                                <span class="text-sm text-slate-700">Confirmation Number:</span>
+                                <span class="font-medium">{{ confirmationNumber }}</span>
+                            </p>
+                        </div>
+                    </section>
+
+                    <section class="card">
+                        <div class="grid grid-cols-1 gap-y-10 gap-x-2 md:grid-cols-2">
+                            <div>
+                                <x-heading level="2" size="3" class="mb-4">Shipping Address</x-heading>
+                                <address class="not-italic leading-relaxed text-slate-600">
+                                    {{ if shippingAddress.firstName || shippingAddress.lastName }}
+                                        {{ shippingAddress.firstName }} {{ shippingAddress.lastName }}<br>
+                                    {{ /if }}
+
+                                    {{ if shippingAddress.address1 }}
+                                        {{ shippingAddress.address1 }}<br>
+                                    {{ /if }}
+
+                                    {{ if shippingAddress.address2 }}
+                                        {{ shippingAddress.address2 }}<br>
+                                    {{ /if }}
+
+                                    {{ if shippingAddress.zip }}
+                                        {{ shippingAddress.zip }}<br>
+                                    {{ /if }}
+
+                                    {{ if shippingAddress.country }}
+                                        {{ shippingAddress.country }}<br>
+                                    {{ /if }}
+
+                                    {{ if customer.email }}
+                                        <br>{{ customer.email }}<br>
+                                    {{ /if }}
+
+                                    {{ if customer_phone }}
+                                        <br>{{ customer_phone }}
+                                    {{ /if }}
+                                </address>
+                            </div>
+                            <div>
+                                <x-heading level="2" size="3" class="mb-4">Billing Address</x-heading>
+                                <address class="not-italic leading-relaxed text-slate-600">
+                                    {{ if billingAddress.firstName || billingAddress.lastName }}
+                                        {{ billingAddress.firstName }} {{ billingAddress.lastName }}<br>
+                                    {{ /if }}
+
+                                    {{ if billingAddress.address1 }}
+                                        {{ billingAddress.address1 }}<br>
+                                    {{ /if }}
+
+                                    {{ if billingAddress.address2 }}
+                                        {{ billingAddress.address2 }}<br>
+                                    {{ /if }}
+
+                                    {{ if billingAddress.zip }}
+                                        {{ billingAddress.zip }}<br>
+                                    {{ /if }}
+
+                                    {{ if billingAddress.country }}
+                                        {{ billingAddress.country }}
+                                    {{ /if }}
+                                </address>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="card">
+                        <x-heading level="2" size="3" class="mb-10">Ordered Items</x-heading>
+
+                        <ul class="grid mt-10 divide-y divide-slate-200">
+                            {{ lineItems }}
+                                {{ collection:products product_id:is="{ product.id | trim_shopify_id }" }}
+                                    <li class="flex gap-5 py-6">
+                                        <a href="{{ url }}" tabindex="-1" class="max-w-[98px] rounded-lg overflow-hidden">
+                                            <x-picture :src="featured_image" size.default.width="355" size.default.height="355" />
+                                        </a>
+
+                                        <div class="grid gap-1">
+                                            <h2 class="flex items-center font-medium leading-normal">
+                                                <a href="{{ url }}">{{ title }}</a>
+                                            </h2>
+
+                                            <p class="flex items-center text-slate-700">
+                                                {{ gaia:currency price="{ originalUnitPriceSet.shopMoney.amount }" }}
+                                                <span class="inline-block mx-3 rounded-full size-2 bg-slate-200"></span>
+                                                <span class="text-xs"><span class="select-none">SKU: </span>{{ variant.sku }}</span>
+                                            </p>
+
+                                            <p class="text-sm text-slate-700">
+                                                Quantity:
+                                                {{ quantity }}
+                                            </p>
+                                        </div>
+                                    </li>
+                                {{ /collection:products }}
+                            {{ /lineItems }}
+                        </ul>
+
+                        <table class="w-full max-w-lg ml-auto mt-14">
+                            <tbody>
+                                <tr class="grid grid-cols-2 py-4">
+                                    <td class="font-medium">Subtotal:</td>
+                                    <td class="text-right">{{ gaia:currency price="{ subtotalPriceSet.shopMoney.amount }" }}</td>
+                                </tr>
+                                <tr class="grid grid-cols-2 py-4">
+                                    <td class="font-medium">Shipping:</td>
+                                    <td class="text-right">{{ gaia:currency price="{ totalShippingPriceSet.shopMoney.amount }" }}</td>
+                                </tr>
+                                {{ if totalDiscountsSet.shopMoney.amount !== '0.0'}}
+                                <tr class="grid grid-cols-2 py-4">
+                                    <td class="font-medium">Discounts:</td>
+                                    <td class="text-right">-{{ gaia:currency price="{ totalDiscountsSet.shopMoney.amount }" }}</td>
+                                </tr>
+                                {{ /if }}
+                                {{ if totalRefundedSet.shopMoney.amount !== '0.0'}}
+                                <tr class="grid grid-cols-2 py-4">
+                                    <td class="font-medium">Refunded:</td>
+                                    <td class="text-right">-{{ gaia:currency price="{ totalRefundedSet.shopMoney.amount }" }}</td>
+                                </tr>
+                                {{ /if }}
+                                <tr class="grid grid-cols-2 py-4">
+                                    <td class="text-xl font-medium">Grand Total:</td>
+                                    <td class="text-xl text-right">{{ gaia:currency price="{ currentTotalPriceSet.shopMoney.amount }" }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+            {{ /unless }}
+        {{ /gaia:customer:order }}
+    </div>
+{{ nocache }}

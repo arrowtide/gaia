@@ -1,0 +1,11 @@
+<x-button 
+    variant="primary" 
+    class="w-full"
+    type="submit"
+    \x-data="{}"
+    @click="$store.product.handleProductFormSubmit($event)" 
+    x-bind:aria-disabled="!$store.product.currentProduct || !$store.product.currentProduct.isSaleable"
+    loading="Alpine.store('product').loading"
+>
+    <span x-text="$store.product.currentProduct && $store.product.currentProduct.isSaleable ? 'Add to Cart' : 'Out of Stock'">Add to Cart</span>
+</x-button>

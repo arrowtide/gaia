@@ -1,0 +1,70 @@
+title: Shop
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        display: Content
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              validate:
+                - required
+          -
+            handle: featured_image
+            field:
+              max_files: 1
+              container: assets
+              allow_uploads: false
+              type: assets
+              display: 'Featured Image'
+          -
+            handle: intro_description
+            field:
+              remove_empty_nodes: false
+              type: bard
+              display: 'Intro Description'
+      -
+        display: Products
+        fields:
+          -
+            handle: shopify_collections
+            field:
+              taxonomies:
+                - collections
+              type: terms
+              display: Collections
+              instructions: 'Choose which Shopify collections to show on this shop page.'
+      -
+        display: Settings
+        fields:
+          -
+            handle: template
+            field:
+              type: template
+              display: Template
+              localizable: true
+              instructions: 'You may overwrite the template the listings use here.'
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true
+              validate: 'max:200'
+          -
+            handle: parent
+            field:
+              type: entries
+              collections:
+                - shop
+              max_items: 1
+              listable: false
+              localizable: true

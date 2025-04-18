@@ -1,0 +1,155 @@
+@layer base {
+	:root {
+		--form-text-color: var(--color-slate-700);
+		--form-bg-color: var(--color-white);
+		--form-border-color: var(--color-slate-300);
+		--form-border-width: 1px;
+		--form-border-radius: 0.6rem;
+		--form-padding-y: --spacing(3);
+		--form-padding-x: --spacing(3.5);
+		--form-font-size: 1rem;
+		--form-line-height: 1.5rem;
+		--form-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+		--form-transition: outline-width .05s linear;
+
+		--form-focus-ring-width: 3px;
+		--form-focus-ring-color: var(--color-indigo-100);
+		--form-focus-ring-offset: 0px;
+		--form-focus-border-color: var(--color-indigo-300);
+
+		--form-placeholder-color: var(--color-slate-400);
+
+		--form-checkbox-radio-size: 1rem;
+		--form-checkbox-radio-color: var(--color-black);
+		--form-checkbox-radius: 0.3rem;
+		}
+
+	/* 
+		Workaround for Safari bug. If you change the font size 
+		or line height, you'll need to update this.
+		https://bugs.webkit.org/show_bug.cgi?id=198959
+		*/
+	::-webkit-datetime-edit {
+		display: inline-flex;
+		align-items: center;
+		min-height: 1.25rem;
+	}
+
+	::-webkit-datetime-edit-text,
+	::-webkit-datetime-edit-year-field,
+	::-webkit-datetime-edit-month-field,
+	::-webkit-datetime-edit-day-field,
+	::-webkit-datetime-edit-hour-field,
+	::-webkit-datetime-edit-minute-field,
+	::-webkit-datetime-edit-second-field,
+	::-webkit-datetime-edit-millisecond-field,
+	::-webkit-datetime-edit-meridiem-field {
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+}
+
+@layer components {
+	.form-input,
+	.form-textarea,
+	.form-select,
+	.form-checkbox,
+	.form-radio,
+	.form-multiselect {
+		appearance: none;
+		background-color: var(--form-bg-color);
+		border-style: solid;
+		border-width: var(--form-border-width);
+		border-color: var(--form-border-color);
+		transition: var(--form-transition);
+		font-size: var(--form-font-size);
+		color: var(--form-text-color);
+		box-shadow: var(--form-shadow);
+
+		&:focus {
+			outline-width: var(--form-focus-ring-width);
+			outline-color: var(--form-focus-ring-color);
+			outline-offset: var(--form-focus-ring-offset);
+			outline-style: solid;
+			border-color: var(--form-focus-border-color);
+		}
+	}
+
+	.form-input,
+	.form-select,
+	.form-multiselect,
+	.form-textarea {
+		padding: var(--form-padding-y) var(--form-padding-x);
+		line-height: var(--form-line-height);
+		border-radius: var(--form-border-radius);
+	}
+  
+  
+	.form-checkbox,
+	.form-radio {
+		width: var(--form-checkbox-radio-size);
+		height: var(--form-checkbox-radio-size);
+		
+		&:checked {
+			border-color: var(--form-checkbox-radio-color);
+			background-color: var(--form-checkbox-radio-color);
+			background-size: 94%;
+			background-position: center;
+			background-repeat: no-repeat;
+		}
+	}
+	
+	.form-radio {
+		border-radius: 50%;
+
+		&:checked {
+			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3'/%3E%3C/svg%3E");
+		}
+	}
+
+	.form-checkbox {
+		border-radius: var(--form-checkbox-radius);
+
+		&:checked {
+			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3E%3C/svg%3E");
+		}
+
+		&:indeterminate {
+			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 16 16'%3E%3Cpath stroke='white' stroke-width='2' d='M4 8h8'/%3E%3C/svg%3E");
+			background-color: var(--form-checkbox-radio-color);
+		}
+	}
+  
+	.form-select {
+		padding: var(--form-padding-y) calc(var(--form-padding-x) + 1.7em) var(--form-padding-x) var(--form-padding-y);
+		background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+		background-position: right var(--form-padding-x) center;
+		background-repeat: no-repeat;
+		background-size: 1.2rem;
+
+		&[multiple], 
+		&[size]:where(select:not([size="1"])) {
+			background-image: none;
+		}
+	}
+
+	.form-input,
+	.form-textarea {
+		&::placeholder {
+			opacity: 1;
+			color: var(--form-placeholder-color);
+		}
+	}
+
+	.form-input-hide-arrows {
+		&::-webkit-outer-spin-button,
+		&::-webkit-inner-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+		}
+
+		&[type="number"] {
+			-moz-appearance: textfield;
+		}
+	}
+}

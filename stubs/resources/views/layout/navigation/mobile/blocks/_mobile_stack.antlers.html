@@ -1,0 +1,21 @@
+{{ titleId = {gaia:id} }}
+{{ $navId = {gaia:id} }}
+
+<li x-data>
+    <button class="nav-link" @click="$dispatch('drawer:open:{{ $navId }}')">
+        {{ stack_title }}
+        {{ svg src="arrow_right_alt" class="ml-auto fill-current size-5" aria-hidden="true" }}
+    </button>
+    
+    <x-drawer name="{{ $navId }}" heading="{{ stack_title }}" position="left" overlay="false" noscroll="false">
+        <x-slot:back>
+            <x-button label="Close menu" variant="ghost" icon="arrow_left_alt" class="btn-round" @click="closeDrawer()" />
+        </x-slot:back>
+
+        <x-drawer.section class="mt-6 sm:mt-10">
+            <ul>
+                {{ partial:layout/navigation/mobile/children }}
+            </ul>
+        </x-drawer.section>
+    </x-drawer>
+</li>

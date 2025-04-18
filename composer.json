@@ -1,0 +1,28 @@
+{
+    "name": "arrowtide/gaia",
+    "autoload": {
+        "psr-4": {
+            "Arrowtide\\Gaia\\": "src"
+        }
+    },
+    "require": {
+        "statamic-rad-pack/shopify": "^5.0",
+        "statamic/cms": "^5.0",
+        "jonassiewertsen/statamic-livewire": "^3.7.0",
+        "marcorieser/tailwind-merge-statamic": "^1.1.0",
+        "arrowtide/statamic-payment-icons": "^1.0.0",
+        "stillat/antlers-components": "^2.5.0"
+
+    },
+    "extra": {
+        "statamic": {
+            "name": "Gaia",
+            "description": "Gaia addon"
+        },
+        "laravel": {
+            "providers": [
+                "Arrowtide\\Gaia\\ServiceProvider"
+            ]
+        }
+    }
+}

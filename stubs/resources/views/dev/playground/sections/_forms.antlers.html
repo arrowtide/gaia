@@ -1,0 +1,243 @@
+{{ partial:dev/playground/section text="Forms" id="forms" }}
+
+
+
+    {{ partial:dev/playground/code text="Blade Input" }}
+        <x-input label="Email" description="This is the email field, please enter a valid email address." placeholder="email@example.com" />
+    {{ /partial:dev/playground/code }}
+
+    {{ partial:dev/playground/code text="Required" }}
+        <x-input label="Email" required />
+    {{ /partial:dev/playground/code }}
+
+    {{ partial:dev/playground/code text="Reveal" }}
+        <x-input label="Password" type="password" required reveal />
+    {{ /partial:dev/playground/code }}
+
+
+    {{ partial:dev/playground/code text="Text input" }}
+        <label class="grid gap-1">
+            <input type="text" class="form-input" placeholder="john@example.com">
+        </label>
+    {{ /partial:dev/playground/code }}
+
+    {{ partial:dev/playground/code text="Select" }}
+        <label class="grid gap-1">
+            <select class="form-select min-w-52">
+                <option>Option 1</option>
+                <option>Option 2</option>
+                <option>Option 3</option>
+                <option>Option 4</option>
+                <option>Option 5</option>
+            </select>
+        </label>
+    {{ /partial:dev/playground/code }}
+
+    {{ partial:dev/playground/code text="Checkbox" }}
+        <fieldset>
+            <div class="grid gap-2">
+                <label class="inline-flex items-center gap-3">
+                    <input class="form-checkbox" type="checkbox" checked="">
+                    <span>Option 1</span>
+                </label>
+                <label class="inline-flex items-center gap-3">
+                    <input class="form-checkbox" type="checkbox">
+                    <span>Option 2</span>
+                </label>
+                <label class="inline-flex items-center gap-3">
+                    <input class="form-checkbox" type="checkbox">
+                    <span>Option 3</span>
+                </label>
+            </div>
+        </fieldset>
+    {{ /partial:dev/playground/code }}
+
+    {{ partial:dev/playground/code text="Radio" }}
+        <fieldset class="block">
+            <div class="grid gap-2">
+                <label class="inline-flex items-center">
+                    <input class="form-radio" type="radio" checked="" name="radio-direct" value="1">
+                    <span class="ml-2">Option 1</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input class="form-radio" type="radio" name="radio-direct" value="2">
+                    <span class="ml-2">Option 2</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input class="form-radio" type="radio" name="radio-direct" value="3">
+                    <span class="ml-2">Option 3</span>
+                </label>
+            </div>
+        </fieldset>
+    {{ /partial:dev/playground/code }}
+
+    {{ partial:dev/playground/code text="Precognition" }}
+        <p>A form is required to test this component</p>
+        {{# {{ partial:partials/form handle="my_form" }} #}}
+    {{ /partial:dev/playground/code }}
+
+
+
+    {{ partial:dev/playground/code text="Text input" }}
+        <div class="grid w-full grid-cols-3 gap-5">
+            <label class="block">
+                <span class="text-gray-700">Input (email)</span>
+                <input type="email" class="block w-full mt-1 form-input" placeholder="john@example.com">
+            </label>
+            <label class="block">
+                <span class="text-gray-700">Input (email, multiple)</span>
+                <input type="email" multiple="" class="block w-full mt-1 form-input" placeholder="john@example.com">
+            </label>
+            <label class="block">
+                <span class="text-gray-700">Input (password)</span>
+                <input type="password" class="block w-full mt-1 form-input" placeholder="john@example.com">
+            </label>
+            <label class="block">
+                <span class="text-gray-700">Input (date)</span>
+                <input type="date" class="block w-full mt-1 form-input">
+            </label>
+            <label class="block">
+                <span class="text-gray-700">Input (datetime-local)</span>
+                <input type="datetime-local" class="block w-full mt-1 form-input">
+            </label>
+            <label class="block">
+                <span class="text-gray-700">Input (month)</span>
+                <input type="month" class="block w-full mt-1 form-input">
+            </label>
+            <label class="block">
+                <span class="text-gray-700">Input (number)</span>
+                <input type="number" class="block w-full mt-1 form-input">
+            </label>
+            <label class="block">
+                <span class="text-gray-700">Input (search)</span>
+                <input type="search" class="block w-full mt-1 form-input">
+            </label>
+            <label class="block">
+                <span class="text-gray-700">Input (time)</span>
+                <input type="time" class="block w-full mt-1 form-input">
+            </label>
+            <label class="block">
+                <span class="text-gray-700">Input (week)</span>
+                <input type="week" class="block w-full mt-1 form-input">
+            </label>
+            <label class="block">
+                <span class="text-gray-700">Input (tel)</span>
+                <input type="tel" multiple="" class="block w-full mt-1 form-input" placeholder="john@example.com">
+            </label>
+            <label class="block">
+                <span class="text-gray-700">Input (url)</span>
+                <input type="url" multiple="" class="block w-full mt-1 form-input" placeholder="john@example.com">
+            </label>
+            <label class="block">
+                <span class="text-gray-700">Select</span>
+                <select class="block w-full mt-1 form-select">
+                    <option>Option 1</option>
+                    <option>Option 2</option>
+                </select>
+            </label>
+
+            <label class="block">
+                <span class="text-gray-700">Select (single, with size)</span>
+                <select class="block w-full mt-1 form-select" size="3">
+                    <option>Option 1</option>
+                    <option>Option 2</option>
+                    <option>Option 3</option>
+                    <option>Option 4</option>
+                    <option>Option 5</option>
+                </select>
+            </label>
+            <label class="block">
+                <span class="text-gray-700">Select (multiple)</span>
+                <select class="block w-full mt-1 form-multiselect" multiple="">
+                    <option>Option 1</option>
+                    <option>Option 2</option>
+                    <option>Option 3</option>
+                    <option>Option 4</option>
+                    <option>Option 5</option>
+                </select>
+            </label>
+            <label class="block">
+                <span class="text-gray-700">Select (multiple, with size)</span>
+                <select class="block w-full mt-1 form-multiselect" multiple="" size="3">
+                    <option>Option 1</option>
+                    <option>Option 2</option>
+                    <option>Option 3</option>
+                    <option>Option 4</option>
+                    <option>Option 5</option>
+                </select>
+            </label>
+            <label class="block">
+                <span class="text-gray-700">Textarea</span>
+                <textarea class="block w-full h-24 mt-1 form-textarea" rows="3"
+                    placeholder="Enter some long form content."></textarea>
+            </label>
+            <fieldset class="block">
+                <legend class="text-gray-700">Checkboxes</legend>
+                <div class="mt-2">
+                    <div>
+                        <label class="inline-flex items-center">
+                            <input class="form-checkbox" type="checkbox" checked="">
+                            <span class="ml-2">Option 1</span>
+                        </label>
+                    </div>
+                    <div>
+                        <label class="inline-flex items-center">
+                            <input class="form-checkbox" type="checkbox">
+                            <span class="ml-2">Option 2</span>
+                        </label>
+                    </div>
+                    <div>
+                        <label class="inline-flex items-center">
+                            <input class="form-checkbox" type="checkbox">
+                            <span class="ml-2">Option 3</span>
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="block">
+                <legend class="text-gray-700">Radio Buttons</legend>
+                <div class="mt-2">
+                    <div>
+                        <label class="inline-flex items-center">
+                            <input class="form-radio" type="radio" checked="" name="radio-direct" value="1">
+                            <span class="ml-2">Option 1</span>
+                        </label>
+                    </div>
+                    <div>
+                        <label class="inline-flex items-center">
+                            <input class="form-radio" type="radio" name="radio-direct" value="2">
+                            <span class="ml-2">Option 2</span>
+                        </label>
+                    </div>
+                    <div>
+                        <label class="inline-flex items-center">
+                            <input class="form-radio" type="radio" name="radio-direct" value="3">
+                            <span class="ml-2">Option 3</span>
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+        
+            <label class="block">
+                <span class="text-gray-700">Input (range)</span>
+                <input type="range" class="block w-full mt-1">
+            </label>
+            <label class="block">
+                <span class="text-gray-700">Input (color)</span>
+                <input type="color" class="block w-full mt-1">
+            </label>
+            <label class="block">
+                <span class="text-gray-700">Input (file)</span>
+                <input type="file" class="block w-full mt-1">
+            </label>
+            <label class="block">
+                <span class="text-gray-700">Input (file, multiple)</span>
+                <input type="file" multiple="" class="block w-full mt-1">
+            </label>
+        </div>
+    {{ /partial:dev/playground/code }}
+    
+{{ /partial:dev/playground/section }}
+
+
+

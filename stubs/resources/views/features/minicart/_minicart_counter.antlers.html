@@ -1,0 +1,43 @@
+{{#
+    @name Minicart Counter
+    @desc The minicart product counter.
+#}}
+
+<div class="relative">
+    <x-header-button 
+        title="Cart"
+        icon="shopping_bag"
+        onclick="window.dispatchEvent(new CustomEvent('drawer:open:minicart'))"
+        aria-controls="minicart"
+    >
+        <x-slot:aftertitle>
+            <cart-count class="absolute flex items-center justify-center text-[0.625rem] font-medium text-white bg-red-700 rounded-full top-1 right-1 aspect-square size-5 data-[hidden=true]:hidden" data-hidden="true"></cart-count>
+        </x-slot:aftertitle>
+    </x-header-button>
+</div>
+
+{{ push:head }}
+    <script>
+        class CartCount extends HTMLElement {
+            connectedCallback() {
+                this.render();
+
+                window.addEventListener('update-minicart-counter', (event) => {
+                    sessionStorage.setItem('cart_count', event.detail.count);
+                    this.render();
+                });
+            }
+
+            render() {
+                const cartCount = sessionStorage.getItem('cart_count') || 0;
+
+                const html = `${cartCount}`;
+
+                this.innerHTML = (cartCount > 0) ? html : '';
+                this.dataset.hidden = cartCount == 0;
+            }
+        }
+        
+        customElements.define('cart-count', CartCount);
+    </script>
+{{ /push:head }}

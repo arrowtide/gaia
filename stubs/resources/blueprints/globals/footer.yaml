@@ -1,0 +1,32 @@
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        display: Navigation
+        fields:
+          -
+            handle: legal_links
+            field:
+              type: grid
+              display: 'Legal links'
+              fields:
+                -
+                  handle: text
+                  field:
+                    type: text
+                    display: Text
+                    width: 25
+                -
+                  handle: link
+                  field:
+                    type: link
+                    display: Link
+                    width: 50
+                -
+                  handle: new_tab
+                  field:
+                    type: toggle
+                    display: 'New tab'
+                    instructions: 'Opens the link in a new tab.'
+                    width: 25

@@ -1,0 +1,116 @@
+{{ partial:dev/playground/section text="Modal" id="modal" }}
+
+    {{ partial:dev/playground/code text="Modal" \x-data="{}" }}
+        <x-button variant="primary" @click="$dispatch('modal:open:basic')">Modal</x-button>
+
+        {{ push:before_body_end }}
+
+            <x-modal name="basic" heading="Delete Post" subheading="Are you sure you want to delete that post? This action cannot be undone.">
+                <x-slot:buttons>
+                    <x-button variant="ghost" @click="$close()">Cancel</x-button>
+                    <x-button variant="danger" @click="$close()">Delete</x-button>
+                </x-slot:buttons>
+            </x-modal>
+
+        {{ /push:before_body_end }}
+    {{ /partial:dev/playground/code }}
+
+    {{ partial:dev/playground/code text="Modal with lots of content" \x-data="{}" }}
+        <x-button variant="primary" @click="$dispatch('modal:open:a-lot-of-content')">Modal</x-button>
+
+        {{ push:before_body_end }}
+
+            <x-modal name="a-lot-of-content" heading="Delete Post" subheading="Are you sure you want to delete that post? This action cannot be undone.">
+
+                <x-slot:content>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
+                </x-slot:content>
+
+                <x-slot:buttons>
+                    <x-button variant="ghost" @click="$close()">Cancel</x-button>
+                    <x-button variant="danger" @click="$close()">Delete</x-button>
+                </x-slot:buttons>
+            </x-modal>
+
+        {{ /push:before_body_end }}
+    {{ /partial:dev/playground/code }}
+
+
+    {{ partial:dev/playground/code text="Modal no header custom content" \x-data="{}" }}
+        <x-button variant="primary" @click="$dispatch('modal:open:basic-description-background-no-title')">Modal</x-button>
+
+        {{ push:before_body_end }}
+            <x-modal name="basic-description-background-no-title">
+                <x-slot:content>
+                    <div class="relative">
+                        <div class="relative z-10 pt-[181px] text-center text-black">
+                            <x-heading level="2" class="mb-5">Get 20% off!</x-heading>
+                            <p class="text-sm sm:px-10 text-black/80">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</p>
+
+                            <div class="mt-10">
+                                <x-button variant="primary" class="btn-lg" @click="$close()">Visit the sale</x-button>
+                            </div>
+                        </div>
+                    </div>
+                    <img src="https://img.freepik.com/free-photo/elevated-view-green-tulip-leaves-pink-background_23-2148053480.jpg?t=st=1733143714~exp=1733147314~hmac=03adc848b1ae7afd2469f5daa8689e250151d4c6f8ee513b32766fd602b4f300&w=2000" alt="" class="absolute top-0 left-0 object-cover w-full h-full">
+                </x-slot:content>
+            </x-modal>
+        {{ /push:before_body_end }}
+    {{ /partial:dev/playground/code }}
+
+    {{ partial:dev/playground/code text="Modal with loading confirmation" x-data="deleteItemComponent()" }}
+        <x-button variant="primary" @click="$dispatch('modal:open:delete-item')">Modal</x-button>
+        
+        <x-modal name="delete-item" heading="Are you sure?" subheading="Are you sure you want to delete this item? This action cannot be undone.">
+            <x-slot:buttons>
+                <x-button variant="primary" @click="deleteItem()" loading="deleteLoading">Delete</x-button>
+                <x-button variant="ghost" @click="$close()">Cancel</x-button>
+            </x-slot:buttons>
+        </x-modal>
+    {{ /partial:dev/playground/code }}
+
+
+    <script>
+        function deleteItemComponent() {
+            return {
+                deleteLoading: false,
+                deleteItem() {
+                    this.deleteLoading = true;
+    
+                    setTimeout(() => {
+                        window.dispatchEvent(new CustomEvent('modal:close:delete-item'));
+                        this.deleteLoading = false;
+                    }, 2000);
+                }
+            }
+        }
+    </script>
+
+{{ /partial:dev/playground/section }}

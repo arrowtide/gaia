@@ -1,0 +1,62 @@
+{{ if ! logged_in }}
+    {{ redirect to="/account/login" }}
+{{ /if }}
+
+{{?
+   $passwordResetSuccess = isset($_GET['password_reset_success']) ?? false;
+?}}
+
+<div class="container py-head">
+
+    {{ if passwordResetSuccess == true }}
+        <x-alert variant="success" class="mb-10">
+            {{ trans:auth.recover_reset_success_message }}
+        </x-alert>
+    {{ /if }}
+
+
+    {{ nocache }}
+        {{ user }}
+            <span>
+                <x-heading level="1" class="mb-10">Welcome, {{ name }}</x-heading>
+            </span>
+        {{ /user }}
+    {{ /nocache }}
+
+    <ul class="grid grid-cols-1 gap-5 sm:gap-5 lg:gap-10 sm:grid-cols-2 md:grid-cols-3">
+        <li class="relative flex flex-col justify-center card hover:shadow-lg focus-within:shadow-lg">
+            {{ svg src="orders" class="size-7 fill-slate-700" }}
+            <a href="/account/orders" class="flex items-center mt-2 h3 stretched-link">
+                Orders
+                {{ svg src="arrow_right_alt" class="ml-2 size-5 fill-slate-500" }}
+            </a>
+            <p class="mt-2 text-sm text-slate-500">View and track orders, see order history.</p>
+        </li>
+
+        <li class="relative flex flex-col justify-center card hover:shadow-lg focus-within:shadow-lg">
+            {{ svg src="favorite" class="size-7 fill-slate-700" }}
+            <a href="/account/saved" class="flex items-center mt-2 h3 stretched-link">
+                Saved
+                {{ svg src="arrow_right_alt" class="ml-2 size-5 fill-slate-500" }}
+            </a>
+            <p class="mt-2 text-sm text-slate-500">See all of your saved products.</p>
+        </li>
+        <li class="relative flex flex-col justify-center card hover:shadow-lg focus-within:shadow-lg">
+            {{ svg src="settings" class="size-7 fill-slate-700" }}
+            <a href="/account/settings" class="flex items-center mt-2 h3 stretched-link">
+                Settings
+                {{ svg src="arrow_right_alt" class="ml-2 size-5 fill-slate-500" }}
+            </a>
+            <p class="mt-2 text-sm text-slate-500">View your account settings or change your password.</p>
+        </li>
+        
+        <li class="relative flex flex-col justify-center card hover:shadow-lg focus-within:shadow-lg">
+            {{ svg src="logout" class="size-7 fill-slate-700" }}
+            <a href="{{ user:logout_url }}" class="flex items-center mt-2 h3 stretched-link">
+                Logout
+                {{ svg src="arrow_right_alt" class="ml-2 size-5 fill-slate-500" }}
+            </a>
+            <p class="mt-2 text-sm text-slate-500">Logout of your account.</p>
+        </li>
+    </ul>
+</div>

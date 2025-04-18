@@ -1,0 +1,35 @@
+<div class="hidden lg:block">
+    <x-dropdown>
+        <x-slot:button>
+            <x-button variant="blank" for="dropdown" icon="expand_more" icon_position="end">
+                <span x-data="pageNumberText()">
+                    <span x-text="text">Show 12</span>
+                </span>
+            </x-button>
+        </x-slot:button>
+        <x-slot:content>
+            <x-dropdown.menu>
+                <x-dropdown.item class="justify-start" \x-bind:class="{'btn-active': $wire.pageSize == 12}" wire:click="page(12);" @click="dropdownClose()">12</x-dropdown.item>
+                <x-dropdown.item class="justify-start" \x-bind:class="{'btn-active': $wire.pageSize == 24}" wire:click="page(24);" @click="dropdownClose()">24</x-dropdown.item>
+                <x-dropdown.item class="justify-start" \x-bind:class="{'btn-active': $wire.pageSize == 36}" wire:click="page(36);" @click="dropdownClose()">36</x-dropdown.item>
+            </x-dropdown.menu>
+        </x-slot:content>
+    </x-dropdown>
+</div>
+
+<script>
+    function pageNumberText() {
+        return {
+            get text() {
+                switch (this.$wire.pageSize) {
+                    case 12:
+                      return 'Show 12'
+                    case 24:
+                      return 'Show 24'
+                    case 36:
+                      return 'Show 36'
+                  }
+            }
+        }
+    }
+</script>

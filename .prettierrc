@@ -1,0 +1,24 @@
+{
+    "plugins": [
+        "prettier-plugin-antlers",
+        "prettier-plugin-tailwindcss"
+    ],
+    "printWidth": 100,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "useTabs": true,
+    "overrides": [
+        {
+            "files": ["*.antlers.html"],
+            "options": {
+                "parser": "antlers"
+            }
+        },
+        {
+            "files": ["*.css"],
+            "options": {
+                "singleQuote": false
+            }
+        }
+    ]
+}

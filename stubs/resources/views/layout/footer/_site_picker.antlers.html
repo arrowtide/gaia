@@ -1,0 +1,16 @@
+<x-dropdown>
+    <x-slot:button>
+        <x-button variant="ghost" for="dropdown">
+            <span class="mr-1">{{ site:attributes:flag }}</span> {{ site:name }}
+        </x-button>
+    </x-slot:button>
+    <x-slot:content>
+        <x-dropdown.menu>
+            {{ sites }}
+                <x-dropdown.item class="justify-start {{ if site:name == name }}btn-active{{ /if }}">
+                    <span class="mr-1">{{ attributes:flag }}</span> {{ name }}
+                </x-dropdown.item>
+            {{ /sites }}
+        </x-dropdown.menu>
+    </x-slot:content>
+</x-dropdown>

@@ -1,0 +1,147 @@
+@layer theme, base, components, utilities;
+
+@import 'tailwindcss';
+
+@import './swiper';
+@import './forms';
+@import './buttons';
+@import './accessibility';
+@import './typography';
+
+@theme {
+	--font-*: initial;
+	--font-default: 'Readex Pro Variable', 'fallback', '-apple-system, BlinkMacSystemFont, “Segoe UI”, “Roboto”, “Oxygen”, “Ubuntu”, “Cantarell”, “Fira Sans”, “Droid Sans”, “Helvetica Neue”, sans-serif';
+
+	--spacing-gutter: 1.2rem; 
+	--spacing-head: 2rem;
+	--spacing-nav-gutter: 1rem;
+	--spacing-safe-bottom: env(safe-area-inset-bottom);
+
+	--breakpoint-xs: 420px;
+	--breakpoint-sm: 600px;
+	--breakpoint-md: 800px;
+	--breakpoint-lg: 1000px;
+	--breakpoint-xl: 1200px;
+	--breakpoint-2xl: 1500px;
+}
+
+@layer base {
+  	[x-cloak] {
+		display: none !important;
+	}
+
+	:root {
+		@media (width >= theme(--breakpoint-xs)) {
+			--spacing-navigation-gutter: 2rem;
+		}
+
+		@media (width >= theme(--breakpoint-sm)) {
+			--spacing-gutter: 1.4rem;
+			--spacing-head: 4rem;
+		}
+
+		@media (width >= theme(--breakpoint-md)) {
+			--spacing-gutter: 2rem;
+		}
+	}
+
+}
+
+@layer components {
+	.overlay {
+		position: fixed;
+		inset: 0;
+		z-index: 40;
+		background-color: --alpha(var(--color-slate-800) / 50%);
+	}
+
+	.nav-link {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		padding-top: --spacing(4);
+		padding-bottom: --spacing(4);
+		padding-left: var(--spacing-nav-gutter);
+		padding-right: var(--spacing-nav-gutter);
+		color: --alpha(var(--color-black) / 70%);
+		font-size: var(--text-base);
+		cursor: pointer;
+	  
+		@media (pointer: fine) {
+			&:hover {
+				color: var(--color-black);
+			}
+		}
+	  
+		@media (width >= theme(--breakpoint-lg)) {
+			font-size: var(--text-base);
+			padding-top: --spacing(2);
+			padding-bottom: --spacing(2);
+			padding-left: 0;
+			padding-right: 0;
+		}
+	}
+}
+
+@utility content-visibility-auto {
+  content-visibility: auto;
+}
+
+@utility container {
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: var(--spacing-gutter);
+	padding-right: var(--spacing-gutter);
+	width: 100%;
+	max-width: 1440px;
+}
+
+@utility container-full {
+	margin-left: auto;
+	margin-right: auto;
+	width: 100%;
+	max-width: 1440px;
+}
+
+@utility container-breakout {
+	width: 100dvw;
+	margin-left: calc(50% - 50dvw);
+}
+
+@utility card {
+	padding: --spacing(6);
+	background-color: var(--color-white);
+	box-shadow: var(--shadow-sm);
+	border-radius: var(--radius-xl);
+}
+
+
+/* 
+	This is a grid container, built to make your life easier when working with 
+	content that needs to switch between a full width (bleeding to the edge) 
+	and a container with a gutter.
+*/
+
+@utility container-fluid {
+	--container-width: calc(1440px - (var(--spacing-gutter) * 2));
+	--gutter: clamp(
+		var(--spacing-gutter), /* Minimum */
+		calc((100% - var(--container-width)) / 2),
+		calc((100% - var(--container-width)) / 2) /* Maximum */
+	);
+
+	display: grid;
+	grid-template-columns: [bleed-start] var(--gutter) [content-start col-1] minmax(0, 1fr) [content-end] var(--gutter) [bleed-end];
+
+	& > :where(*) {
+		grid-column: content;
+	}
+}
+
+@utility col-span-content {
+	grid-column: content;
+}
+
+@utility col-span-bleed {
+	grid-column: bleed;
+}

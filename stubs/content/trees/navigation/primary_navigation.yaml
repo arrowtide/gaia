@@ -1,0 +1,199 @@
+tree:
+  -
+    id: 8a1ff0be-5788-4a85-9cc4-4c18f74046aa
+    entry: home
+  -
+    id: a279d02a-a5de-41d3-b7f7-32ce0f346985
+    title: Docs
+    data:
+      type: megamenu
+      megamenu_title: Shop
+    children:
+      -
+        id: 3aa411ee-cf21-41f1-a98b-eee53a2593da
+        title: Row
+        data:
+          type: row
+        children:
+          -
+            id: 874fd62a-23b7-4b27-b33b-37e2e76b9a88
+            title: Column
+            data:
+              type: column
+              column_span: 3
+            children:
+              -
+                id: 217bee2f-1597-4fed-ac43-b172540521f2
+                title: 'Mobile Stack'
+                data:
+                  type: mobile_stack
+                  stack_title: Trees
+                children:
+                  -
+                    id: eed92506-e4af-428e-8e4u-e35248c62451
+                    title: Links
+                    data:
+                      type: link_group
+                      links_group_title: Trees
+                    children:
+                      -
+                        id: db073ad3-3187-4057-93b0-8ab1ce8f986a
+                        title: Oak
+                        data:
+                          type: link
+                      -
+                        id: 3c4d5e6f-7a8b-4c9d-8e0f-1a2b3c4d5e6f
+                        title: Birch
+                        data:
+                          type: link
+                      -
+                        id: 4d5e6f7a-8b9c-4d0e-9f1a-2b3c4d5e6f7a
+                        title: Pine
+                        data:
+                          type: link
+                      -
+                        id: 5e6f7a8b-9c0d-4e1f-2a3b-4c5d6e7f8a9b
+                        title: Maple
+                        data:
+                          type: link
+                      -
+                        id: 6f7a8b9c-0d1e-4f2a-3b4c-5d6e7f8a9b0c
+                        title: Cedar
+                        data:
+                          type: link
+                  -
+                    id: 930ee9b4-a484-44f7-af1f-33dbd7853bed
+                    title: Links
+                    data:
+                      type: link_group
+                      links_group_title: Moar
+                    children:
+                      -
+                        id: 6b1b2d91-2439-437f-b037-f031f7eb42fd
+                        title: 'More trees'
+                        data:
+                          type: link
+                      -
+                        id: 6137a1b4-c4f5-432f-8b1c-14af1834dba8
+                        title: 'More trewes'
+                        data:
+                          type: link
+          -
+            id: 647705bd-cc72-452a-bb0e-92c96f5aa161
+            title: Column
+            data:
+              type: column
+              column_span: 3
+            children:
+              -
+                id: 277bee2f-1597-4fed-ac43-b172540521f2
+                title: 'Mobile Stack'
+                data:
+                  type: mobile_stack
+                  stack_title: Plants
+                children:
+                  -
+                    id: eed92506-e4af-428e-8e4f-e35248k62451
+                    title: Links
+                    data:
+                      type: link_group
+                      links_group_title: Plants
+                    children:
+                      -
+                        id: db073ad3-3187-4057-93b0-8ab1ce8f986a
+                        title: Oak
+                        data:
+                          type: link
+                      -
+                        id: 3c4d5e6f-7a8b-4c9d-8e0f-1a2b3c4d5e6f
+                        title: Birch
+                        data:
+                          type: link
+                      -
+                        id: 4d5e6f7a-8b9c-4d0e-9f1a-2b3c4d5e6f7a
+                        title: Pine
+                        data:
+                          type: link
+          -
+            id: 647705bd-cc72-452a-bb0e-92c96f5ba161
+            title: Column
+            data:
+              type: column
+              column_span: 3
+            children:
+              -
+                id: 277bee2f-1597-4fed-ac43-b172540521q2
+                title: 'Mobile Stack'
+                data:
+                  type: mobile_stack
+                  stack_title: Trees
+                children:
+                  -
+                    id: eed92206-e4af-428e-8e4f-e35248c62451
+                    title: Links
+                    data:
+                      type: link_group
+                      links_group_title: Trees
+                    children:
+                      -
+                        id: a1b2c3d4-e5f6-7a8b-9c0d-e1f2a3b4c5d6
+                        title: 'Boston Fern'
+                        data:
+                          type: link
+                      -
+                        id: b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e
+                        title: 'Maidenhair Fern'
+                        data:
+                          type: link
+                      -
+                        id: c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f
+                        title: 'Staghorn Fern'
+                        data:
+                          type: link
+          -
+            id: 643705bd-cc72-452a-bb0e-92c96f5aa161
+            title: Column
+            data:
+              type: column
+              column_span: 3
+            children:
+              -
+                id: 277bee2f-1597-4fed-ac43-b172540521f5
+                title: 'Mobile Stack'
+                data:
+                  type: mobile_stack
+                  stack_title: Cacti
+                children:
+                  -
+                    id: eed92506-e4af-428e-8e4f-e35248c62451
+                    title: Links
+                    data:
+                      type: link_group
+                      links_group_title: Cacti
+                    children:
+                      -
+                        id: d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9g
+                        title: Saguaro
+                        data:
+                          type: link
+                      -
+                        id: e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9g0h
+                        title: 'Prickly Pear'
+                        data:
+                          type: link
+                      -
+                        id: f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9g0h1i
+                        title: 'Barrel Cactus'
+                        data:
+                          type: link
+                      -
+                        id: a7b8c9d0-e1f2-3a4b-5c6d-7e8f9g0h1i2j
+                        title: Cholla
+                        data:
+                          type: link
+  -
+    id: 180ca46c-2438-433b-8d68-8d52ce03b9fd
+    title: Documentation
+    url: 'https://gaiakit.com/docs'
+    data:
+      type: link

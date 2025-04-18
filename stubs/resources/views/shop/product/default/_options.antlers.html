@@ -1,0 +1,146 @@
+{{ if {gaia:product:configurable} }}
+    <div x-data="productOptions()" class="grid gap-8">
+        {{ gaia:product:options :slug="slug" }}
+            <div class="block">
+                {{ partial:shop/product/default/options/{ type } }}
+            </div>
+        {{ /gaia:product:options }}
+    </div>
+
+    {{ once }}
+        {{ push:scripts }}
+            <script type="module">
+                Alpine.data('productOptions', () => ({
+                    variants: JSON.parse(` {{ { collection:variants :product_slug:is="slug" :site="site" } | pluck_with_keys('option1', 'option2', 'option3', 'inventory_quantity') | to_json }} `),
+                    variantHierarchy: null,
+                    options: JSON.parse(`{{ {gaia:product:options :slug="slug"} | to_json }}`),
+                    selectedOptions: null,
+                    init() {
+                        this.updateProductStore();
+
+                        document.addEventListener('alpine:initialized', () => {
+                            this.filterAndDisable();
+                        });
+                    },
+                    update(value, key) {
+                        this.$store.product.selectedOptions ??= {};
+                        this.$store.product.selectedOptions[key] ??= {};
+                        this.$store.product.selectedOptions[key].value = value;
+
+                        this.updateProductStore();
+                        this.filterAndDisable();
+                    },
+                    updateProductStore() {
+                        this.$store.product.updateProductData();
+                    },
+                    filterAndDisable() {
+                        function createvariantHierarchy(variants) {
+                            let variantHierarchy = {};
+
+                            variants.forEach(item => {
+                                const option1 = item.option1;
+                                const option2 = item.option2;
+                                const option3 = item.option3;
+
+                                variantHierarchy[option1] ??= { children: {} };
+                                variantHierarchy[option1].children[option2] ??= { children: {} };
+                                variantHierarchy[option1].children[option2].children[option3] ??= {}
+
+                                variantHierarchy[option1]['children'][option2]['children'][option3] = {
+                                    _inventory_quantity: item.inventory_quantity,
+                                    _is_saleable: item.inventory_quantity > 0
+                                };
+                            });
+
+                            addSaleableStatus(variantHierarchy);
+
+                            return variantHierarchy;
+                        }
+
+                        function addSaleableStatus(node, order) {
+                            let hasInventory = false;
+                            let hasChildren = false;
+                            let optionNumber = order || 1;
+
+
+                            for (const key in node) {
+
+                                if (node['children']){
+                                    node._optionNumber = optionNumber;
+                                    optionNumber++;
+                                }
+                                else {
+                                    node._optionNumber = optionNumber;
+                                }
+
+                                if (key !== '_inventory_quantity') {
+                                    hasChildren = true;
+                                    const child = node[key];
+                                    const childHasInventory = addSaleableStatus(child, optionNumber);
+                                    hasInventory = hasInventory || childHasInventory;
+                                } else {
+                                    hasInventory = hasInventory || (node[key] > 0);
+                                }
+                            }
+
+                            if (node['children']){
+                                if (hasChildren) {
+                                    node._is_saleable = hasInventory;
+                                }
+                                else {
+                                    node._is_saleable = node._inventory_quantity > 0;
+                                }
+                            }
+
+                            return hasInventory;
+                        }
+
+                        this.variantHierarchy = createvariantHierarchy(this.variants);
+
+                        const variantsToLoop = [
+                            this.variantHierarchy
+                        ];
+
+                        if (this.$store.product.selectedOptions) {
+                            if (this.$store.product.selectedOptions[1]) {
+                                variantsToLoop.push(
+                                    this.variantHierarchy?.[this.$store.product.selectedOptions[1].value]?.children
+                                );
+                            }
+
+                            if (this.$store.product.selectedOptions[1] && this.$store.product.selectedOptions[2]) {
+                                const selectedOption1 = this.$store.product.selectedOptions[1]?.value;
+                                const selectedOption2 = this.$store.product.selectedOptions[2]?.value;
+
+                                variantsToLoop.push(
+                                    this.variantHierarchy?.[selectedOption1]?.children?.[selectedOption2]?.children
+                                );
+                            }
+                        }
+
+                        variantsToLoop.forEach((option, index) => {
+                            for (const optionValue in option) {
+
+                                // Skip if the key is readonly because we're mixing
+                                // option values and other stuff
+                                if (optionValue.startsWith('_')) {
+                                    continue;
+                                }
+
+                                // We're sending an event to each variant picker option
+                                // so we can update the UI if the option is disabled
+                                window.dispatchEvent(new CustomEvent('variant-picker-updated', {
+                                    detail: {
+                                        optionNumber: option[optionValue]._optionNumber,
+                                        optionValue: optionValue,
+                                        status: option[optionValue]._is_saleable ? 'not-disabled' : 'is-disabled'
+                                    }
+                                }));
+                            }
+                        });
+                    }
+                }));
+            </script>
+        {{ /push:scripts }}
+    {{ /once }}
+{{ /if }}

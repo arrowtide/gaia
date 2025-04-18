@@ -1,0 +1,45 @@
+{{ partial:dev/playground/section text="Toasts" id="toasts" }}
+
+    {{ partial:dev/playground/code text="Variants" x-data="playgroundMessages()" }}
+        <x-button variant="primary" @click="dispatchSuccess()">Success</x-button>
+        <x-button variant="primary" @click="dispatchError()">Error</x-button>
+        <x-button variant="primary" @click="dispatchWarning()">Warning</x-button>
+        <x-button variant="primary" @click="dispatchInfo()">info</x-button>
+    {{ /partial:dev/playground/code }}
+
+    <script>
+        function playgroundMessages() {
+            return {
+                dispatchSuccess() {
+                    gaia.toast({
+                        text: `This is an success status!`,
+                        type: 'success'
+                    });
+                },
+
+                dispatchError() {
+                    gaia.toast({
+                        text: `This is an error status!`,
+                        type: 'error'
+                    });
+                },
+
+                dispatchWarning() {
+                    gaia.toast({
+                        text: `This is an warning status!`,
+                        type: 'warning'
+                    });
+                },
+
+                dispatchInfo() {
+                    gaia.toast({
+                        text: `This is an info status!`,
+                        type: 'info'
+                    });
+                }
+                
+            }
+        }
+    </script>
+
+{{ /partial:dev/playground/section }}

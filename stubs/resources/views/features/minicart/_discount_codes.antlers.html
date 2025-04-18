@@ -1,0 +1,21 @@
+{{ discount_codes as="codes" }}
+    {{ unless no_results }}
+        <section class="mt-1">
+            <x-heading level="2" size="4" class="sr-only">Active Codes</x-heading>
+            <ol class="flex flex-wrap gap-3">
+                {{ codes }}
+                    <li>
+                        <p class="relative inline-flex items-center px-2 py-1 text-xs font-medium leading-none tracking-wider text-black uppercase rounded-lg bg-slate-200">
+                            {{ svg src="sell" class="mr-2 fill-current size-3" }}
+
+                            <span>{{ value }}</span>
+                            
+                            <x-button label="Remove {{ value }}" variant="secondary" wire:click="removeDiscountFromCart('{{ value }}')" icon="close" class="ml-2 btn-xs btn-round" />
+                        </p>
+
+                    </li>
+                {{ /codes }}
+            </ol>
+        </section>
+    {{ /unless }}
+{{ /discount_codes }}

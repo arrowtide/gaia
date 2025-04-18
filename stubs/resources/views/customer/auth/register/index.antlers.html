@@ -1,0 +1,30 @@
+{{ if logged_in }}
+    {{ redirect to="/account" }}
+{{ /if }}
+
+<div class="container py-head md:py-32">
+    <div class="px-5 sm:px-0">
+        <x-heading level="1" class="mb-10 text-center">{{ trans:auth.register_heading }}</x-heading>
+
+        <div class="max-w-xl mx-auto">
+            {{ user:register_form }}
+                <div class="grid gap-6">
+                    <div class="grid grid-cols-2 gap-6">
+                        <x-input name="first-name" label="First Name" value="{{ old:first-name }}" required autocomplete="given-name" autocapitalize="none" spellcheck="false" />
+                        <x-input name="last-name" label="First Name" value="{{ old:last-name }}" required autocomplete="family-name" autocapitalize="none" spellcheck="false" />
+                    </div>
+
+                    <x-input name="email" label="Email" value="{{ old:email }}" required autocomplete="email" autocapitalize="none" spellcheck="false" />
+                    <x-input name="password" label="Password" type="password" required reveal autocomplete="new-password" autocapitalize="none" spellcheck="false" />
+                    <x-input name="password_confirmation" type="password" label="Confirm Password" required reveal autocomplete="new-password" autocapitalize="none" spellcheck="false" />
+
+                    <x-button variant="primary" type="submit" class="w-full mt-5">{{ trans:auth.register_button_text }}</x-button>
+                </div>
+            {{ /user:register_form }}
+
+            <div class="flex justify-center mt-24">
+                <x-button variant="link" as="a" href="/account/login">{{ trans:auth.register_has_account_link_text }}</x-button>
+            </div>
+        </div>
+    </div>
+</div>

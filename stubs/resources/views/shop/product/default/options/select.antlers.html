@@ -1,0 +1,55 @@
+<label class="block mb-4 text-base text-slate-700" for="variant-picker-{{ option }}-{{ name }}">{{ name }}</label>
+<select 
+    id="variant-picker-{{ option }}-{{ name }}"
+    x-data="productOptionSelect({{ option | surround("'") }})" 
+    x-ref="select"
+    x-bind="select"
+    class="max-w-xs text-sm form-select invalid:border-red-500"
+>
+    <option>{{ trans:default.form_select_placeholder }}</option>
+    {{ values }}
+        <option name="{{ name }}" option="{{ option }}" value="{{ value }}">{{ value }}</option>
+    {{ /values }}
+</select>
+
+{{ once }}
+    {{ push:scripts }}
+        <script type="module">
+            Alpine.data('productOptionSelect', (option) => ({
+                option: option,
+                
+                select: {
+                    ['@change']() {
+                        let value = this.$refs.select[this.$refs.select.selectedIndex].getAttribute('value');
+                        let option = this.$refs.select[this.$refs.select.selectedIndex].getAttribute('option');
+                        this.update(value, option);
+                    },
+                    
+                    ['@variant-picker-updated.window'](event) {
+                        if (event.detail.optionNumber != this.option) return;
+
+                        let el = this.$refs.select.querySelector(`option[value="${event.detail.optionValue}"]`);
+
+                        if (event.detail.status == 'is-disabled') {
+                            el.setAttribute('disabled', true);
+                            el.textContent = el.value + ' ({{ trans:default.out_of_stock}})';
+
+                            if (this.$refs.select.value == event.detail.optionValue) {
+                                this.$refs.select.setCustomValidity("Invalid field.");
+                            } 
+                        }
+
+                        if (event.detail.status == 'not-disabled') {
+                            el.removeAttribute('disabled');
+                            el.textContent = el.value;
+
+                            if (this.$refs.select.value == event.detail.optionValue) {
+                                this.$refs.select.setCustomValidity("");
+                            }
+                        }
+                    }
+                },
+            }));
+        </script>
+    {{ /push:scripts }}
+{{ /once }}

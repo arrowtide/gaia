@@ -1,0 +1,41 @@
+tree:
+  -
+    id: 22fb0be1-85d7-4937-ac76-984e51f9a50a
+    title: Link
+    children:
+      -
+        id: be54fb93-0f1c-43a5-ac07-7c0fb86151ba
+        title: 'Link one'
+        url: '#'
+      -
+        id: 857c3aad-dff1-462d-ace8-231bed35e6ba
+        title: 'Link two'
+        url: '#'
+      -
+        id: 059ddc2c-e8b2-4b8c-8637-d29aaeaf9bbb
+        title: 'Link three'
+        url: '#'
+      -
+        id: 2424a557-62c3-46b1-b1ac-ba5b960d3d2e
+        title: 'Link four'
+        url: '#'
+  -
+    id: 22fb0be1-85d7-8312-ac76-984e51f9a10a
+    title: Company
+    children:
+      -
+        id: be54fb93-0f5c-43a5-ac07-7c0fb96151ba
+        title: 'Link one'
+        url: '#'
+      -
+        id: 857c3aad-daf1-462d-ace8-231bed35e6la
+        title: 'Link two'
+        url: '#'
+      -
+        id: 059ddc2c-t8l2-4b8c-8637-d29aaeaf9bnb
+        title: 'Link three'
+        url: '#'
+      -
+        id: 2424a557-62c3-46b1-b1ac-ba5b940d3s2e
+        title: 'Link four'
+        url: '#'

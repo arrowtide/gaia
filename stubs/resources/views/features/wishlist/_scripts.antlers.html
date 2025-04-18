@@ -1,0 +1,189 @@
+
+{{ once }}
+    {{ push:head }}
+        {{ if logged_in }}
+            <script type="module">
+                window.addEventListener('alpine:init', () => {
+                    Alpine.store('wishlist', {
+                        wishlistData: null,
+                        currentProduct: null,
+                        activeCollectionLength: 0,
+
+                        init() {
+                            this.getWishlist();
+                        },
+
+                        async getWishlist() {
+                            try {
+                                const response = await gaia.fetch.url('/!/gaia/account/wishlists').get();
+
+                                if (response.reason == 'no_wishlist_data') return;
+
+                                this.wishlistData = response;
+
+                                const collection = this.wishlistData.collections.find(item => item.id === 'default');
+                                this.activeCollectionLength = collection.items.length;
+
+                                window.dispatchEvent(new CustomEvent(`wishlist-data-ready`));
+                            }
+                            catch (error) {
+                                this.wishlistData = null;
+                            }
+                        },
+
+                        async createWishlist(name) {
+                            try {
+                                const response = await gaia.fetch.url('/!/gaia/account/wishlist/create').post({
+                                    name: name
+                                });
+
+                                this.getWishlist();
+                            }
+                            catch (error) {
+                                gaia.toast({
+                                    text: `{{ "We couldn't add this product to your wishlist at this time" | trans }}`,
+                                    type: `error`
+                                });
+
+                                this.status = ! this.status;
+                            }
+                            finally {
+                                this.loading = false;
+                            }
+                        },
+
+                        async addToWishlist(productId, collectionId) {
+                            collectionId = collectionId || this.wishlistId;
+                            try {
+                                const response = await gaia.fetch.url('/!/gaia/account/wishlist/update').post({
+                                    product_id: productId,
+                                    wishlist_ids: ['default'],
+                                });
+
+                                this.wishlistData.collections.find(item => item.id == collectionId).items.push(productId);
+                            }
+                            catch (error) {
+                                console.log(error);
+                                gaia.toast({
+                                    text: `{{ "We couldn't add this product to your wishlist at this time" | trans }}`,
+                                    type: `error`
+                                });
+                            }
+                            finally {
+                                window.dispatchEvent(new CustomEvent(`wishlist-add-${productId}`, {
+                                    detail: {
+                                        isProductInWishlist: this.isProductInWishlistData(productId)
+                                    },
+                                }));
+                            }
+                        },
+
+                        async removeFromWishlist(productId, collectionId) {
+                            collectionId = collectionId || this.wishlistId;
+                            try {
+                                const response = await gaia.fetch.url('/!/gaia/account/wishlist/removeItem').post({
+                                    product_id: productId,
+                                    wishlist_ids: ['default'],
+                                });
+
+                                this.wishlistData.collections.find(item => item.id == collectionId).items.splice(this.wishlistData.collections.find(item => item.id == collectionId).items.indexOf(productId), 1);
+                            }
+                            catch (error) {
+                                gaia.toast({
+                                    text: `{{ "We couldn't remove this product from your wishlist at this time" | trans }}`,
+                                    type: `error`
+                                });
+                            }
+                            finally {
+                                window.dispatchEvent(new CustomEvent(`wishlist-remove-${productId}`, {
+                                    detail: {
+                                        isProductInWishlist: this.isProductInWishlistData(productId)
+                                    },
+                                }));
+                            }
+                        },
+
+                        isProductInWishlistData(productId) {
+                            return this.wishlist.items.includes(productId)
+                        },
+
+                        isProductInCollection(collectionId, productId) {
+                            return this.wishlistData?.collections.find(item => item.id == collectionId).items.includes(productId)
+                        },
+
+                        get numberOfWishlistCollections() {
+                            return this.wishlistData?.collections.length;
+                        },
+
+                        get numberOfProductsInWishlist() {
+                            return this.wishlist.items.length;
+                        },
+
+                        get wishlistId() {
+                            return this.wishlist.id;
+                        },
+
+                        get wishlist() {
+                            return this.wishlistData.collections[0];
+                        },
+
+                        get hasWishlistData() {
+                            return this.wishlistData == null ? false : true;
+
+                        }
+                    });
+                })
+            </script>
+        {{ /if }}
+    {{ /push:head }}
+{{ /once }}
+
+{{ once }}
+    {{ push:scripts }}
+        <script type="module">
+            Alpine.data('productWishlist', (productId, isProductInWishlist) => ({
+                loading: false,
+                changed: false,
+                isUserLoggedIn: JSON.parse(`{{ logged_in ? 'true' : 'false' }}`),
+                isProductInWishlist: isProductInWishlist,
+                productId: productId,
+
+                handleWishlistButtonClick() {
+
+                    if (this.loading) {
+                        return;
+                    }
+
+                    if (! this.isUserLoggedIn) {
+                        window.location.href = "/account/login";
+
+                        return;
+                    }
+
+                    this.changed = true;
+                    this.loading = true;
+
+
+                    if (this.isProductInWishlist) {
+                        Alpine.store('wishlist').removeFromWishlist(this.productId);
+                    } else {
+                        Alpine.store('wishlist').addToWishlist(this.productId);
+                    }
+
+                    this.isProductInWishlist = ! this.isProductInWishlist;
+                },
+
+                eventListeners: {
+                    [`@wishlist-remove-${productId}.window`](event) {
+                        this.loading = false;
+                        this.isProductInWishlist = event.detail.isProductInWishlist;
+                    },
+                    [`@wishlist-add-${productId}.window`](event) {
+                        this.loading = false;
+                        this.isProductInWishlist = event.detail.isProductInWishlist;
+                    }
+                }
+            }))
+        </script>
+    {{ /push:scripts }}
+{{ /once }}

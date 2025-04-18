@@ -1,0 +1,30 @@
+{{#
+    @name Product card wishlist button
+    @desc The add/remove to wishlist button, for the product card component or anywhere you need an add/remove wishlist button
+    @param wishlist String. Define the type of button shown. 'remove' will only show the remove button, otherwise the add and remove button will be shown.
+#}}
+{{ nocache }}
+    {{ if logged_out }}
+        <a href="/account/login?redirect={{ current_url | urlencode }}" class="btn btn-secondary btn-round btn-sm group">
+            {{ svg src="wishlist-heart" class="size-5 stroke-slate-900 group-hover:scale-[1.1]" aria-hidden="true" }}
+            <span class="sr-only">{{ trans:wishlist.trigger_button_add }}</span>
+        </a>
+    {{ /else }}
+        <button
+            x-data="productWishlist({{ product_id | surround("'")}}, {{ { gaia:wishlist:contains :product_id="product_id"} | bool_string }})"
+            @click="handleWishlistButtonClick(); {{ wishlist == 'remove' ?= 'removeWishlistWrapper()' }}"
+            x-bind="eventListeners"
+            class="btn btn-secondary btn-round btn-sm group"
+            {{ {gaia:wishlist:contains :product_id="product_id"} ? 'data-active' : 'data-inactive' }}
+            :data-active="isProductInWishlist"
+            :data-inactive="! isProductInWishlist"
+            type="button"
+            x-defer
+        >
+            {{ svg src="wishlist-heart" class="size-5 stroke-slate-900 group-hover:scale-[1.1] group-data-active:stroke-rose-500 group-data-active:fill-rose-500" aria-hidden="true" }}
+            <span class="sr-only" x-text="isProductInWishlist ? '{{ trans:wishlist.trigger_button_add }}' : '{{ trans:wishlist.trigger_button_remove }}'">
+                {{ trans:wishlist.trigger_button_add }}
+            </span>
+        </button>
+    {{ /if }}
+{{ /nocache }}

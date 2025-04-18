@@ -1,0 +1,9 @@
+<div class="shrink-0">
+    {{ if featured_image }}
+        <a href="{{ product:url }}" tabindex="-1" class="aspect-square">
+            <x-picture :src="featured_image" lazy="false" size.default.width="92" size.default.height="92">
+                <x-slot:img class="overflow-hidden border border-gray-200 rounded-md aspect-square size-24 " />
+            </x-picture>
+        </a>
+    {{ /if }}
+</div>

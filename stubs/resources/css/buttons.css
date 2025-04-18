@@ -1,0 +1,189 @@
+@utility btn {
+  --btn-size: var(--btn-size-base);
+  --btn-font-size: var(--btn-font-size-base);
+  --btn-px: var(--btn-px-base);
+  --btn-border: transparent;
+  --btn-hover-border: transparent;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  height: var(--btn-size);
+  min-height: var(--btn-size);
+  gap: --spacing(1.5);
+  padding-left: var(--btn-px);
+  padding-right: var(--btn-px);
+  text-align: center;
+  line-height: var(--leading-relaxed);
+  border-radius: var(--radius-lg);
+  background-color: var(--btn-background);
+  border: 1px solid var(--btn-border);
+  transition-property: color, background-color, border-color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  font-size: var(--btn-font-size);
+  color: var(--btn-text);
+
+  @media (pointer: fine) {
+    &:hover {
+      --btn-text: var(--btn-hover-text);
+      --btn-background: var(--btn-hover-background);
+      --btn-border: var(--btn-hover-border);
+    }
+  }
+
+  &.btn-disabled,
+  &[disabled],
+  &[aria-disabled='true'] {
+    --btn-text: var(--color-slate-800);
+    --btn-background: var(--color-slate-300);
+    --btn-border: var(--color-slate-300);
+
+    --btn-hover-text: var(--color-slate-800);
+    --btn-hover-background: var(--color-slate-300);
+    --btn-hover-border: var(--color-slate-300);
+
+    opacity: 50%;
+    cursor: not-allowed;
+  }
+}
+
+@utility btn-link {
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-tighter);
+  color: var(--color-black);
+  border-bottom: 2px solid var(--color-gray-200);
+  cursor: pointer;
+
+  @media (pointer: fine) {
+    &:hover {
+      border-color: var(--color-gray-400);
+    }
+  }
+
+  @media (width >= theme(--breakpoint-md)) {
+    font-size: var(--text-base);
+  }
+}
+
+@utility btn-primary {
+  --btn-text: var(--color-white);
+  --btn-background: var(--color-black);
+  --btn-border: var(--color-black);
+
+  --btn-hover-text: var(--color-white);
+  --btn-hover-background: var(--color-slate-700);
+  --btn-hover-border: var(--color-slate-700);
+
+  --btn-active-text: var(--color-white);
+  --btn-active-background: var(--color-slate-700);
+  --btn-active-border: var(--color-slate-700);
+}
+
+@utility btn-secondary {
+  --btn-text: var(--color-black);
+  --btn-background: var(--color-white);
+  --btn-border: var(--color-slate-300);
+
+  --btn-hover-text: var(--color-black);
+  --btn-hover-background: var(--color-slate-100);
+  --btn-hover-border: var(--color-slate-200);
+
+  --btn-active-text: var(--color-black);
+  --btn-active-background: var(--color-slate-100);
+  --btn-active-border: var(--color-slate-200);
+}
+
+@utility btn-ghost {
+  --btn-text: var(--color-black);
+  --btn-hover-text: var(--color-black);
+  --btn-border: transparent;
+
+  --btn-background: transparent;
+  --btn-hover-background: var(--color-neutral-100);
+  --btn-hover-border: var(--color-neutral-100);
+
+  --btn-active-text: var(--color-black);
+  --btn-active-background: var(--color-neutral-100);
+  --btn-active-border: var(--color-neutral-100);
+}
+
+@utility btn-danger {
+  --btn-text: var(--color-white);
+  --btn-hover-text: var(--color-white);
+
+  --btn-background: var(--color-rose-500);
+  --btn-hover-background: var(--color-rose-600);
+
+  --btn-active-text: var(--color-white);
+  --btn-active-background: var(--color-rose-600);
+}
+
+@utility btn-active {
+  --btn-text: var(--btn-active-text);
+  --btn-hover-text: var(--btn-active-text);
+
+  --btn-background: var(--btn-active-background);
+  --btn-hover-background: var(--btn-active-background);
+}
+
+@utility btn-xs {
+  --btn-font-size: var(--btn-font-size-xs);
+  --btn-size: var(--btn-size-xs);
+  --btn-px: var(--btn-px-xs);
+}
+
+@utility btn-sm {
+  --btn-font-size: var(--btn-font-size-small);
+  --btn-size: var(--btn-size-small);
+  --btn-px: var(--btn-px-small);
+}
+
+@utility btn-base {
+  --btn-font-size: var(--btn-font-size-base);
+  --btn-size: var(--btn-size-base);
+  --btn-px: var(--btn-px-base);
+}
+
+@utility btn-lg {
+  --btn-font-size: var(--btn-font-size-large);
+  --btn-size: var(--btn-size-large);
+  --btn-px: var(--btn-px-large);
+}
+
+@utility btn-square {
+  width: var(--btn-size);
+  min-width: var(--btn-size);
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@utility btn-round {
+  width: var(--btn-size);
+  min-width: var(--btn-size);
+  border-radius: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@layer utilities {
+	:root {
+    --btn-size-xs: theme(size.7);
+		--btn-size-small: theme(size.9);
+		--btn-size-base: theme(size.11);
+		--btn-size-large: theme(size.14);
+		
+    --btn-px-xs: --spacing(1.5);
+		--btn-px-small: --spacing(2.5);
+		--btn-px-base: --spacing(3.5);
+		--btn-px-large: --spacing(5);
+
+    --btn-font-size-xs: 0.638rem;
+		--btn-font-size-small: var(--text-xs);
+		--btn-font-size-base: 0.938rem;
+		--btn-font-size-large: var(--text-lg);
+	}
+}
+

@@ -1,0 +1,24 @@
+<style>
+    .playground-code {
+        --dot-bg: white;
+        --dot-color: grey;
+        --dot-size: 1px;
+        --dot-space: 10px;
+          background:
+              linear-gradient(90deg, var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space),
+              linear-gradient(var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space),
+              var(--dot-color);
+    }
+
+    .playground-code-light {
+        --dot-color: #dedede;
+    }
+</style>
+
+<div class="py-5" {{ x-data ?= 'x-data="{x-data}"'}}>
+    <p class="mb-5 text-lg">{{ text }}</p>
+
+    <div class="flex justify-center gap-5 p-10 border rounded-xl border-slate-200 bg-slate-50 playground-code {{ code_class }} {{ theme == 'light' ?= 'playground-code-light' }}" >
+        {{ slot }}
+    </div>
+</div>

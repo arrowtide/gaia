@@ -1,0 +1,108 @@
+<span class="block mb-4 text-base text-slate-700">{{ name }}</span>
+
+{{ values }}
+    <label
+        x-data="productOptionColor(false, {{ name | surround("'") }}, {{ option | surround("'") }}, {{ value | surround("'") }})"
+        class="relative inline-flex flex-col items-center justify-center mr-2 cursor-pointer group"
+        x-bind="{...component, ...label}"
+        :class="{
+            'text-slate-300 opacity-75': disabled,
+        }"
+    >
+
+    <span
+        class="p-1 border-2 border-transparent rounded-full group-has-focus-visible:ring-3 ring-blue-300"
+        :class="{
+            'group-hover:border-black opacity-75': !disabled,
+            'border-black! ': checked,
+        }"
+    >
+        <span
+            class="relative flex items-center justify-center overflow-hidden border-2 rounded-full size-10 border-slate-300 aspect-square" style="background-color: {{ color }}"
+        >
+            <span
+                class="h-[2px] w-[calc(100%+40px)] absolute z-10 bg-slate-300 mx-2 transform rotate-[30deg] "
+                aria-label="Out of stock"
+                x-show="disabled"
+                x-cloak
+            >
+            </span>
+        </span>
+    </span>
+
+        <span class="sr-only">
+            {{ value }}
+        </span>
+
+        <input
+            type="radio"
+            class="sr-only"
+            x-bind="input"
+            x-ref="inputField"
+        >
+    </label>
+{{ /values }}
+
+
+{{ once }}
+    {{ push:scripts }}
+        <script type="module">
+            Alpine.data('productOptionColor', (isChecked, variant, option, value) => ({
+                checked: isChecked,
+                disabled: false,
+                option: option,
+                value: value,
+                invalid: false,
+                component: {
+                    ['@product-option-update.window']() {
+                        this.checked = this.$refs.inputField?.checked;
+                    },
+                    ['@variant-picker-updated.window'](event) {
+                        if (event.detail.optionNumber != this.option) return;
+                        if (event.detail.optionValue != this.value) return;
+
+                        this.disabled = event.detail.status == 'is-disabled' ? true : false;
+
+                        if (this.disabled && this.$refs.inputField.checked) {
+                            this.invalid = true;
+                        } else {
+                            this.invalid = false;
+                        }
+                    }
+                },
+                label: {
+                    [':for']() {
+                        return `variant-picker-${option}-${value}`;
+                    },
+                },
+                input: {
+                    [':id']() {
+                        return `variant-picker-${option}-${value}`;
+                    },
+                    [':value']() {
+                        return value;
+                    },
+                    [':name']() {
+                        return variant;
+                    },
+                    [':checked']() {
+                        return isChecked;
+                    },
+                    ['@change']() {
+                        this.update(value, option);
+
+                        this.$dispatch('product-option-update');
+                    },
+                    ['@click'](event) {
+                        if (this.disabled) {
+                            event.preventDefault();
+                        };
+                    },
+                    [':required']() {
+                        return true;
+                    }
+                },
+            }));
+        </script>
+    {{ /push:scripts }}
+{{ /once }}

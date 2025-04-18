@@ -1,0 +1,45 @@
+
+ 
+{{ page_not_found_slug = switch(
+    (site == 'default') => '/page-not-found',
+    (site == 'fr') => '/page-not-found',
+    () => '/page-not-found'
+)}}
+
+{{ get_content :from="page_not_found_slug" }}
+    <div class="flex flex-col items-center justify-center max-w-4xl py-32 mx-auto px-gutter">
+        <p class="font-medium">404</p>
+        <x-heading level="1" class="my-2">{{ title }}</x-heading>
+        {{ if subtitle }}
+            <p class="text-lg text-slate-700">{{ subtitle }}</p>
+        {{ /if }}
+
+        <button class="relative flex items-center max-w-xl mt-12 form-input" aria-label="Search" x-data="" @click="$dispatch('livesearch-open')" id="search-trigger">
+            <div class=":pointer-events-none">
+                {{ svg src="search" class="size-7" }}
+            </div>
+            <span class="ml-5">
+                Search...
+            </span>
+        </button>
+
+        <ul class="flex flex-col max-w-2xl mx-auto my-16 divide-y divide-slate-200">
+            {{ links }}
+                <li class="relative flex gap-5 py-10">
+                    <div class="flex items-center justify-center bg-white shadow-xs size-12 rounded-xl aspect-square">
+                        {{ svg :src="icon" class="fill-green-700" }}
+                    </div>
+                    <div>
+                        <a href="/" class="stretched-link">
+                            <x-heading level="2" size="4">{{ heading }}</x-heading>
+                        </a>
+                        <p class="mt-2 text-slate-500">{{ text }}</p>
+                    </div>
+                    <div class="flex items-center pl-6 ml-auto">
+                        {{ svg src="arrow_right_alt" class="size-5 fill-slate-600" }}
+                    </div>
+                </li>
+            {{ /links }}
+        </ul>
+    </div>
+{{ /get_content }}

@@ -1,0 +1,22 @@
+{{ if variant:option1 && variant:option1 != 'Default Title' }}
+    <div class="grid gap-1 mt-2">
+        {{ if variant:option1 && variant:option1 != 'Default Title' }}
+            <p>
+                <span class="text-sm text-gray-500">{{ product:options.option1 }}:</span>
+                <span class="text-sm text-black">{{ variant:option1 }}</span>
+            </p>
+        {{ /if }}
+        {{ if variant:option2 }}
+            <p>
+                <span class="text-sm text-gray-500">{{ product:options.option2 }}:</span>
+                <span class="text-sm text-black">{{ variant:option2 }}</span>
+            </p>
+        {{ /if }}
+        {{ if variant:option3 }}
+            <p>
+                <span class="text-sm text-gray-500">{{ product:options.option3 }}:</span>
+                <span class="text-sm text-black">{{ variant:option3 }}</span>
+            </p>
+        {{ /if }}
+    </div>
+{{ /if }}

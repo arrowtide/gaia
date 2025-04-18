@@ -1,0 +1,35 @@
+{{ partial:dev/playground/section text="Dropdown" id="dropdown" }}
+
+    {{ partial:dev/playground/code text="Dropdown"}}
+        <x-dropdown>
+            <x-slot:button>
+                <x-button for="dropdown" icon="expand_more" variant="primary">Dropdown</x-button>
+            </x-slot:button>
+
+            <x-slot:content>
+                <x-dropdown.menu>
+                    <x-dropdown.item class="justify-start">Account</x-dropdown.item>
+                    <x-dropdown.item class="justify-start">Settings</x-dropdown.item>
+                    <x-dropdown.item class="justify-start">Logout</x-dropdown.item>
+                </x-dropdown.menu>
+            </x-slot:content>
+        </x-dropdown>
+    {{ /partial:dev/playground/code }}
+
+    {{ partial:dev/playground/code text="Anchored dropdown" }}
+        <x-dropdown anchor="right-end.offset.50">
+            <x-slot:button>
+                <x-button text="Dropdown" for="dropdown" icon="expand_more" variant="primary" />
+            </x-slot:button>
+
+            <x-slot:content>
+                <x-dropdown.menu>
+                        <x-dropdown.item class="justify-start">Account</x-dropdown.item>
+                        <x-dropdown.item class="justify-start">Settings</x-dropdown.item>
+                        <x-dropdown.item class="justify-start">Logout</x-dropdown.item>
+                </x-dropdown.menu>
+            </x-slot:content>
+        </x-dropdown>
+    {{ /partial:dev/playground/code }}
+    
+{{ /partial:dev/playground/section }}

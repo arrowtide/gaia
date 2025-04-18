@@ -1,0 +1,25 @@
+{{ cache for="36 hours" }}
+<div class="hidden lg:block">
+    <div class="z-20 flex flex-col">
+        <menu class="flex flex-row gap-5" id="main-navigation-desktop">
+            {{ nav:primary_navigation }}
+                {{ if type }}
+                    {{ partial:layout/navigation/desktop/blocks/{type} }}
+                {{ /if }}
+            {{ /nav:primary_navigation }}
+        </menu>
+    </div>
+</div>
+{{ /cache }}
+
+{{ once }}
+    {{ push:stores }}
+        <script type="module">
+            window.addEventListener('alpine:init', () => {
+                Alpine.store('navigationDesktop', {
+                    isChildMegaMenuOpen: false,
+                });
+            });
+        </script>
+    {{ /push:stores }}
+{{ once }}

@@ -1,0 +1,66 @@
+{{ cache }}
+    <footer class="mt-auto bg-white content-visibility-auto">
+        <div class="container max-w-5xl pb-10">
+
+            <div class="grid grid-cols-2 gap-10 py-16 sm:grid-cols-3 md:grid-cols-4 md:gap-20">
+                <div class="col-span-full md:col-span-1">
+                    {{ svg src="logo" class="w-24 h-auto" }}
+                </div>
+
+                {{ nav:footer_main }} 
+                    <div>
+                        <h2 class="mb-5 text-sm font-medium uppercase text-slate-600">{{ title }}</h2>
+                        <menu class="flex flex-col gap-3">
+                            {{ children }}
+                                <li><a href="{{ url }}" class="hover:text-black">{{ title }}</a></li>
+                            {{ /children }}
+                        </menu>
+                    </div>
+                {{ /nav:footer_main }}
+
+                <div>
+                    <h2 class="mb-5 text-sm font-medium uppercase text-slate-600">Contact</h2>
+                    <address class="not-italic leading-loose ">
+                        {{ general:address_line_1 ?= {general:address_line_1 | ensure_right('<br>')} }}
+                        {{ general:address_line_2 ?= {general:address_line_2 | ensure_right('<br>')} }}
+                        {{ general:address_line_3 ?= {general:address_line_3 | ensure_right('<br>')} }}
+                        {{ general:region ?= {general:region | ensure_right('<br>')} }}
+                        {{ general:country ?= {general:country | ensure_right('<br>')} }}
+                        {{ general:postal_code ?= {general:postal_code | ensure_right('')} }}
+                    </address>
+                </div>
+            </div>
+
+            {{ general:payment_methods as="payments" }}
+                <ul class="flex flex-wrap justify-center gap-5 py-6 my-6 border-y border-slate-200">
+                    {{ payments }}
+                    <li>
+                        {{ svg :src="icon" class="h-auto border w-7 rounded-xs sm:w-10 border-black/20" }}
+                        <span class="sr-only">{{ name }}</span>
+                    </li>
+                    {{ /payments }}
+                </ul>
+            {{ /general:payment_methods }}
+
+            <div class="flex flex-col justify-between gap-5 sm:flex-row">
+                <p class="w-full text-xs text-center sm:w-auto text-slate-700">
+                    ©
+                    {{ if { current_date | format('o') } > { general:copyright_since } }}
+                        {{ general:copyright_since }} - 
+                    {{ /if }}
+                    {{ current_date | format('o') }}
+                    {{ general:copyright_message }}
+                </p>
+    
+                <menu class="flex justify-center gap-3 text-xs text-slate-700">
+                    {{ nav:footer_legal }}
+                        <li><a href="{{ url }}">{{ title }}</a></li>
+                    {{ /nav:footer_legal }}
+                </menu>
+            </div>
+
+        </div>
+    </footer>
+{{ /cache }}
+
+

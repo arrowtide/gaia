@@ -1,0 +1,62 @@
+<li
+    class="flex "
+    x-data="navContainerMegaMenu('{{ title }}')"
+    x-defer
+>
+    <button class="relative flex items-center w-full nav-link" x-bind="button" data-depth="{{ depth }}" data-type="link">
+        {{ megamenu_title }}
+        {{ svg src="expand_more" class="w-4 h-4 ml-1 fill-current" }}
+
+        <div class="size-2 rotate-45 rounded-[1px] absolute top-[calc(100%+1.5rem)] bg-slate-200 mx-auto left-[calc(50%-1rem)] delay-75" x-cloak x-transition x-show="open"></div>
+    </button>
+    <div
+        class="absolute inset-x-0 z-50 container mx-auto bg-white border rounded-b-lg border-slate-200 text-slate-500 top-[calc(100%-0.5rem)]  rounded content-visibility-auto"
+        x-bind="menu"
+        x-cloak
+        x-defer:interact
+    >
+
+        <div class="py-10 mx-auto border-t border-slate-100" x-defer:interact>
+            {{ if children }}
+                {{ children }}
+                    {{ partial:layout/navigation/desktop/blocks/{type} data-type="megamenu" }}
+                {{ /children }}
+            {{ /if }}
+        </div>
+    </div>
+</li>
+
+{{ once }}
+    {{ push:scripts }}
+        <script type="module">
+            Alpine.data('navContainerMegaMenu', (title) => ({
+                open: false,
+
+                button: {
+                    ['@click']() {
+                        this.open = true;
+                    },
+                },
+                
+                menu: {
+                    ['x-show']() {
+                        return this.open;
+                    },
+                    ['x-ref']() {
+                        return 'panel'
+                    },
+                    ['@click.away']() {
+                        this.$store.navigationDesktop.isChildMegaMenuOpen = false;
+                        this.open = false
+                    },
+                    'x-transition:enter': 'transition ease-out duration-200',
+                    'x-transition:enter-start': 'opacity-0 -translate-y-1',
+                    'x-transition:enter-end': 'opacity-100 translate-y-0',
+                    'x-transition:leave': 'transition ease-in duration-100',
+                    'x-transition:leave-start': 'opacity-100',
+                    'x-transition:leave-end': 'opacity-0',
+                }
+            }));
+        </script>
+    {{ /push:scripts }}
+{{ /once }}

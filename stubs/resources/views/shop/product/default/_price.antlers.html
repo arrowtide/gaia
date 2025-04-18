@@ -1,0 +1,23 @@
+<div class="flex flex-col">
+    {{ gaia:product:price }}
+        {{ if {gaia:product:single} }}
+            {{ if is_discounted }}
+                <span class="block mt-2 text-3xl font-medium text-red-600">Now {{ gaia:currency :price="min_discounted_price" }}</span>
+                <div class="flex items-center mt-2">
+                    <span class="text-sm text-slate-500">Was {{ gaia:currency :price="min_regular_price" }}</span>
+                    {{ if (discount_percentage <= '5') }} 
+                        <span class="p-1 ml-2 text-sm text-red-600 rounded-xs">(-{{ gaia:currency :price="discount_amount" }})</span>
+                    {{ else }}
+                        <span class="p-1 ml-2 text-sm font-medium text-red-600 rounded-xs">(-{{ discount_percentage | floor }}%)</span>
+                    {{ /if }}
+                </div>
+            {{ /else }}
+                <span class="block mt-2 text-3xl" >{{ gaia:currency :price="min_price" }}</span>
+            {{ /if }}
+        {{ /if }}
+
+        {{ if {gaia:product:configurable} }}
+            <span class="block mt-2 text-3xl">From {{ gaia:currency :price="min_price" }}</span>
+        {{ /if }}
+    {{ /gaia:product:price }}
+</div>

@@ -1,0 +1,61 @@
+{{# 
+    @livewire app/Livewire/Minicart.php
+    
+    @name Minicart Stack
+    @desc The minicart pop out Livewire component. 
+#}}
+<div>
+    <x-drawer name="minicart" heading="Your Basket" wire:ignore.self>
+        <x-drawer.section class="h-full pt-10">
+            <div wire:loading.flex>
+                <x-loader overlay/>
+            </div>
+
+            {{ partial:features/minicart/products }}
+        </x-drawer.section>
+
+        <x-slot:footer>
+            <x-drawer.section>
+                {{ unless cart_empty }}
+                    <div class="py-5">
+                        {{ partial:features/minicart/discount_form }}
+                        {{ partial:features/minicart/discount_codes }}
+                        {{ partial:features/minicart/totals }}
+
+                        <x-button href="{{ checkoutUrl }}" @click="open = false" wire:loading.attr="disabled" class="w-full btn-lg">
+                            Continue to checkout
+                        </x-button>
+                    </div>
+                {{ /unless }}
+            </x-drawer.section>
+        </x-slot:footer>
+    </x-drawer>
+</div>
+
+{{ livewire:script }}
+    <script>
+        Alpine.data('minicartQty', (qty) => ({
+            quantity: qty,
+            debounceTimer: null,
+            debounceDelay: 600,
+            init() {
+
+            },
+            get size() {
+                return this.quantity?.toString().length || 1;
+            },
+            updateQuantity(newQuantity) {
+                if (! Number.isInteger(newQuantity)) {
+                    newQuantity = 1;
+                }
+    
+                this.quantity = newQuantity;
+    
+                clearTimeout(this.debounceTimer);
+                this.debounceTimer = setTimeout(() => {
+                    $wire.dispatch('update-cart-item-quantity', { lineId: '{{ line:id }}', quantity: newQuantity });
+                }, this.debounceDelay);
+            }
+        }));
+    </script>
+{{ /livewire:script }}

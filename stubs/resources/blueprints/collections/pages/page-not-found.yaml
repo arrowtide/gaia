@@ -1,0 +1,97 @@
+hide: true
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        display: 'What is a 404 page?'
+        fields:
+          -
+            handle: section_about
+            field:
+              type: section
+              display: About
+              instructions: 'A "404 Not Found" page appears when the server can''t locate the webpage you''re trying to access. This typically happens if the page has been removed, the URL is incorrect, or the website has changed its structure. It’s essentially a response from the server telling you that the requested resource no longer exists or can’t be found.'
+              localizable: false
+              hide_display: true
+      -
+        display: Content
+        instructions: 'The content of the 404 not found page.'
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              localizable: false
+              validate:
+                - required
+          -
+            handle: subtitle
+            field:
+              type: text
+              display: Subtitle
+              localizable: false
+          -
+            handle: links
+            field:
+              type: grid
+              display: Links
+              localizable: false
+              mode: stacked
+              fullscreen: false
+              fields:
+                -
+                  handle: heading
+                  field:
+                    type: text
+                    display: Heading
+                    localizable: false
+                    validate:
+                      - required
+                -
+                  handle: text
+                  field:
+                    type: textarea
+                    display: Text
+                    localizable: false
+                    validate:
+                      - required
+                -
+                  handle: link
+                  field:
+                    type: link
+                    display: Link
+                    localizable: false
+                    width: 66
+                    validate:
+                      - required
+                -
+                  handle: icon
+                  field:
+                    type: icon
+                    display: Icon
+                    localizable: false
+                    width: 33
+                    directory: resources/svg
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true
+              validate: 'max:200'
+          -
+            handle: parent
+            field:
+              type: entries
+              collections:
+                - pages
+              max_items: 1
+              listable: false
+              localizable: true
+title: 'Page not found'

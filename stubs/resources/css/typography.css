@@ -1,0 +1,33 @@
+@layer components {
+  .h1 {
+    font-size: var(--text-3xl);
+    font-weight: var(--font-weight-medium);
+  
+    @media (width >= theme(--breakpoint-md)) {
+      font-size: var(--text-4xl);
+    }
+  }
+  
+  .h2 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-medium);
+  
+    @media (width >= theme(--breakpoint-md)) {
+      font-size: var(--text-3xl);
+    }
+  }
+  
+  .h3 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-medium);
+  
+    @media (width >= theme(--breakpoint-md)) {
+      font-size: var(--text-2xl);
+    }
+  }
+  
+  .h4 {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-medium);
+  }  
+}

@@ -1,0 +1,45 @@
+export_paths:
+  - resources/css
+  - resources/svg
+  - resources/js
+  - resources/fonts
+  - resources/lang
+
+  # Views
+  - resources/views
+
+  # Fieldsets
+  - resources/fieldsets
+
+  # Blueprints
+  - resources/blueprints/collections
+  - resources/blueprints/globals
+  - resources/blueprints/navigation
+
+
+  # Content 
+  - content/collections/pages/page-not-found.md
+  - content/collections/pages/home.md
+  - content/collections/shop.yaml
+  - content/collections/pages.yaml
+
+  ## Content - Globals 
+  - content/globals/general.yaml
+
+  ## Content - Navigation
+  - content/navigation/primary_navigation.yaml
+  - content/navigation/footer_legal.yaml 
+  - content/navigation/footer_main.yaml
+
+  ## Content - Trees
+  - content/trees/collections/pages.yaml
+  - content/trees/navigation/primary_navigation.yaml
+  - content/trees/navigation/footer_legal.yaml
+  - content/trees/navigation/footer_main.yaml
+
+
+  # Root files 
+  - tailwind.config.js
+  - postcss.config.js
+  - vite.config.js
+  - package.json

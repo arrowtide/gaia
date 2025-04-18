@@ -1,0 +1,48 @@
+<div>
+    <div class="grid gap-6 lg:gap-10">
+        {{ loop times="5" }}
+            <div class="relative card hover:shadow-xl">
+                <div class="flex items-center">
+
+                    <span class="w-12 mr-5 border-2 border-dashed aspect-square rounded-xl animate-pulse bg-slate-800/5"></span>
+
+                    <a href="/account/orders/{{ id }}" class="block w-full h-8 rounded-lg animate-pulse bg-slate-800/5"></a>
+                </div>
+
+                <div class="flex flex-col">
+                    <div class="grid grid-cols-1 gap-2 mt-10 md:grid-cols-2">
+                        <div class="flex p-3">
+                            <div class="w-[62px] aspect-square overflow-hidden rounded-lg block animate-pulse bg-slate-800/5"></div>
+
+                            <div class="w-full ml-5">
+                                <span class="block w-full h-4 mb-2 font-medium rounded-xs animate-pulse bg-slate-800/5"></span>
+                                <span class="block w-2/3 h-4 mb-2 font-medium rounded-xs animate-pulse bg-slate-800/5"></span>
+                            </div>
+                        </div>
+                        <div class="flex p-3">
+                            <div class="w-[62px] aspect-square overflow-hidden rounded-lg block animate-pulse bg-slate-800/5"></div>
+
+                            <div class="w-full ml-5">
+                                <span class="block w-full h-4 mb-2 font-medium rounded-xs animate-pulse bg-slate-800/5"></span>
+                                <span class="block w-2/3 h-4 mb-2 font-medium rounded-xs animate-pulse bg-slate-800/5"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center pt-8 pb-2 border-t mt-7 border-slate-200">
+                    <div class="flex grow">
+                        <p class="block w-1/6 mr-6">
+                            <span class="block w-full h-4 animate-pulse bg-slate-800/5"></span>
+                            <span class="block w-2/3 h-4 mt-3 animate-pulse bg-slate-800/5"></span>
+                        </p>
+                        <p class="block w-1/6">
+                            <span class="block w-full h-4 animate-pulse bg-slate-800/5"></span>
+                            <span class="block w-2/3 h-4 mt-3 animate-pulse bg-slate-800/5"></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {{ /loop }}
+    </div>
+</div>

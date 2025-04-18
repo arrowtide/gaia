@@ -1,0 +1,25 @@
+{{ $navId = {gaia:id} }}
+
+<li class="flex">
+    <button class="flex items-center w-full nav-link" @click="$dispatch('drawer:open:{{ $navId }}')">
+        {{ megamenu_title }}
+        {{ svg src="expand_more" class="hidden w-4 h-4 ml-1 fill-current" }}
+        {{ svg src="arrow_right_alt" class="ml-auto fill-current size-5" }}
+    </button>
+
+    <x-drawer name="{{ $navId }}" heading="{{ megamenu_title }}" position="left" overlay="false" noscroll="false">
+        <x-slot:back>
+            <x-button label="Close menu" variant="ghost" icon="arrow_left_alt" class="btn-round" @click="closeDrawer()" />
+        </x-slot:back>
+
+        <x-drawer.section class="mt-6 sm:mt-10">
+            <ul class="divide-y divide-slate-100">
+                {{ if children }}
+                    {{ children }}
+                        {{ partial:layout/navigation/mobile/blocks/{type} }}
+                    {{ /children }}
+                {{ /if }}
+            </ul>
+        </x-drawer.section>
+    </x-drawer>
+</li>

@@ -1,0 +1,20 @@
+<div>
+    <div class="relative flex p-2 transition group rounded-xl hover:bg-slate-100">
+        {{ if featured_image }}
+            <x-picture :src="featured_image" size.default.width="92" size.default.height="92">
+                <x-slot:img class="w-24 rounded-lg" />
+            </x-picture>
+        {{ /if }}
+
+        <div class="flex flex-col justify-center ml-2 sm:ml-5">
+            <h3 class=""><a href="{{ url }}" class="stretched-link">{{ title }}</a></h3>
+
+            {{ gaia:product:price }}
+                <span class="block mt-2 text-sm tracking-wide">
+                    {{ if {gaia:product:configurable} }}From{{ /if }}
+                    {{ gaia:currency :price="min_price" }}
+                </span>
+            {{ /gaia:product:price }}
+        </div>
+    </div>
+</div>

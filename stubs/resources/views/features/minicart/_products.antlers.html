@@ -1,0 +1,48 @@
+{{ lines as="products" }}
+    {{ if products.no_results }}
+        <div class="flex flex-col items-center justify-center h-full rounded-xl">
+            {{ svg src="orders" class="size-10" }}
+            <p class="my-2">Your cart is currently empty.</p>
+        </div>
+    {{ /if }}
+
+    {{ unless products.no_results }}
+        <ul>
+            {{ products scope="line" }}
+                {{ collection:variants scope="variant" slug:is="{ variant_id }" }}
+                    {{ collection:products scope="product" slug:is="{ variant:product_slug }" }}
+                        <li class="flex flex-wrap" wire:key="{{ gaia:id }}{{ line:quantity }}">
+                            {{ partial:features/minicart/product_image }}
+
+                            <div class="flex flex-col flex-1 ml-4">
+                                <div>
+                                    <div class="flex justify-between">
+                                        {{ partial:features/minicart/product_title }}
+                                        {{ partial:features/minicart/product_price }}
+                                    </div>
+
+                                    {{ partial:features/minicart/product_options }}
+                                    {{ partial:features/minicart/product_discounts }}
+                                </div>
+
+                                <div class="flex items-end justify-between flex-1 text-sm">
+                                    {{ partial:features/minicart/product_quantity }}
+
+                                    <div class="flex">
+                                        <x-button icon="delete" variant="ghost" wire:click="removeFromCart('{{ line:id }}')" wire:loading.attr="disabled" class="btn-sm text-slate-800">
+                                            Remove
+                                        </x-button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{ unless line.last }}
+                                <x-divider class="w-full my-7" />
+                            {{ /unless }}
+                        </li>
+                    {{ /collection:products }}
+                {{ /collection:variants }}
+            {{ /products }}
+        </ul>
+    {{ /unless }}
+{{ /lines }}

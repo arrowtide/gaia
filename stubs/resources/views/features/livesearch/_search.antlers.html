@@ -1,0 +1,91 @@
+{{#
+    @livewire app/Livewire/LiveSearch.php
+    
+    @name Livesearch Component
+    @desc The live search component dropdown. 
+#}}
+<div>
+    <x-drawer name="livesearch" heading="Search" wire:ignore.self>
+        <x-drawer.section>
+            <div class="my-10">
+                <div class="relative flex items-center">
+                    <x-input
+                        class="w-full xl:text-lg pl-14 form-input bg-slate-50"
+                        placeholder="Search everything"
+                        type="search"
+                        x-ref="searchInput"
+                        wire:key="search-input"
+                        wire:model.live.debounce.300="search"
+                        autocomplete="off"
+                        autofocus
+                    />
+
+                    <div wire:loading.delay>
+                        <div class="absolute inset-y-0 left-0 flex items-center mx-5 pointer-events-none">
+                            <x-loader />
+                        </div>
+                    </div>
+
+                    <div class="absolute inset-y-0 left-0 flex items-center mx-5 pointer-events-none" wire:loading.delay.remove>
+                        {{ svg src="search" class="size-5 fill-slate-500" aria-hidden="true" }}
+                    </div>
+
+                    {{ if {search | length} > 1 }}
+                        <x-button label="{{ trans:default.livesearch_reset_form }}" variant="ghost" icon="close" type="reset" class="absolute right-0 mx-3 btn-round btn-sm" wire:click="search = ''" />
+                    {{ /if }}
+                </div>
+
+                <p class="w-full mt-3 mb-10 text-xs text-right text-black/70">
+                    {{ if livesearch_characters_left }}
+                        {{ trans_choice:default.livesearch_characters_left :count="livesearch_characters_left" }}
+                    {{ /if }}
+                </p>
+            </div>
+
+            {{ results }}
+                {{ shop }}
+                    {{ unless no_results }}
+                        <div class="mb-10">
+                            <h3 class="flex justify-between pb-2 mb-3 border-b text-slate-500 border-slate-100">
+                                {{ trans:default.livesearch_shop_results_heading }}
+
+                                <span class="text-xs">{{ count }}</span>
+                            </h3>
+
+                            <div class="flex flex-wrap gap-5">
+                                {{ results }}
+                                    <x-button variant="link" as="a" :href="url">{{ title }}</x-button>
+                                {{ /results }}
+                            </div>
+                        </div>
+                    {{ /if }}
+                {{ /shop }}
+
+                {{ products }}
+                    {{ unless no_results }}
+                        <div class="mb-5">
+                            <h3 class="flex justify-between pb-2 mb-3 border-b text-slate-500 border-slate-100">
+                                {{ trans:default.livesearch_product_results_heading }}
+
+                                <span class="text-xs">{{ count }}</span>
+                            </h3>
+
+                            <div class="grid gap-5">
+                                {{ results }}
+                                    {{ partial:features/livesearch/product }}
+                                {{ /results }}
+                            </div>
+                        </div>
+                    {{ /unless }}
+                {{ /products }}
+
+                {{ if livesearch_characters_left == false && products.no_results && shop.no_results }}
+                    <div class="mb-10">
+                        <x-heading level="2" size="4" class="mb-3">{{ trans:default.livesearch_no_results_heading }}</x-heading>
+                        <p>{{ trans:default.livesearch_no_results_description}} <strong>"{{ search }}"</strong></p>
+                    </div>
+                {{ /if }}
+            {{ /results }}
+        </x-drawer.section>
+    </x-drawer>
+</div>

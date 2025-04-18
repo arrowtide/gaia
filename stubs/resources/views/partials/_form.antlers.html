@@ -1,0 +1,35 @@
+{{ form:create :in="handle" js="alpine:form" }}
+    <div x-data="form" class="grid grid-cols-1 gap-7">
+
+        <div class="hidden">
+            <label class="font-medium" for="{{ honeypot }}">{{ trans:strings.form_honeypot }} <sup class="text-red-700">*</sup></label>
+            <input class="w-full form-input" id="{{ honeypot }}" type="text" name="{{ honeypot }}" x-model="form.{{ honeypot }}" tabindex="-1" autocomplete="off"/>
+        </div>
+
+        {{ sections }}
+            <fieldset class="grid w-full gap-6 lg:grid-cols-12">
+                {{ if display || instructions }}
+                    <div class="lg:col-span-12">
+                        {{ if display }}
+                            <x-heading level="2" size="3">{{ display }}</x-heading>
+                        {{ /if }}
+
+                        {{ if instructions }}
+                            <div class="w-full max-w-full mt-3">
+                                <p>{{ instructions }}</p>
+                            </div>
+                        {{ /if }}
+                    </div>
+                {{ /if }}
+
+                {{ partial:vendor/statamic/forms/fields }}
+
+            </fieldset>
+        {{ /sections }}
+
+        <x-button loading="loading" class="mt-10 btn btn-primary" @click="submit()" x-bind:aria-disabled="form.processing || form.hasErrors">Submit</x-button>
+
+        {{ partial:partials/precognition }}
+
+    </div>
+{{ /form:create }}

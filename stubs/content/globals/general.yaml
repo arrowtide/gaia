@@ -1,0 +1,20 @@
+title: General
+data:
+  address_line_1: 'Address line 1'
+  address_line_3: 'Address line 3'
+  country: USA
+  region: State
+  city: City
+  postal_code: 'Postal Code'
+  phone_number_1:
+    dialing_code: null
+    number: null
+  copyright_message: 'Acme Limited'
+  copyright_since: '2019'
+  payment_methods:
+    - afterpay
+    - link_pay
+    - mastercard
+    - maestro
+    - diners_club
+    - union_pay

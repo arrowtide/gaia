@@ -1,0 +1,58 @@
+<label for="quantity" class="sr-only">
+    Quantity
+</label>
+
+<div
+    class="flex gap-1"
+    x-data="qty"
+    x-defer:interact
+>
+    <x-button
+        label="Remove"
+        icon="remove" 
+        variant="secondary" 
+        class="btn-round btn-sm" 
+        @click="subtract()" 
+        aria-hidden="true" 
+        tabindex="-1" 
+    />
+
+    <input
+        type="number"
+        min="1"
+        value="1"
+        :value="$store.product.cart.quantity"
+        class="w-8 mx-1 text-center bg-transparent rounded-xs form-input-hide-arrows focus:outline-hidden"
+        @change="change($event);"
+        @blur="change($event);"
+        id="quantity"
+    >
+
+    <x-button
+        label="Add"
+        icon="add" 
+        variant="secondary" 
+        class="btn-sm btn-round" 
+        @click="add()" 
+        aria-hidden="true" 
+        tabindex="-1" 
+    />
+</div>
+
+{{ push:scripts }}
+    <script type="module">
+        Alpine.data('qty', () => ({
+            add() {
+                this.$store.product.cart.quantity++
+            },
+            subtract() {
+                if (this.$store.product.cart.quantity > 1) {
+                    this.$store.product.cart.quantity--
+                }
+            },
+            change($event) {
+                this.$store.product.cart.quantity = $event.target.value === '' ? 1 : $event.target.value;
+            }
+        }))
+    </script>
+{{ /push:scripts }}

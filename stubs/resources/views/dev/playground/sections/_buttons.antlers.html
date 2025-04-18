@@ -1,0 +1,63 @@
+{{ partial:dev/playground/section text="Buttons" id="buttons" }}
+    {{ partial:dev/playground/code text="Button" }}
+        <x-button>Button</x-button>
+    {{ /partial:dev/playground/code }}
+
+    {{ partial:dev/playground/code text="With an icon" }}
+        <x-button icon="account_circle">Account</x-button>
+        <x-button icon="account_circle" icon_position="end">Account</x-button>
+    {{ /partial:dev/playground/code }}
+
+    {{ partial:dev/playground/code text="Sizes" }}
+        <x-button icon="account_circle" class="btn-sm" icon="account_circle">Small</x-button>
+        <x-button icon="account_circle">Base</x-button>
+        <x-button class="btn-lg" icon="account_circle">Large</x-button>
+    {{ /partial:dev/playground/code }}
+
+    {{ partial:dev/playground/code text="Variants" }}
+        <x-button variant="primary">Primary</x-button>
+        <x-button variant="secondary">Secondary</x-button>
+        <x-button variant="ghost">Ghost</x-button>
+        <x-button variant="danger">Danger</x-button>
+        <x-button variant="success">Success</x-button>
+    {{ /partial:dev/playground/code }}
+
+    {{ partial:dev/playground/code text="Square and round" }}
+        <x-button label="Square" variant="primary" class="btn-square" icon="close" />
+        <x-button label="Round" variant="secondary" class="btn-round" icon="close" />
+    {{ /partial:dev/playground/code }}
+
+    {{ partial:dev/playground/code text="Square and round sizes" }}
+        <x-button label="Primary" variant="primary" class="btn-round btn-sm" icon="close" />
+        <x-button label="Primary" variant="primary" class="btn-round btn-base" icon="close" />
+        <x-button label="Primary" variant="primary" class="btn-round btn-lg" icon="close" />
+
+        <x-button label="Primary" variant="primary" class="btn-square btn-sm" icon="close" />
+        <x-button label="Primary" variant="primary" class="btn-square btn-base" icon="close" />
+        <x-button label="Primary" variant="primary" class="btn-square btn-lg" icon="close" />
+    {{ /partial:dev/playground/code }}
+
+    {{ partial:dev/playground/code text="Disabled buttons" }}
+        <x-button variant="primary" class="btn-disabled">Disabled by class</x-button>
+        <x-button variant="primary" disabled="true">Disabled by attribute</x-button>
+        <x-button variant="primary" aria-disabled="true">Disabled by aria disabled</x-button>
+    {{ /partial:dev/playground/code }}
+
+    {{ partial:dev/playground/code text="Button with a bunch of attributes" }}
+        <x-button variant="primary" readonly \aria-disabled="true" something="true" wow="cool" x-bind:disabled="true" \x-data="{'foo': true}" foo="1">Lots of attributes</x-button>
+    {{ /partial:dev/playground/code }}
+
+    {{ partial:dev/playground/code text="Responsive buttons" }}
+        <x-button variant="primary" class="btn-sm md:btn-base lg:btn-lg">Responsive</x-button>
+    {{ /partial:dev/playground/code }}
+
+    {{ partial:dev/playground/code text="Loading" }}
+        <div x-data="{loading: true}"> 
+            <x-button variant="primary" loading="loading">Click me</x-button>
+        </div>
+        <div x-data="{loading: false}"> 
+            <x-button variant="primary" loading="loading" @click="loading = true">Click me</x-button>
+        </div>
+    {{ /partial:dev/playground/code }}
+
+{{ /partial:dev/playground/section }}

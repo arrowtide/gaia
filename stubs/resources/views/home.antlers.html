@@ -1,0 +1,45 @@
+---
+steps:
+  - 
+    heading : "Change your logo"
+    content: 
+      You can replace the logo by swapping out the svg located at `resources/svg/logo.svg`.
+  - 
+    heading : "Add a font"
+    content: 
+      Head over to the `resources/layout/head/_fonts` partial and swap out the default font. (For performance reasons, we recommend using local fonts in production).
+  - 
+    heading : "Add some pages"
+    content: 
+      Once you've imported your products, you can add some shop pages by adding them in your control panel. You can choose what products to show by choosing a Shopify collection.
+  - 
+    heading : "Create your navigation"
+    content: 
+      The navigation templates and blueprints have already been set up for you. Simply add pages to your **Main Navigation**. We've set up a demo navigation just to give you an idea how to go about it.
+  - 
+    heading : "Go create!"
+    content: 
+      Gaia comes with a sensible set of default styles, but you can change this the way you like. Go out there and create some rad stuff!
+---
+
+<div class="bg-slate-100 py-40 px-gutter [&_code]:bg-black/10 [&_code]:p-1 [&_code]:rounded-xs [&_code]:text-sm [&_a]:underline [&_a]:font-bold [&_p]:leading-relaxed">
+  <div class="container">
+
+        <x-heading level="1" class="text-center">You've successfully installed Gaia!</x-heading>
+        <p class="max-w-4xl mx-auto mt-10 text-center text-black/80">Nice! You're now ready to style your site the way you want. Read the <a href="https://gaiakit.com/docs">docs</a> to learn everything about Gaia. Take the first steps below to start customising your site.</p>
+
+        <ul class="grid gap-10 mt-20 md:grid-cols-3">
+          {{ view:steps }}
+              <li class="p-5 border rounded-md shadow-xs border-neutral-200 bg-gradient-to-br from-neutral-50 to-neutral-100">
+                  <div class="flex items-center justify-center font-semibold text-white rounded-xl aspect-square size-10 bg-emerald-500">
+                      {{ index + 1 }}
+                  </div>
+                  <div class="">
+                      <x-heading level="2" size="4" class="mt-3 mb-2">{{ heading }}</x-heading>
+                      <p class="text-slate-600">{{ content | markdown }}</p>
+                  </div>
+              </li>
+            {{ /view:steps }}
+        </ul>
+  </div>
+</div>

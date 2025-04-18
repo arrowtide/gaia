@@ -1,0 +1,30 @@
+{{ if ! logged_in }}
+    {{ redirect to="/account/login" }}
+{{ /if }}
+
+{{ partial:customer/profile/partials/back_link text="Back to account" url="/account" container="full" }}
+
+<div class="container">
+    <div class="mb-32 mt-head">
+        <div class="flex items-center mb-12">
+            <x-heading level="1">Saved</x-heading>
+        </div>
+
+        <div>
+            {{ collection:products query_scope="wishlist_products" as="products" }}
+                {{ if no_results }}
+                    <p class="flex flex-col items-center justify-center py-32 text-lg text-center font-display">
+                        {{ svg src="favorite" class="w-12 h-12 mb-6 fill-slate-500" aria-hidden="true" }}
+                        You've not added anything to this wishlist yet!
+                    </p>
+                {{ /if }}
+        
+                <div class="grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4">
+                    {{ products }}
+                        {{ partial:partials/product }}
+                    {{ /products }}
+                </div>
+            {{ /collection:products }}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,99 @@
+<span class="block mb-4 text-base text-slate-700">{{ name }}</span>
+
+{{ values }}
+    <label
+        x-data="productOptionButton(false, {{ name | surround("'") }}, {{ option | surround("'") }}, {{ value | surround("'") }})"
+        class="relative inline-flex items-center justify-center py-3 px-5 mb-3 overflow-hidden text-sm text-center border-2 rounded-full cursor-pointer border-slate-300 has-focus-visible:ring-3 ring-blue-300"
+        :class="{
+            'border-black! ': checked,
+            'ring-1 ring-red-500': invalid,
+        }"
+        x-bind="{...component, ...label}"
+    >
+        <span 
+            class="relative flex items-center justify-center"
+            :class="{
+                'opacity-75': disabled,
+            }"> 
+            {{ value }}
+
+            <span
+                class="h-[2px] w-[calc(100%+40px)] absolute bg-slate-300 mx-2 transform rotate-[30deg]"
+                x-show="disabled"
+                x-cloak
+            >
+                <span class="sr-only">Out of stock</span>
+            </span>
+        </span>
+
+        <input
+            type="radio"
+            class="sr-only"
+            x-bind="input"
+            x-ref="inputField"
+        >
+    </label>
+{{ /values }}
+
+{{ once }}
+    {{ push:scripts }}
+        <script type="module">
+            Alpine.data('productOptionButton', (isChecked, variant, option, value) => ({
+                checked: isChecked,
+                disabled: false,
+                option: option,
+                value: value,
+                invalid: false,
+                component: {
+                    ['@product-option-update.window']() {
+                        this.checked = this.$refs.inputField?.checked;
+                    },
+                    ['@variant-picker-updated.window'](event) {
+                        if (event.detail.optionNumber != this.option) return;
+                        if (event.detail.optionValue != this.value) return;
+
+                        this.disabled = event.detail.status == 'is-disabled' ? true : false;
+
+                        if (this.disabled && this.$refs.inputField.checked) {
+                            this.invalid = true;
+                        } else {
+                            this.invalid = false;
+                        }
+                    }
+                },
+                label: {
+                    [':for']() {
+                        return `variant-picker-${option}-${value}`;
+                    },
+                },
+                input: {
+                    [':id']() {
+                        return `variant-picker-${option}-${value}`;
+                    },
+                    [':value']() {
+                        return value;
+                    },
+                    [':name']() {
+                        return variant;
+                    },
+                    [':checked']() {
+                        return isChecked;
+                    },
+                    ['@change']() {
+                        this.update(value, option);
+
+                        this.$dispatch('product-option-update');
+                    },
+                    ['@click'](event) {
+                        if (this.disabled) {
+                            event.preventDefault();
+                        };
+                    },
+                    [':required']() {
+                        return true;
+                    }
+                },
+            }));
+        </script>
+        {{ /push:scripts }}
+{{ /once }}

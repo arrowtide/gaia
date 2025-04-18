@@ -1,0 +1,47 @@
+{{ nocache }}
+    {{ if logged_out }}
+        <a href="/account/login?redirect={{ current_url | urlencode }}" class="flex-col h-auto p-2 btn btn-ghost min-w-11 sm:min-w-16">
+            {{ svg src="account_circle" class="transition fill-current size-6" }}
+            <span class="text-xs sr-only sm:not-sr-only">{{ 'Account' | trans }}</span>
+        </a>
+    {{ else }}
+        <x-dropdown>
+            <x-slot:button>
+                <x-header-button title="{{ 'Account' | trans }}" icon="account_circle" x-ref="button" x-bind="button"  />
+            </x-slot:button>
+
+            <x-slot:content>
+                <div class="flex items-center p-4">
+                    <div class="flex items-center justify-center w-6 h-6 mr-3 text-xs rounded-full shrink-0 bg-cyan-500">
+                        {{ user }}
+                            {{ name | first(1) }}
+                        {{ /user }}
+                    </div>
+                    <div>
+                        <div class="font-medium text-black">
+                            {{ user }}
+                                <span>
+                                    {{ name }}
+                                </span>
+                            {{ /user }}
+                        </div>
+                    </div>
+                </div>
+
+                <x-dropdown.divider />
+
+                <x-dropdown.menu>
+                    <x-dropdown.item variant="ghost" icon="person" as="a" href="/account" class="justify-start w-full">Profile</x-dropdown.item>
+                    <x-dropdown.item variant="ghost" icon="favorite" as="a" href="/account/saved" class="justify-start w-full">Saved</x-dropdown.item>
+                    <x-dropdown.item variant="ghost" icon="orders" as="a" href="/account/orders" class="justify-start w-full">Orders</x-dropdown.item>
+                </x-dropdown.menu>
+
+                <x-dropdown.divider />
+
+                <x-dropdown.menu>
+                    <x-dropdown.item variant="ghost" icon="person" as="a" href="{ user:logout_url }?redirect={ current_url | urlencode }" class="justify-start w-full">Sign Out</x-dropdown.item>
+                </x-dropdown.menu>
+            </x-slot:content>
+        </x-dropdown>
+    {{ /if }}
+{{ /nocache }}

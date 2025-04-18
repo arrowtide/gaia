@@ -1,0 +1,21 @@
+<header class="lg:py-24 py-14 ">
+    <div class="container">
+        <x-heading level="1" class="mb-6 text-center">{{ title }}</x-heading>
+        <div class="max-w-5xl mx-auto text-lg prose text-center">
+            {{ intro_description }}
+        </div>
+    </div>
+</header>
+
+<div>
+    {{ if shopify_collections }}
+        {{ livewire:catalog collections="{ shopify_collections | raw }" }}
+    {{ else }}
+        <div class="container max-w-5xl py-head">
+            <p class="flex flex-col items-center justify-center py-32 text-lg text-center font-display card">
+                {{ svg src="shopping_bag" class="w-12 h-12 mb-6 fill-slate-500" aria-hidden="true" }}
+                No products match your selection.
+            </p>
+        </div>
+    {{ /if }}
+</div>

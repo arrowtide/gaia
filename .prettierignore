@@ -1,0 +1,18 @@
+# Ignore artifacts:
+build
+coverage
+content
+public
+users
+storage
+addons
+tests
+config
+app
+resources/blueprints
+resources/fieldsets
+resources/forms
+resources/users
+resources/svg
+resources/fonts
+resources/lang

@@ -1,0 +1,6 @@
+title: Pages
+propagate: false
+revisions: false
+route: '{parent_uri}/{slug}'
+structure:
+  root: true

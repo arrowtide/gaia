@@ -1,0 +1,36 @@
+{{ partial:dev/playground/section text="Drawer" id="drawer" }}
+
+    {{ partial:dev/playground/code text="Right Aligned" \x-data="{}" }}
+        <x-button variant="primary" @click="$dispatch('drawer:open:right-drawer')">Open</x-button>
+
+        <x-drawer name="right-drawer" position="right" heading="Delete Post">
+            <x-drawer.section class="mt-10">
+                This is the content of the drawer.
+            </x-drawer.section>
+        </x-drawer>
+    {{ /partial:dev/playground/code }}
+
+    {{ partial:dev/playground/code text="Left Aligned" \x-data="{}" }}
+        <x-button variant="primary" @click="$dispatch('drawer:open:left-drawer')">Open</x-button>
+
+        <x-drawer name="left-drawer" position="left" heading="Delete Post">
+            <x-drawer.section class="mt-10">
+                This is the content of the drawer.
+            </x-drawer.section>
+        </x-drawer>
+    {{ /partial:dev/playground/code }}
+
+    {{ partial:dev/playground/code text="With back button" \x-data="{}" }}
+        <x-button variant="primary" @click="$dispatch('drawer:open:back-drawer')">Open</x-button>
+
+        <x-drawer name="back-drawer" position="left" heading="Delete Post">
+            <x-slot:back>
+                <x-button label="Back" variant="ghost" icon="arrow_left_alt" class="btn-round" @click="closeDrawer()" />
+            </x-slot:back>
+            <x-drawer.section class="mt-10">
+                This is the content of the drawer.
+            </x-drawer.section>
+        </x-drawer>
+    {{ /partial:dev/playground/code }}
+
+{{ /partial:dev/playground/section }}

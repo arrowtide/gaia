@@ -1,0 +1,28 @@
+
+{{ show_title = links_group_hide_title == 'nowhere' or links_group_hide_title == 'desktop' or (!links_group_hide_title)  }}
+
+{{ if show_title }}
+<li class="mb-18">
+    <x-heading level="3" class="mb-4 text-base px-nav-gutter">{{ links_group_title }}:</x-heading>
+
+    <ul class="divide-y-2 divide-slate-100">
+        {{ partial:layout/navigation/mobile/children }}
+        {{ if url }}
+            <li>
+                <a href="{{ url }}" class="nav-link">
+                    Shop All {{ title }}
+                </a>
+            </li>
+        {{ /if }}
+    </ul>
+</li>
+{{ else }}
+    {{ partial:layout/navigation/mobile/children }}
+    {{ if url }}
+        <li>
+            <a href="{{ url }}" class="nav-link">
+                Shop All {{ title }}
+            </a>
+        </li>
+    {{ /if }}
+{{ /if }}

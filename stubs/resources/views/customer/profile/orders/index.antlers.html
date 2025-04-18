@@ -1,0 +1,12 @@
+
+{{ if ! logged_in }}
+    {{ redirect to="/account/login" }}
+{{ /if }}
+
+{{ partial:customer/profile/partials/back_link text="Back to account" url="/account" }}
+
+<div class="container max-w-5xl py-head">
+    <x-heading level="1" class="mb-14" >Orders</x-heading>
+
+    {{ livewire:customer-orders lazy="true" }}
+</div>

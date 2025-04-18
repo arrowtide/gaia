@@ -1,0 +1,32 @@
+
+{{ show_title = links_group_hide_title == 'nowhere' or links_group_hide_title == 'mobile' or (!links_group_hide_title)  }}
+
+<ul>
+    {{ if show_title }}
+        <li>
+            <h3 class="mb-2 text-sm font-medium text-black">
+                {{ links_group_title }}
+            </h3>
+        
+            <ul>
+                {{ partial:layout/navigation/desktop/children data-type="{data-type}-linkgroup" }}
+                {{ if url }}
+                    <li>
+                        <a href="{{ url }}" class="nav-link">
+                            Shop All {{ title }}
+                        </a>
+                    </li>
+                {{ /if }}
+            </ul>
+        </li>
+    {{ else }}
+        {{ partial:layout/navigation/desktop/children data-type="{data-type}-linkgroup" }}
+        {{ if url }}
+            <li>
+                <a href="{{ url }}" class="nav-link">
+                    Shop All {{ title }}
+                </a>
+            </li>
+        {{ /if }}
+    {{ /if }}    
+</ul>

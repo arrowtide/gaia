@@ -1,0 +1,29 @@
+
+<div class="lg:hidden">
+    <x-drawer name="navigation" heading="Menu" position="left">
+        <x-drawer.section class="mt-6 sm:mt-10">
+            <menu class="flex flex-col divide-y-2 divide-slate-100">
+                {{ nav:primary_navigation }}
+                    {{ if type }}
+                        {{ partial:layout/navigation/mobile/blocks/{type} }}
+                    {{ /if }}
+                {{ /nav:primary_navigation }}
+            </menu>
+        </x-drawer.section>
+    </x-drawer>
+</div>
+
+{{ once }}
+    {{ push:stores }}
+        <script type="module">
+            window.addEventListener('alpine:init', () => {
+                Alpine.store('navigation', {
+                    isMobileNavOpen: false,
+                    isChildMegaMenuOpen: false,
+                    overlay: false,
+                    id: 'main-navigation',
+                });
+            });
+        </script>
+    {{ /push:stores }}
+{{ once }}

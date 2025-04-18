@@ -1,0 +1,10 @@
+{{ if line:discountAllocations }}
+    <div class="mt-3">
+        {{ line:discountAllocations }}
+            <p class="relative inline-flex items-center px-3 py-2 text-xs text-black rounded-lg bg-blue-50">
+                {{ svg src="sell" class="mt-1 fill-current size-4" aria-hidden="true" }}
+                <span class="ml-2">{{ title }} <span class="sr-only">is active</span></span>
+            </p>
+        {{ /line:discountAllocations }}
+    </div>
+{{ /if }}
