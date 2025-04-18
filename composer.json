@@ -1,5 +1,8 @@
 {
     "name": "arrowtide/gaia",
+    "description": "The rapid development starterkit for your next headless Shopify store",
+    "license": "proprietary",
+    "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
             "Arrowtide\\Gaia\\": "src"
@@ -12,12 +15,16 @@
         "marcorieser/tailwind-merge-statamic": "^1.1.0",
         "arrowtide/statamic-payment-icons": "^1.0.0",
         "stillat/antlers-components": "^2.5.0"
-
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
     },
     "extra": {
         "statamic": {
             "name": "Gaia",
-            "description": "Gaia addon"
+            "description": "The rapid development starterkit for your next headless Shopify store"
         },
         "laravel": {
             "providers": [
