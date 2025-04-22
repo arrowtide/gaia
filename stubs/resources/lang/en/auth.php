@@ -16,5 +16,5 @@ return [
     'recover_reset_heading' => 'Reset Your Password',
     'recover_reset_button_text' => 'Reset Password',
     'recover_reset_error_url_invalid_text' => 'There are issues with your form. Please check and try again. If the token is invalid, <a href="/account/recover">please try again.</a> If the issue persists, please contact support.',
-    'recover_reset_success_message' => 'Your password has been reset successfully.',  
+    'recover_reset_success_message' => 'Your password has been reset successfully.',
 ];

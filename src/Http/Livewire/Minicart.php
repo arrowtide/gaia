@@ -12,10 +12,15 @@ use Livewire\Component;
 class Minicart extends Component
 {
     public string $checkoutUrl = '';
+
     public ?string $discountCode = '';
+
     public array $cartDiscountCodes = [];
+
     public array $cartItems = [];
+
     public array $totals = [];
+
     protected ?string $cartId = '';
 
     protected array $rules = [

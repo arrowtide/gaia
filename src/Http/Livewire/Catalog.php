@@ -51,6 +51,7 @@ class Catalog extends Component
      * the url isn't livewire/update after subsequent requests.
      */
     public string $currentUrl = '';
+
     /**
      * The complete map of all filters. This is manipulated after we know what the
      * active filters are, so we can update the count on each filter.
