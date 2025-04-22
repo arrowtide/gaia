@@ -9,8 +9,6 @@ use Arrowtide\Gaia\Http\Livewire\Catalog;
 use Arrowtide\Gaia\Http\Livewire\CustomerOrders;
 use Arrowtide\Gaia\Http\Livewire\LiveSearch;
 use Arrowtide\Gaia\Http\Livewire\Minicart;
-use Arrowtide\Gaia\Http\Livewire\Wishlist;
-use Arrowtide\Gaia\Http\Livewire\WishlistCollections;
 use Arrowtide\Gaia\Interfaces\CartRepositoryInterface;
 use Arrowtide\Gaia\Interfaces\WishlistRepositoryInterface;
 use Arrowtide\Gaia\Listeners\HandleUserLogin;

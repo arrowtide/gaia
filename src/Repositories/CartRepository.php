@@ -15,7 +15,9 @@ use Statamic\Facades\Site;
 class CartRepository implements CartRepositoryInterface
 {
     public const SHOPIFY_CART_VARIANT_URL = 'gid://shopify/ProductVariant/';
+
     public const SHOPIFY_CART_LINE_URL = 'gid://shopify/CartLine/';
+
     public const SHOPIFY_CART_URL = 'gid://shopify/Cart/';
 
     public function getCartId(): ?string
