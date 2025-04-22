@@ -8,10 +8,10 @@
 
 <{{ $as }} 
     type="button" 
-    class="flex-col h-full px-3 sm:px-4 py-2 btn btn-ghost {{  $class  }}"
+    class="flex-col h-full px-2 sm:px-4 py-2 btn btn-ghost {{  $class  }}"
     {{ $attributes }}
 >
-    <s:svg src="{{  $icon }}" class="fill-current !size-6" />
+    <s:svg src="{{  $icon }}" class="fill-current size-6" />
     <span class="text-xs sr-only sm:not-sr-only">
         {{  $title  }}
 
