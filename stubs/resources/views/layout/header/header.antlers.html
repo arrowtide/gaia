@@ -1,13 +1,28 @@
 <header class="relative flex items-center h-[68px] sm:h-[96px] bg-white">
     <div class="container">
-        <div class="flex flex-wrap items-center gap-2 py-1 lg:py-4 md:gap-5 md:justify-start">
+        <div class="flex flex-wrap items-center py-1 lg:py-4 md:justify-start">
 
-            {{ partial:layout/header/logo }}
 
-            {{ partial:layout/navigation/mobile/navigation }}
-            {{ partial:layout/navigation/desktop/navigation }}
+            <div class="w-5/12">
+                {{ partial:layout/navigation/mobile/navigation }}
+                {{ partial:layout/navigation/desktop/navigation }}
+            </div>
 
-            <div class="flex ml-auto sm:gap-2">
+            <div class="flex-grow hidden mr-10 lg:block">
+                {{ partial:layout/header/logo }}
+            </div>
+
+            <div class="flex justify-end w-full lg:w-5/12 lg:ml-auto sm:gap-2">
+
+                <x-header-button 
+                    title="Menu"
+                    icon="menu"
+                    \x-data="{}"
+                    class="lg:hidden"
+                    @click="$dispatch('drawer:open:navigation')"
+                    x-bind:aria-controls="$store.navigation.id"
+                    aria-label="Open Main Navigation"
+                />
 
                 <x-header-button 
                     title="{{ 'Search' | trans }}" 
@@ -19,20 +34,13 @@
                     aria-label="{{ 'Search' | trans }}" 
                 />
 
+                <div class="flex justify-center lg:hidden grow">
+                    {{ partial:layout/header/logo }}
+                </div>
+
                 {{ partial:layout/header/user_menu }}
 
-                {{ partial:features/minicart/minicart_counter }}
-
-                <x-header-button 
-                    title="Menu"
-                    icon="menu"
-                    \x-data="{}"
-                    class="lg:hidden"
-                    @click="$dispatch('drawer:open:navigation')"
-                    x-bind:aria-controls="$store.navigation.id"
-                    aria-label="Open Main Navigation"
-                />
-            
+                {{ partial:features/minicart/minicart_counter }}            
             </div>
         </div>
     </div>

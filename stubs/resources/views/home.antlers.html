@@ -11,14 +11,16 @@
 
 <section class="py-16 md:py-32">
   <div class="container">
-    <x-heading level="2"class="mb-3">Some Random Products</x-heading>
+    <x-heading level="2"class="mb-3">Some Products</x-heading>
     <p class="max-w-xl text-base text-gray-600 lg:text-lg">
       Once you have imported products successfully, some products will show here!
     </p>
 
     <div class="grid grid-cols-2 gap-5 mt-10 md:grid-cols-4">
       {{ collection:products limit="8" }}
-        {{ partial:partials/product }}
+        {{ unless no_results}}
+          {{ partial:partials/product }}
+        {{ /unless }}
       {{ /collection:products }}
     </div>
   </div>
