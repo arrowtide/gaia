@@ -7,6 +7,7 @@
 @import './buttons';
 @import './accessibility';
 @import './typography';
+@import './prose';
 
 @theme {
 	--font-*: initial;
