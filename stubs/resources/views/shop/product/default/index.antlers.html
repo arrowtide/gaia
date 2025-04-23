@@ -230,10 +230,18 @@
                     try {
                         this.disabled = true;
                         this.loading = true;
-
-                        const response = await gaia.fetch.url('/!/gaia/cart/add').post({
-                            product_id: this.currentProduct.slug,
-                            quantity: this.cart.quantity
+                        
+                        const response = await fetch('/!/gaia/cart/add', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({
+                                product_id: this.currentProduct.slug,
+                                quantity: this.cart.quantity
+                            })
                         });
 
                         gaia.toast({
