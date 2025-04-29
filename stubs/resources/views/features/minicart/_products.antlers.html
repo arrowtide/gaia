@@ -12,21 +12,21 @@
                 {{ collection:variants scope="variant" slug:is="{ variant_id }" }}
                     {{ collection:products scope="product" slug:is="{ variant:product_slug }" }}
                         <li class="flex flex-wrap" wire:key="{{ gaia:id }}{{ line:quantity }}">
-                            {{ partial:features/minicart/product_image }}
+                            {{ partial:features/minicart/item/image }}
 
                             <div class="flex flex-col flex-1 ml-4">
                                 <div>
                                     <div class="flex justify-between">
-                                        {{ partial:features/minicart/product_title }}
-                                        {{ partial:features/minicart/product_price }}
+                                        {{ partial:features/minicart/item/title }}
+                                        {{ partial:features/minicart/item/price }}
                                     </div>
 
-                                    {{ partial:features/minicart/product_options }}
-                                    {{ partial:features/minicart/product_discounts }}
+                                    {{ partial:features/minicart/item/options }}
+                                    {{ partial:features/minicart/item/discounts }}
                                 </div>
 
                                 <div class="flex items-end justify-between flex-1 text-sm">
-                                    {{ partial:features/minicart/product_quantity }}
+                                    {{ partial:features/minicart/item/quantity }}
 
                                     <div class="flex">
                                         <x-button icon="delete" variant="ghost" wire:click="removeFromCart('{{ line:id }}')" wire:loading.attr="disabled" class="btn-sm text-slate-800">

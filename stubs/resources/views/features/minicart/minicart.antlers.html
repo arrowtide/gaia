@@ -18,8 +18,8 @@
             <x-drawer.section>
                 {{ unless cart_empty }}
                     <div class="py-5">
-                        {{ partial:features/minicart/discount_form }}
-                        {{ partial:features/minicart/discount_codes }}
+                        {{ partial:features/minicart/discount/form }}
+                        {{ partial:features/minicart/discount/codes }}
                         {{ partial:features/minicart/totals }}
 
                         <x-button href="{{ checkoutUrl }}" @click="open = false" wire:loading.attr="disabled" class="w-full btn-lg">

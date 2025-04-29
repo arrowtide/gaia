@@ -1,25 +1,6 @@
 <div class="pt-6 pb-6">
-    {{# <div class="flex justify-between">
-        <p class="text-base text-slate-500">Subtotal:</p>
-        <p class="text-base">{{ totals.subtotal.amount }} {{ totals.subtotal.currency }}</p>
-    </div> #}}
-
     <div class="flex justify-between">
         <p class="text-xl text-black">Subtotal:</p>
         <p class="text-xl">{{ gaia:currency :price="totals.total.amount" }}</p>
     </div>
-
-    {{ if totals.totalTax.amount != 0 }}
-    <div class="flex justify-between">
-        <p class="text-lg text-gray-600">Total Tax:</p>
-        <p class="text-xl">{{ gaia:currency :price="totals.totalTax.amount" }}</p>
-    </div>
-    {{ /if }}
-
-    {{ if totals.totalDuty.amount != 0 }}
-    <div class="flex justify-between py-3">
-        <p class="text-lg text-gray-600">Total Duty:</p>
-        <p class="text-xl">{{ gaia:currency :price="totals.totalDuty.amount" }}</p>
-    </div>
-    {{ /if }}
 </div>
