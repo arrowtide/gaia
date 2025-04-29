@@ -13,7 +13,6 @@
     },
     "dependencies": {
         "@fontsource-variable/readex-pro": "^5.2.5",
-        "@tailwindcss/typography": "^0.5.9",
         "@tailwindcss/vite": "^4.1.4",
         "alpinejs-defer": "^1.0.2",
         "axios": "^1.8.3",
