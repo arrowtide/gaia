@@ -13,7 +13,7 @@
     
     $classes = [
         'margin' => $spaceClasses[$space] ?? $space,
-        'border' => "grow w-full h-0 border-t border-slate-800/10",
+        'border' => "w-full h-0 border-t border-slate-800/10",
     ]
 @endphp
 
