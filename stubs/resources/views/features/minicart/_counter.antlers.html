@@ -10,9 +10,7 @@
         onclick="window.dispatchEvent(new CustomEvent('drawer:open:minicart'))"
         aria-controls="minicart"
     >
-        <x-slot:aftertitle>
-            <cart-count class="absolute flex items-center justify-center text-[0.625rem] font-medium text-white bg-red-700 rounded-full top-1 right-1 aspect-square size-5 data-[hidden=true]:hidden" data-hidden="true"></cart-count>
-        </x-slot:aftertitle>
+        <cart-count class="absolute flex items-center justify-center text-[0.625rem] font-medium text-white bg-red-700 rounded-full top-0 right-0 sm:top-1 sm:right-1 aspect-square size-5 data-[hidden=true]:hidden" data-hidden="true"></cart-count>
     </x-header-button>
 </div>
 

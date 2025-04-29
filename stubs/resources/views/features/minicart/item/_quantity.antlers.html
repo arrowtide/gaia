@@ -1,0 +1,31 @@
+<div x-data="{
+        quantity: {{ line:quantity or '0' }},
+        
+        get size() {
+            return this.quantity?.toString().length || 1;
+        },
+
+        updateQuantity(newQuantity) {
+            newQuantity = parseInt(newQuantity);
+
+            if (! Number.isInteger(newQuantity)) {
+                newQuantity = 1;
+            }
+
+            this.quantity = newQuantity;
+
+            $wire.dispatch('update-cart-item-quantity', { lineId: '{{ line:id }}', quantity: newQuantity });
+        }
+    }"
+    class="flex items-center gap-1 p-1 mt-5"
+> 
+    <div class="relative px-1 btn btn-ghost has-focus-visible:outline-2 has-focus-visible:outline-blue-200">
+        <span class="text-sm">Qty: <span x-text="quantity"></span></span>
+        <select class="absolute inset-0 opacity-0 cursor-pointer" x-model="quantity" @change="updateQuantity($event.target.value)">
+            {{ loop times="50" }}
+                <option value="{{ index + 1 }}">{{ index + 1 }}</option>
+            {{ /loop }}
+        </select>
+        {{ svg src="expand_more" class="fill-current size-4" }}
+    </div>
+</div>
