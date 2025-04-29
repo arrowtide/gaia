@@ -1,6 +1,9 @@
 <form wire:submit.prevent="addDiscountToCart">
+
+    <label for="minicartDiscountCode" class="text-sm">Discount code?</label>
+
     <div class="relative flex items-center justify-between my-3">
-        <x-input class="pr-16" wire:model.defer="discountCode" placeholder="Discount code" />
+        <x-input class="pr-16" wire:model.defer="discountCode" placeholder="Discount code" id="minicartDiscountCode" />
         <x-button variant="ghost" type="submit" class="absolute ml-5 h-[calc(100%-6px] t-[3px] btn-sm whitespace-nowrap right-[6px]" x-show="$wire.discountCode.length > 1">
             Apply 
         </x-button>

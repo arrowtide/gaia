@@ -6,23 +6,28 @@
 #}}
 <div>
     <x-drawer name="minicart" heading="Your Basket" wire:ignore.self>
-        <x-drawer.section class="h-full pt-10">
-            <div wire:loading.flex>
-                <x-loader overlay/>
-            </div>
+        <div class="flex flex-col h-full">
+            <x-drawer.section class="py-10">
+                <div wire:loading.flex>
+                    <x-loader overlay/>
+                </div>
 
-            {{ partial:features/minicart/products }}
-        </x-drawer.section>
+                {{ partial:features/minicart/products }}
+            </x-drawer.section>
+
+            <x-drawer.section class="py-5 mt-auto border-y border-y-slate-100">
+                {{ partial:features/minicart/discount/form }}
+                {{ partial:features/minicart/discount/codes }}
+            </x-drawer.section>
+        </div>
 
         <x-slot:footer>
             <x-drawer.section>
                 {{ unless cart_empty }}
                     <div class="py-5">
-                        {{ partial:features/minicart/discount/form }}
-                        {{ partial:features/minicart/discount/codes }}
                         {{ partial:features/minicart/totals }}
 
-                        <x-button href="{{ checkoutUrl }}" @click="open = false" wire:loading.attr="disabled" class="w-full btn-lg">
+                        <x-button href="{{ checkoutUrl }}" @click="open = false" wire:loading.attr="disabled" class="w-full md:btn-lg">
                             Continue to checkout
                         </x-button>
                     </div>
