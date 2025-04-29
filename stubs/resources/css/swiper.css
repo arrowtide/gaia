@@ -1,9 +1,9 @@
-@import '/node_modules/swiper/swiper.css' layer(base);
-@import "/node_modules/swiper/modules/a11y.css" layer(base);
-@import "/node_modules/swiper/modules/navigation.css" layer(base);
-@import "/node_modules/swiper/modules/pagination.css" layer(base);
-@import "/node_modules/swiper/modules/scrollbar.css" layer(base);
-@import "/node_modules/swiper/modules/zoom.css" layer(base);
+@import "swiper/css" layer(base);
+@import "swiper/css/a11y" layer(base);
+@import "swiper/css/navigation" layer(base);
+@import "swiper/css/pagination" layer(base);
+@import "swiper/css/scrollbar" layer(base);
+@import "swiper/css/zoom" layer(base);
 
 @layer base {
     :root {
