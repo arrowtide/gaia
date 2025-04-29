@@ -1,61 +1,31 @@
 <div x-data="{
         quantity: {{ line:quantity or '0' }},
-        debounceTimer: null,
-        debounceDelay: 600,
+        
         get size() {
             return this.quantity?.toString().length || 1;
         },
+
         updateQuantity(newQuantity) {
             newQuantity = parseInt(newQuantity);
+
             if (! Number.isInteger(newQuantity)) {
                 newQuantity = 1;
             }
 
             this.quantity = newQuantity;
 
-            clearTimeout(this.debounceTimer);
-            this.debounceTimer = setTimeout(() => {
-                $wire.dispatch('update-cart-item-quantity', { lineId: '{{ line:id }}', quantity: newQuantity });
-            }, this.debounceDelay);
+            $wire.dispatch('update-cart-item-quantity', { lineId: '{{ line:id }}', quantity: newQuantity });
         }
     }"
     class="flex items-center gap-1 p-1 mt-5"
 > 
-    <x-button 
-        label="Remove"
-        icon="remove"
-        variant="ghost"
-        class="btn-sm btn-round"
-        @click="if (parseInt(quantity) > 1) updateQuantity(parseInt(quantity) - 1)"
-        aria-hidden="true"
-        tabindex="-1"
-        wire:loading.attr="disabled"
-    />
-
-    <label>
-        <span class="sr-only">
-            Quantity
-        </span>
-        
-        <x-input
-            min="1"
-            value="{{ line:quantity or 0 }}"
-            x-model.number="quantity"
-            @change="updateQuantity(quantity)"
-            class="w-auto p-0 text-base text-center border-0 shadow-none form-input-hide-arrows focus:ring-slate-200 focus:bg-slate-100"
-            x-mask="999999999"
-            \x-bind:style="{ width: `${size + 2}ch`, }"
-        />
-    </label>
-
-    <x-button
-        label="Add"
-        icon="add"
-        variant="ghost"
-        class="btn-sm btn-round touch-none"
-        @click="updateQuantity(parseInt(quantity) + 1)"
-        aria-hidden="true"
-        tabindex="-1"
-        wire:loading.attr="disabled"
-    />
+    <div class="relative px-1 btn btn-ghost has-focus-visible:outline-2 has-focus-visible:outline-blue-200">
+        <span class="text-sm">Qty: <span x-text="quantity"></span></span>
+        <select class="absolute inset-0 opacity-0 cursor-pointer" x-model="quantity" @change="updateQuantity($event.target.value)">
+            {{ loop times="50" }}
+                <option value="{{ index + 1 }}">{{ index + 1 }}</option>
+            {{ /loop }}
+        </select>
+        {{ svg src="expand_more" class="fill-current size-4" }}
+    </div>
 </div>

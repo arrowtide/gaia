@@ -31,31 +31,3 @@
         </x-slot:footer>
     </x-drawer>
 </div>
-
-{{ livewire:script }}
-    <script>
-        Alpine.data('minicartQty', (qty) => ({
-            quantity: qty,
-            debounceTimer: null,
-            debounceDelay: 600,
-            init() {
-
-            },
-            get size() {
-                return this.quantity?.toString().length || 1;
-            },
-            updateQuantity(newQuantity) {
-                if (! Number.isInteger(newQuantity)) {
-                    newQuantity = 1;
-                }
-    
-                this.quantity = newQuantity;
-    
-                clearTimeout(this.debounceTimer);
-                this.debounceTimer = setTimeout(() => {
-                    $wire.dispatch('update-cart-item-quantity', { lineId: '{{ line:id }}', quantity: newQuantity });
-                }, this.debounceDelay);
-            }
-        }));
-    </script>
-{{ /livewire:script }}
