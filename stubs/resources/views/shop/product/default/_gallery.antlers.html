@@ -1,12 +1,12 @@
-{{ $slider_id = {gaia:uuid} }}
-{{ $lightbox_id = {gaia:uuid} }}
+{{ $sliderId = {gaia:id} }}
+{{ $lightboxId = {gaia:id} }}
 
-<div class="relative" x-data="gallery()" x-defer>
+<div class="relative" x-data="gallery({swiperId: '{{ $sliderId }}', lightboxId: '{{ $lightboxId }}'})" x-defer>
     <div class="swiper aspect-square md:rounded-md" data-swiper-slider="{{ slider_id }}">
         <div class="max-w-full swiper-wrapper">
             {{ gallery }}
                 <div class="max-w-full overflow-hidden swiper-slide cursor-grab" @click="openLightbox()" data-index="{{ index }}" data-image="{{ path }}">
-                    <div class="swiper-zoom-container" >
+                    <div class="swiper-zoom-container">
                         <x-picture 
                             :src="url" 
                             :alt="alt"
@@ -28,7 +28,7 @@
         </div>
         <x-button label="Open in full" variant="secondary" icon="open_in_full" class="absolute z-10 hidden top-4 right-4 md:inline-flex btn-round btn-sm" @click="openLightbox()" />
     </div>
-    <div class="relative bottom-0 top-auto opacity-30 swiper-pagination md:hidden" data-swiper-pagination="{{ $slider_id }}"></div>
+    <div class="relative bottom-0 top-auto opacity-30 swiper-pagination md:hidden" data-swiper-pagination="{{ $sliderId }}"></div>
 
     {{ if {gallery | length} > 1 }}
         <div class="hidden grid-cols-6 gap-4 mt-4 md:grid">
@@ -62,7 +62,7 @@
         x-transition:leave-end="opacity-0"
     >
         <div class="relative z-20 flex flex-col justify-center lg:py-20 size-full">
-            <div class="size-full swiper" data-swiper-slider="{{ $lightbox_id }}">
+            <div class="size-full swiper" data-swiper-slider="{{ $lightboxId }}">
                 <div class="swiper-wrapper">
                     {{ gallery }}
                         <div class="overflow-hidden swiper-slide cursor-grab">
@@ -77,11 +77,11 @@
                     {{ /gallery }}
                 </div>
             </div>
-            <div class="swiper-pagination top-auto bottom-0 py-7 font-bold [--swiper-pagination-fraction-color:var(--color-slate-400)]" data-swiper-pagination="{{ $lightbox_id }}"></div>
-            <button type="button" class="opacity-0 swiper-button-next btn btn-secondary btn-round btn-lg after:hidden lg:opacity-100" data-swiper-next="{{ $lightbox_id }}">
+            <div class="swiper-pagination top-auto bottom-0 py-7 font-bold [--swiper-pagination-fraction-color:var(--color-slate-400)]" data-swiper-pagination="{{ $lightboxId }}"></div>
+            <button type="button" class="opacity-0 swiper-button-next btn btn-secondary btn-round btn-lg after:hidden lg:opacity-100" data-swiper-next="{{ $lightboxId }}">
                 {{ svg src="arrow_right_alt" class="size-6" }}
             </button>
-            <button type="button" class="opacity-0 swiper-button-prev btn btn-secondary btn-round btn-lg after:hidden lg:opacity-100" data-swiper-prev="{{ $lightbox_id }}">
+            <button type="button" class="opacity-0 swiper-button-prev btn btn-secondary btn-round btn-lg after:hidden lg:opacity-100" data-swiper-prev="{{ $lightboxId }}">
                 {{ svg src="arrow_left_alt" class="size-6" }}
             </button>
             <x-button label="Close" icon="close" variant="secondary" @click="closeLightbox()" class="absolute z-30 btn-round top-5 right-5"/>
@@ -92,12 +92,14 @@
 {{ once }}
     {{ push:scripts }}
         <script type="module">
-            Alpine.data('gallery', () => ({
+            Alpine.data('gallery', ({ swiperId, lightboxId }) => ({
                 open: false,
                 galleryLength: JSON.parse('{{ gallery | length }}'),
                 gallerySwiper: null,
                 lightboxSwiper: null,
                 activeIndex: 0,
+                swiperId,
+                lightboxId,
 
                 init() {
                     window.addEventListener('product-data-reloaded', () => {
@@ -119,9 +121,9 @@
                         return;
                     }
 
-                    this.gallerySwiper = new Swiper('[data-swiper-slider="{{ $slider_id }}"]', {
+                    this.gallerySwiper = new Swiper(`[data-swiper-slider="${ this.sliderId }"]`, {
                         pagination: {
-                            el: '[data-swiper-pagination="{{ $slider_id }}"]',
+                            el: '[data-swiper-pagination="${ this.sliderId }"]',
                             type: "progressbar",
                         },
                     });
@@ -134,17 +136,17 @@
                 },
                 
                 initLightbox() {
-                    this.lightboxSwiper = new Swiper('[data-swiper-slider="{{ $lightbox_id }}"]', {
+                    this.lightboxSwiper = new Swiper(`[data-swiper-slider="${ this.lightboxId }"]`, {
                         zoom: {
                             limitToOriginalSize: true,
                             minRatio: 0.1,
                         },
                         navigation: {
-                            prevEl: '[data-swiper-prev="{{ $lightbox_id }}"]',
-                            nextEl: '[data-swiper-next="{{ $lightbox_id }}"]',
+                            prevEl: `[data-swiper-prev="${ this.lightboxId }"]`,
+                            nextEl: `[data-swiper-next="${ this.lightboxId }"]`,
                         },
                         pagination: {
-                            el: '[data-swiper-pagination="{{ $lightbox_id }}"]',
+                            el: `[data-swiper-pagination="${ this.lightboxId }"]`,
                             type: "fraction",
                         },
                     });
@@ -157,7 +159,7 @@
                 },
 
                 closeLightbox() {
-                    this.gallerySwiper.slideTo(this.activeIndex, 0);
+                    this.gallerySwiper && this.gallerySwiper.slideTo(this.realIndex, 0);
 
                     this.open = false;
 
@@ -169,7 +171,7 @@
                 },
 
                 openLightbox() {
-                    this.lightboxSwiper.slideTo(this.activeIndex, 0);
+                    this.lightboxSwiper.slideTo(this.realIndex, 0);
 
                     this.open = true;
                 },
@@ -178,9 +180,9 @@
                     if (this.open) {
                         this.lightboxSwiper.slideTo(index, 0);
                     } else {
-                        this.gallerySwiper.slideTo(index, 0);
+                        this.gallerySwiper && this.gallerySwiper.slideTo(index, 0);
                     }
-                }
+                },
             }));
         </script>
     {{ /push:scripts }}
