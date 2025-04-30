@@ -171,50 +171,44 @@
 
 {{ once }}
     {{ push:scripts }}
-        <script type="module">
-            Alpine.data('productWishlist', (productId, isProductInWishlist) => ({
-                loading: false,
-                changed: false,
-                isUserLoggedIn: JSON.parse(`{{ logged_in ? 'true' : 'false' }}`),
-                isProductInWishlist: isProductInWishlist,
-                productId: productId,
+        {{ if logged_in }}
+            <script type="module">
+                Alpine.data('productWishlist', (productId, isProductInWishlist) => ({
+                    loading: false,
+                    changed: false,
+                    isProductInWishlist: isProductInWishlist,
+                    productId: productId,
 
-                handleWishlistButtonClick() {
+                    handleWishlistButtonClick() {
+                        if (this.loading) {
+                            return;
+                        }
 
-                    if (this.loading) {
-                        return;
-                    }
-
-                    if (! this.isUserLoggedIn) {
-                        window.location.href = "/account/login";
-
-                        return;
-                    }
-
-                    this.changed = true;
-                    this.loading = true;
+                        this.changed = true;
+                        this.loading = true;
 
 
-                    if (this.isProductInWishlist) {
-                        Alpine.store('wishlist').removeFromWishlist(this.productId);
-                    } else {
-                        Alpine.store('wishlist').addToWishlist(this.productId);
-                    }
+                        if (this.isProductInWishlist) {
+                            Alpine.store('wishlist').removeFromWishlist(this.productId);
+                        } else {
+                            Alpine.store('wishlist').addToWishlist(this.productId);
+                        }
 
-                    this.isProductInWishlist = ! this.isProductInWishlist;
-                },
-
-                eventListeners: {
-                    [`@wishlist-remove-${productId}.window`](event) {
-                        this.loading = false;
-                        this.isProductInWishlist = event.detail.isProductInWishlist;
+                        this.isProductInWishlist = ! this.isProductInWishlist;
                     },
-                    [`@wishlist-add-${productId}.window`](event) {
-                        this.loading = false;
-                        this.isProductInWishlist = event.detail.isProductInWishlist;
+
+                    eventListeners: {
+                        [`@wishlist-remove-${productId}.window`](event) {
+                            this.loading = false;
+                            this.isProductInWishlist = event.detail.isProductInWishlist;
+                        },
+                        [`@wishlist-add-${productId}.window`](event) {
+                            this.loading = false;
+                            this.isProductInWishlist = event.detail.isProductInWishlist;
+                        }
                     }
-                }
-            }))
-        </script>
+                }))
+            </script>
+        {{ /if }}
     {{ /push:scripts }}
 {{ /once }}
