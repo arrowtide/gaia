@@ -24,7 +24,7 @@ class Minicart extends Component
     protected ?string $cartId = '';
 
     protected array $rules = [
-        'discountCode' => 'required|string|min:3',
+        'discountCode' => 'required|string|min:2',
     ];
 
     protected array $messages = [
@@ -89,18 +89,37 @@ class Minicart extends Component
     {
         $this->validate();
 
-        // Add the discount code if it's not already in the array
-        if (! in_array($this->discountCode, $this->cartDiscountCodes)) {
-            $this->cartDiscountCodes[] = $this->discountCode;
-
-            // Update the cart repository with the new list of discount codes
-            $this->cartRepository->updateCartDiscountCodes($this->cartId, $this->cartDiscountCodes);
-
-            // Refresh the cart to reflect changes
-            $this->updateCart();
+        if (in_array($this->discountCode, $this->cartDiscountCodes)) {
+            $this->addError('discountCode', "The code '{$this->discountCode}' has already been applied.");
+            $this->discountCode = '';
+            return;
         }
 
-        // Clear the discount code input
+        $discountCodes = [...$this->cartDiscountCodes, $this->discountCode];
+
+        $response = $this->cartRepository->updateCartDiscountCodes($this->cartId, $discountCodes);
+        $appliedCodes = collect(data_get($response, 'cartDiscountCodesUpdate.cart.discountCodes', []));
+
+        $validCodes = $appliedCodes
+            ->filter(fn ($code) => $code['applicable'] === true)
+            ->pluck('code')
+            ->all();
+
+        $invalidCodes = $appliedCodes
+            ->filter(fn ($code) => $code['applicable'] === false)
+            ->pluck('code')
+            ->all();
+
+        if (in_array($this->discountCode, $invalidCodes)) {
+            $this->addError('discountCode', "The code '{$this->discountCode}' is not valid.");
+        }
+
+        if (count($validCodes) !== count($discountCodes)) {
+            $this->cartRepository->updateCartDiscountCodes($this->cartId, $validCodes);
+        }
+
+        $this->cartDiscountCodes = $validCodes;
+        $this->updateCart();
         $this->discountCode = '';
     }
 
