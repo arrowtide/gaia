@@ -5,13 +5,13 @@
     <div class="relative flex items-center justify-between my-3">
         <x-input class="pr-16" wire:model.defer="discountCode" placeholder="Discount code" id="minicartDiscountCode" />
         <x-button variant="ghost" type="submit" class="absolute ml-5 h-[calc(100%-6px] t-[3px] btn-sm whitespace-nowrap right-[6px]" x-show="$wire.discountCode.length > 1">
-            Apply 
+            Apply
         </x-button>
     </div>
 
     {{ if errors->has('discountCode') }}
-        <p class="mt-1 text-sm text-red-500">
+        <x-alert variant="error" title="Invalid Code" class="mb-2">
             {{ errors->first('discountCode') }}
-        </p>
+        </x-alert>
     {{ /if }}
 </form>
