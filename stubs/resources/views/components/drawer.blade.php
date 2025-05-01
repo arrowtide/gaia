@@ -66,10 +66,9 @@
         @keydown.escape="close()"
         x-cloak
         x-ref="drawer"
-        tabindex="-1"
         style="transition-duration: {{  $duration }}ms;"
     >
-        <div class="relative flex flex-col h-full overflow-auto">
+        <div class="grid grid-rows-[auto_1fr_auto] h-full">
             <header class="py-4 border-b border-b-slate-200">
                 <x-drawer.section class="flex items-center justify-between">
                     @if (isset($back))
