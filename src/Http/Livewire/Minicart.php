@@ -92,7 +92,7 @@ class Minicart extends Component
         $this->discountCode = e($this->discountCode);
 
         if (in_array($this->discountCode, $this->cartDiscountCodes)) {
-            $this->addError('discountCode', "The code '({$this->discountCode}' has already been applied.");
+            $this->addError('discountCode', "The code '{$this->discountCode}' has already been applied.");
             $this->discountCode = '';
 
             return;
