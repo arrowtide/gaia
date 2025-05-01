@@ -1,17 +1,24 @@
 <script type="module">
 
+
     Alpine.data('drawerComponent', (name, el, duration, parents) => ({
         open: false,
         el: el,
 
         openDrawer() {
+            // Inert is set and removed once the drawer has been animated in. This prevents
+            // issues with iOS safari, where safari will attempt to scroll to the focused
+            // element, causing a juttering effect if the drawer is still animating.
+            el.inert = true;
+
             this.open = true;
 
             el.showModal();
 
-            this.$nextTick(() => {
-                this.$refs.drawer.focus(); 
-            });
+            setTimeout(() => {
+                el.inert = false;
+            }, duration);
+
         },
 
         closeAllDrawers() {
@@ -27,7 +34,6 @@
             }
 
             const parents = getAllDrawerParents(this.$root);
-            console.log(parents);
 
             parents.forEach(parent => {
                 parent.querySelector('[data-drawer-inner]').style.transitionDuration = `0ms`;
@@ -49,6 +55,7 @@
         },
 
         closeDrawer() {
+            this.el.inert = true;
 
             this.$nextTick(() => {
                 this.open = false;
@@ -58,6 +65,7 @@
 
                     this.$refs.drawer.style.transitionDuration = `${ duration }ms`;
                     this.$refs.drawer.style.opacity = '';
+                    this.el.inert = false;
                 }, duration);
             });
         }

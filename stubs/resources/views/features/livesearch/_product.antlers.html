@@ -6,14 +6,21 @@
             </x-picture>
         {{ /if }}
 
-        <div class="flex flex-col justify-center ml-2 sm:ml-5">
-            <h3 class=""><a href="{{ url }}" class="stretched-link">{{ title }}</a></h3>
+        <div class="flex flex-col mt-2 ml-2 sm:ml-5">
+            <h3><a href="{{ url }}" class="stretched-link">{{ title }}</a></h3>
 
             {{ gaia:product:price }}
-                <span class="block mt-2 text-sm tracking-wide">
-                    {{ if {gaia:product:configurable} }}From{{ /if }}
-                    {{ gaia:currency :price="min_price" }}
-                </span>
+                <div class="flex items-center gap-2 text-sm mt-2">
+                    <span class="block tracking-wide">
+                        {{ if {gaia:product:configurable} }}From{{ /if }}
+                        <span class="{{ if is_discounted }}text-red-700{{ /if }}">{{ gaia:currency :price="min_price" }}</span>
+                    </span>
+                    {{ if is_discounted }}
+                        <s class="block tracking-wide line-through text-slate-500">
+                            {{ gaia:currency :price="max_price" }}
+                        </s>
+                    {{ /if }}
+                </div>  
             {{ /gaia:product:price }}
         </div>
     </div>
