@@ -1,6 +1,6 @@
 
 <div>
-    <section class="fixed z-30 w-full bottom-8 md:left-8 md:w-[400px] content-visibility-auto" x-data x-defer>
+    <section class="fixed px-gutter w-full z-50 bottom-8 md:left-8 md:max-w-[400px]" x-data x-defer>
         <template x-for="(status, index) in $store.toasts.toasts" :key="index" class="message">
             <div
                 x-data="{show: false}"
@@ -12,7 +12,7 @@
                 x-show="show"
             >
                 <div
-                    class="flex items-center px-6 py-6 mb-3 border rounded-xl"
+                    class="flex items-center p-3 md:p-6 mb-3 border rounded-xl"
                     :class="{ 
                         'text-emerald-500 bg-emerald-50 border-emerald-500/50': status.type === 'success', 
                         'text-rose-500 bg-rose-50 border-rose-500/50': status.type === 'error', 
@@ -24,21 +24,21 @@
 
                     <div class="self-start">
                         <template x-if="status.type == 'success'">
-                            {{ svg src="check_circle" class="w-6 h-6 mt-1 mr-4 fill-emerald-500" aria-hidden="true" }}
+                            {{ svg src="check_circle" class="size-5 md:size-6 mt-1 mr-4 fill-emerald-500" aria-hidden="true" }}
                         </template>
                         <template x-if="status.type == 'error'">
-                            {{ svg src="error" class="w-6 h-6 mt-1 mr-4 fill-rose-500" aria-hidden="true" }}
+                            {{ svg src="error" class="size-5 md:size-6 mt-1 mr-4 fill-rose-500" aria-hidden="true" }}
                         </template>
                         <template x-if="status.type == 'warning'">
-                            {{ svg src="warning" class="w-6 h-6 mt-1 mr-4 fill-yellow-500" aria-hidden="true" }}
+                            {{ svg src="warning" class="size-5 md:size-6 mt-1 mr-4 fill-yellow-500" aria-hidden="true" }}
                         </template>
                         <template x-if="status.type == 'info'">
-                            {{ svg src="info" class="w-6 h-6 mt-1 mr-4 fill-sky-500" aria-hidden="true" }}
+                            {{ svg src="info" class="size-5 md:size-6 mt-1 mr-4 fill-sky-500" aria-hidden="true" }}
                         </template>
                     </div>
                     <p>
                         <span x-text="status.title" class="block w-full mb-1 font-medium capitalize"></span>
-                        <span x-text="status.text"></span>
+                        <span x-text="status.text" class="text-xs md:text-base"></span>
                     </p>
                 </div>
             </div>
