@@ -49,6 +49,9 @@
 <script type="module">
     document.addEventListener('alpine:init', () => {
         Alpine.store('toasts', {
+            toasts: [],
+            delay: 5000,
+
             init() {
                 window.addEventListener('gaia:toast', (e) => {
                     this.addStatus({
@@ -57,22 +60,25 @@
                     });
                 });
             },
-            toasts: [],
-            delay: 5000,
+
             removeAfterDelay(message, id) {
                 setTimeout(() => {
                     document.getElementById(id).addEventListener('transitionend', () => {
                         message = undefined;
                     });
+
                     message.show = false;
                 }, message.delay);
             },
+
             removeMessage(message) {
                 document.getElementById(message.id).addEventListener('transitionend', () => {
                     message = undefined;
                 });
+
                 message.show = false;
             },
+
             addStatus(data) {
                 const id = gaia.uuid();
                 const role = data.role || 'status';
@@ -93,7 +99,6 @@
                 this.removeAfterDelay(this.toasts.find(item => item.id === id), id);
                 
                 return;
-
             }
         });
     });
