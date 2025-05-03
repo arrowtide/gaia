@@ -58,6 +58,17 @@ class Gaia extends Tags
         return Str::lower(Str::random(10));
     }
 
+    /**
+     * Retrieves the current site's currency.
+     *
+     * @return string The currency code for the current site.
+     *                If not set, returns the default currency from configuration.
+     */
+    public function siteCurrency(): string
+    {
+        return Site::current()->attribute('currency') ?? config('gaia.default_currency');
+    }
+
     public function livewireStart(): string
     {
         return <<<'JS'
