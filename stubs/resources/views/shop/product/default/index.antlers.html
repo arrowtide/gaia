@@ -48,9 +48,9 @@
         <script type="module">
             Alpine.store('product', {
                 title: '{{ title }}',
-                price: '{{ gaia:product:price }}{{min_price}}{{ /gaia:product:price}}',
-                variants:  JSON.parse(` {{ { collection:variants :product_slug:is="slug" :site="site" } | pluck_with_keys('option1', 'option2', 'option3', 'inventory_quantity', 'slug', 'price', 'image') | to_json }} `),
-                currentVariants: JSON.parse(` {{ { collection:variants :product_slug:is="slug" :site="site" } | pluck_with_keys('option1', 'option2', 'option3', 'inventory_quantity', 'slug', 'price', 'image') | to_json }} `),
+                priceTable: {},
+                variants:  JSON.parse(` {{ { collection:variants :product_slug:is="slug" :site="site" } | pluck_with_keys('option1', 'option2', 'option3', 'inventory_quantity', 'slug', 'price', 'compare_at_price', 'image') | to_json }} `),
+                currentVariants: JSON.parse(` {{ { collection:variants :product_slug:is="slug" :site="site" } | pluck_with_keys('option1', 'option2', 'option3', 'inventory_quantity', 'slug', 'price', 'compare_at_price', 'image') | to_json }} `),
                 currentProduct: null,
                 selectedOptions: null,
                 stockStatus: 'inStock',
@@ -91,39 +91,95 @@
                         ...variant,
                         isSaleable: variant.inventory_quantity > 0,
                         inStock: variant.inventory_quantity > 0,
-                        formattedPrice: gaia.formatPrice(variant.price),
                         productId: '{{ product_id }}'
                     }
                 },
+
                 updateDisplayedPrice() {
-                    if (this.variants.length === 1) {
-                        this.price = this.currentProduct.formattedPrice;
-                        return;
+                    const formatPrice = (price) => {
+                        if (price === null || price === undefined) {
+                            return false;
+                        }
+
+                        return gaia.formatPrice(parseFloat(price), '{{ site:locale }}', '{{ gaia:site_currency }}');
                     }
 
-                    function calculateMinMaxPrices(variants) {
-                        return variants.reduce((acc, variant) => {
+                    const calculateMinMaxPrices = () => {
+                        return this.currentVariants.reduce((acc, variant) => {
                             return {
-                            smallestPrice: Math.min(acc.smallestPrice, variant.price),
-                            largestPrice: Math.max(acc.largestPrice, variant.price)
+                                smallestPrice: Math.min(acc.smallestPrice, variant.price),
+                                largestPrice: Math.max(acc.largestPrice, variant.price)
                             };
                         }, { smallestPrice: Infinity, largestPrice: -Infinity });
                     }
 
-                    const { smallestPrice, largestPrice } = calculateMinMaxPrices(this.currentVariants);
+                    const minPrice = () => {
+                        if (this.areAllOptionsSelected) {
+                            return this.currentProduct.compare_at_price || this.currentProduct.price;
+                        }
 
-                    if (smallestPrice === Infinity || largestPrice === Infinity) {
-                        let { smallestPrice, largestPrice } = calculateMinMaxPrices(this.variants);
-                        this.price = `${gaia.formatPrice(smallestPrice)} - ${gaia.formatPrice(largestPrice)}`;
-                        return;
+                        const { smallestPrice, largestPrice } = calculateMinMaxPrices();
+
+                        return smallestPrice;
                     }
 
-                    if (smallestPrice === largestPrice) {
-                        this.price = gaia.formatPrice(largestPrice);
-                        return;
+                    const maxPrice = () => {
+                        if (this.areAllOptionsSelected) {
+                            return this.currentProduct.price;
+                        }
+
+                        const { smallestPrice, largestPrice } = calculateMinMaxPrices();
+
+                        return largestPrice;
                     }
 
-                    this.price = `${gaia.formatPrice(smallestPrice)} - ${gaia.formatPrice(largestPrice)}`;
+                    const compareAtPrice = () => {
+                        // If the product doesn't exist yet, return false
+                        if (! this.currentProduct) {
+                            return false;
+                        }
+
+                        return this.currentProduct.compare_at_price
+                    }
+                    
+                    const discountAmount = () => {
+                        // If the product doesn't exist yet, return false
+                        if (! this.currentProduct) {
+                            return false;
+                        }
+
+                        if (! this.currentProduct.compare_at_price) {
+                            return false;
+                        }
+
+                        return this.currentProduct.price - this.currentProduct.compare_at_price;
+                    }
+
+                    const discountPercentage = () => {
+                        // If the product doesn't exist yet, return false
+                        if (! this.currentProduct) {
+                            return false;
+                        }
+
+                        // If the product doesn't have a compare at price, it's 
+                        // not discounted so return false
+                        if (! this.currentProduct.compare_at_price) {
+                            return false;
+                        }
+
+                        return Math.floor((discountAmount() / this.currentProduct.price) * 100);
+                    }
+
+                    this.priceTable = {
+                        minPrice: minPrice(),
+                        formattedMinPrice: formatPrice(minPrice()),
+                        maxPrice: maxPrice(),
+                        formattedMaxPrice: formatPrice(maxPrice()),
+                        isDiscounted: discountAmount() ? true : false,
+                        discountPercentage: discountPercentage(),
+                        discountAmount: discountAmount(),
+                        formattedDiscountAmount: formatPrice(discountAmount()),
+                    }
                 },
                 updateCurrentVariants() {
                     if (!this.selectedOptions) {
@@ -195,6 +251,10 @@
                     else if (this.selectedOptions[1]) {
                         this.stockStatus = getStockStatusByOptions() ? 'inStock' : 'outOfStock';
                     }
+                },
+
+                get areAllOptionsSelected() {
+                    return this.selectedOptions && Object.keys(this.selectedOptions).length === 3;
                 },
 
                 // Product form
