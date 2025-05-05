@@ -85,23 +85,22 @@
                     // a single, unconfigurable product. The shopify addon adds a 
                     // single variant, even if there are no product options.
                     if (this.variants.length === 1) {
-                        variant = this.variants[0];
+                        // findVariantBySelectedOptions returns an array, 
+                        // so we put this inside an array too
+                        variant = [this.variants[0]]
                     } else {
                         variant = this.findVariantBySelectedOptions(this.selectedOptions);
                     }
 
                     // If there is more than one variant found we know 
                     // not all selected options have been selected yet
-                    if (! variant || (Array.isArray(variant) && variant.length !== 1)) {
+                    if (! variant || variant.length !== 1) {
                         this.currentProduct = undefined;
 
                         return;
                     }
 
-                    // It might be an array if findVariantBySelectedOptions is used.
-                    if (Array.isArray(variant)) {
-                        variant = variant[0];
-                    }
+                    variant = variant[0];
 
                     // Clone the variant so we arent using the original
                     variant = JSON.parse(JSON.stringify(variant));
