@@ -2,10 +2,60 @@
     variant="primary" 
     class="w-full"
     type="submit"
-    \x-data="{}"
-    @click="$store.product.handleProductFormSubmit($event)" 
-    x-bind:aria-disabled="!$store.product.currentProduct || !$store.product.currentProduct.isSaleable"
-    loading="Alpine.store('product').loading"
+    x-data="productAddToCartButton()"
+    @click="handleAddToCart()" 
+    x-bind:aria-disabled="disabled"
+    aria-disabled="true"
+    loading="$store.product.loading"
 >
-    <span x-text="$store.product.currentProduct && $store.product.currentProduct.isSaleable ? 'Add to Cart' : 'Out of Stock'">Add to Cart</span>
+
+    <span x-text="buttonText"></span>
 </x-button>
+
+{{ once }}
+    {{ push:scripts }}
+        <script type="module">
+            Alpine.data('productAddToCartButton', () => ({
+                disabled: true,
+                buttonText: 'Add to Cart',
+
+                init() {
+                    this.$watch('$store.product.currentProduct', value => {
+                        this.checkStatus(value);
+                    });
+
+                    let currentProduct = this.$store.product.currentProduct ?? false;
+                    this.checkStatus(currentProduct); 
+                },
+
+                handleAddToCart() {
+                    event.preventDefault();
+
+                    if (this.disabled) return;
+
+                    this.$store.product.handleProductFormSubmit()
+                },
+
+                checkStatus(value) {
+                    // If currentProduct is undefined, not all options have been selected yet
+                    if (! value) {
+                        this.disabled = true;
+                        this.buttonText = 'Please select options';
+
+                        return;
+                    }
+
+                    if (value.isSaleable == false) {
+                        this.disabled = true;
+                        this.buttonText = 'Out of Stock';
+
+                        return;
+                    }
+
+                    this.disabled = false;
+                    this.buttonText = 'Add to Cart';
+                }
+            }));
+        </script>
+    {{ /push:scripts }}
+{{ /once }}

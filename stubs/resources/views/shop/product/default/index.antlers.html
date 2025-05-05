@@ -92,17 +92,21 @@
 
                     // If there is more than one variant found we know 
                     // not all selected options have been selected yet
-                    if (! variant || variant.length !== 1) {
+                    if (! variant || (Array.isArray(variant) && variant.length !== 1)) {
                         this.currentProduct = undefined;
 
                         return;
                     }
 
-                    // If there is only one variant found we know all selected options 
-                    // have been selected so grab the first one of the array.
-                    variant = variant[0];
+                    // It might be an array if findVariantBySelectedOptions is used.
+                    if (Array.isArray(variant)) {
+                        variant = variant[0];
+                    }
 
-                    this.currentProduct =  {
+                    // Clone the variant so we arent using the original
+                    variant = JSON.parse(JSON.stringify(variant));
+
+                    this.currentProduct = {
                         ...variant,
                         isSaleable: variant.inventory_quantity > 0,
                         inStock: variant.inventory_quantity > 0,
@@ -276,9 +280,7 @@
                 // Product form
                 loading: false,
                 disabled: false,
-                async handleProductFormSubmit($event) {
-                    $event.preventDefault();
-
+                async handleProductFormSubmit() {
                     if (this.disabled) {
                         return;
                     }
