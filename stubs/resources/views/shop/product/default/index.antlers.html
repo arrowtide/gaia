@@ -194,6 +194,7 @@
                         discountPercentage: discountPercentage(),
                         discountAmount: discountAmount(),
                         formattedDiscountAmount: formatPrice(discountAmount()),
+                        isUniformPrice: minPrice() === maxPrice(),
                     }
                 },
                 updateCurrentVariants() {
