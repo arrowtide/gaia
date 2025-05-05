@@ -88,17 +88,17 @@ You have all of these variables available to you inside of the `gaia:product:pri
 
 
 ```twig
-<!-- Minimum price, before discounts -->
-{{ min_regular_price }}
+<!-- Minimum overall price -->
+{{ min_display_price }}
 
-<!-- Maximum price, before discounts -->
-{{ max_regular_price }}
+<!-- Maximum overall price -->
+{{ max_display_price }}
 
-<!-- Minimum price, after discounts. null if there are no discounts -->
-{{ min_discounted_price }}
+<!-- Minimum compare at price -->
+{{ min_compare_at_price }}
 
-<!-- Maximum price, after discounts. null if there are no discounts  -->
-{{ max_discounted_price }}
+<!-- Maximum compare at price  -->
+{{ max_compare_at_price }}
 
 <!-- Returns true if it's discounted, false if it's not  -->
 {{ is_discounted }}
@@ -108,12 +108,6 @@ You have all of these variables available to you inside of the `gaia:product:pri
 
 <!-- The amount it's been discounted by as a percentage -->
 {{ discount_percentage }}
-
-<!-- The minimum overall price. Either min_regular_price or min_discounted_price  -->
-{{ min_price }}
-
-<!-- The maximum overall price. Either max_regular_price or max_discounted_price  -->
-{{ max_price }}
 
 <!-- If the price is uniform across all variants, this will be true -->
 {{ is_uniform_price }}

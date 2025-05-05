@@ -13,14 +13,14 @@
                 <div class="flex items-center gap-2 text-sm mt-2">
                     <span class="block tracking-wide">
                         {{ if {gaia:product:configurable} }}From{{ /if }}
-                        <span class="{{ if is_discounted }}text-red-700{{ /if }}">{{ gaia:currency :price="min_price" }}</span>
+                        <span class="{{ if is_discounted }}text-red-700{{ /if }}">{{ gaia:currency :price="min_display_price" }}</span>
                     </span>
                     {{ if is_discounted }}
                         <s class="block tracking-wide line-through text-slate-500">
                             {{ gaia:currency :price="max_price" }}
                         </s>
                     {{ /if }}
-                </div>  
+                </div>
             {{ /gaia:product:price }}
         </div>
     </div>
