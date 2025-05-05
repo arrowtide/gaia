@@ -1,0 +1,54 @@
+{{ stack:before_body_end }}
+
+<script type="module">
+    gaia.swiperReady = () => {
+        return new Promise(function(resolve, reject) {
+
+            const complete = () => {
+                document.removeEventListener('swiper-is-ready', complete);
+                resolve();
+            }
+
+            if (window.Swiper) {
+                resolve();
+            } else {
+                document.addEventListener('swiper-is-ready', complete, {once: true})
+            }
+        });
+    },
+
+    gaia.onInteraction().then(() => {
+        gaia.loadScript(`{{ vite:asset src="resources/js/swiper.js" }}`).then(() => {
+            document.dispatchEvent(new CustomEvent('swiper-is-ready'));
+        })
+    })
+</script>
+
+
+{{ livewire:scriptConfig }}
+
+{{ vite src="resources/js/alpine.js" }}
+
+{{ stack:stores }}
+{{ stack:scripts }}
+
+
+{{# 
+    Blade component scripts
+#}}
+<x-scripts />
+
+{{# 
+    Wishlist scripts
+#}}
+{{ partial:features/wishlist/scripts }}
+
+{{#  
+    Start livewire
+#}}
+<script type="module">
+    setTimeout(() => {
+        Livewire.start();
+    }, 0);
+</script>
+
