@@ -15,10 +15,12 @@
                 {{ partial:features/minicart/products }}
             </x-drawer.section>
 
-            <x-drawer.section class="py-5 mt-auto border-y border-y-slate-100">
-                {{ partial:features/minicart/discount/form }}
-                {{ partial:features/minicart/discount/codes }}
-            </x-drawer.section>
+            {{ unless cart_empty }}
+                <x-drawer.section class="py-5 mt-auto border-y border-y-slate-100">
+                    {{ partial:features/minicart/discount/form }}
+                    {{ partial:features/minicart/discount/codes }}
+                </x-drawer.section>
+            {{ /unless }}
         </div>
 
         <x-slot:footer>
