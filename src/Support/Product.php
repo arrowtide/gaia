@@ -15,7 +15,7 @@ class Product
      * It will always return the lowest price, if there is a compare at price
      * it will use that, otherwise it will use the price set in the price field.
      *
-     * @param Entry $product  The product entry.
+     * @param  Entry  $product  The product entry.
      * @return float The minimum price of the product variants.
      */
     public static function minPrice(Entry $product): float
