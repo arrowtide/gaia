@@ -4,7 +4,9 @@
 <div class="flex items-center">
     {{ if hasCompareAt }}
         <p class="block text-sm tracking-wide line-through text-slate-500">
-            {{ gaia:currency :price="estimatedCost.compareAtAmount.amount" }}
+            {{ compareAt = estimatedCost.compareAtAmount.amount }}
+            {{ totalCompareAt = compareAt * quantity }}
+            {{ gaia:currency :price="totalCompareAt" }}
         </p>
     {{ elseif isDiscounted }}
         <p class="block text-sm tracking-wide line-through text-slate-500">
