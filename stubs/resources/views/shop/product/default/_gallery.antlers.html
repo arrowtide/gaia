@@ -1,8 +1,8 @@
 {{ $sliderId = {gaia:id} }}
 {{ $lightboxId = {gaia:id} }}
 
-<div class="relative" x-data="gallery({swiperId: '{{ $sliderId }}', lightboxId: '{{ $lightboxId }}'})" x-defer>
-    <div class="swiper aspect-square md:rounded-md" data-swiper-slider="{{ slider_id }}">
+<div class="relative" x-data="gallery({sliderId: '{{ $sliderId }}', lightboxId: '{{ $lightboxId }}'})" x-defer>
+    <div class="swiper aspect-square md:rounded-md" data-swiper-slider="{{ $sliderId }}">
         <div class="max-w-full swiper-wrapper">
             {{ gallery }}
                 <div class="max-w-full overflow-hidden swiper-slide cursor-grab" @click="openLightbox()" data-index="{{ index }}" data-image="{{ path }}">
@@ -92,16 +92,18 @@
 {{ once }}
     {{ push:scripts }}
         <script type="module">
-            Alpine.data('gallery', ({ swiperId, lightboxId }) => ({
+            Alpine.data('gallery', ({ sliderId, lightboxId }) => ({
                 open: false,
                 galleryLength: JSON.parse('{{ gallery | length }}'),
                 gallerySwiper: null,
                 lightboxSwiper: null,
                 activeIndex: 0,
-                swiperId,
+                sliderId,
                 lightboxId,
 
                 init() {
+                    console.log(this.sliderId, this.lightboxId);
+
                     window.addEventListener('product-data-reloaded', () => {
                         try {
                             const imagePath = Alpine.store('product').currentProduct.image;
@@ -118,15 +120,17 @@
 
                 initGallery() {
                     if (this.galleryLength === 1) {
+                        console.log('no gallery');
                         return;
                     }
-
                     this.gallerySwiper = new Swiper(`[data-swiper-slider="${ this.sliderId }"]`, {
                         pagination: {
-                            el: '[data-swiper-pagination="${ this.sliderId }"]',
+                            el: `[data-swiper-pagination="${ this.sliderId }"]`,
                             type: "progressbar",
                         },
                     });
+
+                    console.log(this.gallerySwiper);
 
                     // Update active index for the thumnails & so the gallery and lightbox 
                     // can always be on the same slide. 
