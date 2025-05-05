@@ -100,10 +100,8 @@ class CatalogFilters
     /**
      * Sorts the collection of products by price.
      *
-     * @param EntryCollection $products
-     * @param string $order The order of the sort. Accepted values are 'asc' and 'desc'.
+     * @param  string  $order  The order of the sort. Accepted values are 'asc' and 'desc'.
      *                         Defaults to 'asc'.
-     * @return EntryCollection
      */
     public static function sortByPrice(EntryCollection $products, string $order = 'asc'): EntryCollection
     {
