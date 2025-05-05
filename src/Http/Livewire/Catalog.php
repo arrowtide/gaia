@@ -6,7 +6,6 @@ namespace Arrowtide\Gaia\Http\Livewire;
 
 use Arrowtide\Gaia\Support\CatalogFilters as Filters;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Jonassiewertsen\Livewire\WithPagination;
 use Livewire\Attributes\Computed;
@@ -16,6 +15,7 @@ use Livewire\Component;
 use Statamic\Extensions\Pagination\LengthAwarePaginator;
 use Statamic\Facades\Entry;
 use Statamic\Facades\Site;
+use Statamic\Stache\Query\EntryQueryBuilder;
 
 class Catalog extends Component
 {
@@ -354,7 +354,7 @@ class Catalog extends Component
      * This method takes into account the current collections passed through the Livewire component.
      */
     #[Computed(persist: true)]
-    private function getProducts(): Builder
+    private function getProducts(): EntryQueryBuilder
     {
         $products = Entry::query()
             ->where('site', Site::current()->handle())
