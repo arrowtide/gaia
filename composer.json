@@ -12,7 +12,6 @@
         "statamic-rad-pack/shopify": "^5.0",
         "statamic/cms": "^5.0",
         "marcorieser/statamic-livewire": "^4.0",
-        "marcorieser/tailwind-merge-statamic": "^1.1.0",
         "arrowtide/statamic-payment-icons": "^1.0.0",
         "stillat/antlers-components": "^2.5.0"
     },
