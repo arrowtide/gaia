@@ -92,19 +92,19 @@
         </div>
     </div>
 
-        <div
-            class="duration-300 overlay ease"
-            x-show="open"
-            @click="closeAllDrawers()"
-            x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100"
-            x-transition:leave-start="opacity-100"
-            x-transition:leave-end="opacity-0"
-            x-cloak
-
-            @if ($overlay == false)
-                style="opacity: 0 !important;"
-            @endif
-        ></div>
+    {{-- You need to explicitly add height full here for Safari. --}}
+    <div
+        class="duration-300 overlay ease h-full"
+        x-show="open"
+        @click="closeAllDrawers()"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        x-cloak
+        @if ($overlay == false)
+            style="opacity: 0 !important;"
+        @endif
+    ></div>
 </dialog>
 
