@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Arrowtide\Gaia\Http\Livewire;
 
+use Arrowtide\Gaia\Support\CatalogFilters as Filters;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Number;
-use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
@@ -17,6 +15,7 @@ use MarcoRieser\Livewire\WithPagination;
 use Statamic\Extensions\Pagination\LengthAwarePaginator;
 use Statamic\Facades\Entry;
 use Statamic\Facades\Site;
+use Statamic\Stache\Query\EntryQueryBuilder;
 
 class Catalog extends Component
 {
@@ -53,23 +52,36 @@ class Catalog extends Component
     public string $currentUrl = '';
 
     /**
+     * The active filter map, if there are any active filters.
+     */
+    public array $activeFilterMap = [];
+
+    /**
      * The complete map of all filters. This is manipulated after we know what the
      * active filters are, so we can update the count on each filter.
      */
     public array $filterMap = [];
 
     /**
-     * Livewire mount
+     * Called when a component is created.
      */
     public function mount($collections, Request $request): void
     {
         $this->collections = $collections;
         $this->currentUrl = $request->path();
-        $this->filterMap = $this->getFilterData();
+
+        if (Filters::hasCachedMap($this->currentUrl)) {
+            $this->filterMap = Filters::getCachedMap($this->currentUrl);
+        } else {
+            $this->filterMap = Filters::initMap()
+                ->add(Filters::generatePriceFilterMap($this->products->get()))
+                ->add(Filters::generateProductMetadataMap($this->products->get()))
+                ->generate($this->currentUrl);
+        }
     }
 
     /**
-     * Livewire boot
+     * Called at the beginning of every request. Both initial, and subsequent
      */
     public function boot(): void
     {
@@ -77,7 +89,7 @@ class Catalog extends Component
     }
 
     /**
-     * Livewire updated
+     * Called after updating a property
      */
     public function updated(): void
     {
@@ -86,33 +98,53 @@ class Catalog extends Component
     }
 
     /**
-     * Livewire render
+     * Renders the Livewire component.
+     *
+     * Returns a view with the current products, active filters, and a boolean
+     * indicating whether there are any filters available.
      */
-    public function render()
+    public function render(): View
     {
         return view('shop.listings.default._listings', $this->fetchProducts(), [
-            'filters' => $this->getFilterMap(),
+            'filters' => $this->activeFilterMap,
             'active_filters' => $this->activeFilters,
-            'no_filters' => empty($this->getFilterMap()),
+            'no_filters' => empty($this->filterMap),
         ]);
     }
 
-    public function sort($value): void
+    /**
+     * Sort the products by a given option.
+     *
+     * @param  string  $value  The sort option.
+     */
+    public function sort(string $value): void
     {
         $this->sortOption = $value;
     }
 
-    public function page($value): void
+    /**
+     * Update the page size.
+     *
+     * @param  int  $value  The new page size.
+     */
+    public function page(int $value): void
     {
-        // Update selected page size
+        // Update the selected page size
         $this->pageSize = $value;
     }
 
-    public function paginationView()
+    /**
+     * The component to use for rendering the pagination links.
+     */
+    public function paginationView(): string
     {
         return 'shop.listings.default._pagination';
     }
 
+    /**
+     * Resets the active filters by clearing the active filters array
+     * and the price range array.
+     */
     public function resetFilters(): void
     {
         $this->activeFilters = [];
@@ -125,11 +157,27 @@ class Catalog extends Component
     #[On('catalog-fetch-products')]
     public function fetchProducts(): array
     {
-        // Extract sort field and direction from selected sort option
+        // Extract sort field and direction from a selected sort option
         [$sortField, $sortDirection] = explode('_', $this->sortOption);
 
         if ($this->areAnyFiltersActive()) {
-            $this->applyFilters();
+            // Iterates over the active filter options (color, size, etc.) value (red, green, blue, etc.),
+            // replaces the values with slugs from the filter map, then filters the products by those slugs
+            collect($this->allActiveFilters())->each(function ($filterData, $filterUrlKey) {
+                $slugs = collect($filterData)->keys()->flatMap(function ($value) use ($filterUrlKey) {
+                    return Filters::getProductSlugsFromFilterMapOption($filterUrlKey, $value, $this->filterMap);
+                });
+
+                if ($slugs->isNotEmpty()) {
+                    $this->products = $this->products->whereIn('slug', $slugs->toArray());
+                }
+            });
+        }
+
+        if ($this->areAnyFiltersActive()) {
+            $this->activeFilterMap = $this->getManipulatedFilterMap();
+        } else {
+            $this->activeFilterMap = $this->filterMap;
         }
 
         // Handle sorting based on the field
@@ -144,44 +192,15 @@ class Catalog extends Component
         return $this->withPagination('products', $products);
     }
 
-    private function applyFilters(): void
+    /**
+     * Sorts the products by price in the specified direction.
+     *
+     * @param  string  $sortDirection  The direction of the sort. Accepted values are 'asc' and 'desc'.
+     * @return array The sorted products.
+     */
+    public function sortByPrice(string $sortDirection): array
     {
-        $filters = collect(config('gaia.filtering.filters'));
-
-        $this->getAllCurrentFilters()->each(function ($filterData, $filterKey) use ($filters) {
-            $filterConfig = $filters->firstWhere('url', $filterKey);
-
-            if (! $filterConfig) {
-                return;
-            }
-
-            $use = $filterConfig['use'];
-            $type = $filterConfig['type'];
-
-            if (in_array($type, ['product_metadata', 'price'])) {
-                $slugs = collect($filterData)->keys()->flatMap(function ($option) use ($use) {
-                    return $this->getSlugsFromFilterMap($use, $option);
-                });
-
-                if ($slugs->isNotEmpty()) {
-                    $this->products = $this->products->whereIn('slug', $slugs->toArray());
-                }
-            }
-        });
-    }
-
-    public function sortByPrice($sortDirection): array
-    {
-        $products = $this->products
-            ->get()
-            ->map(function ($product) {
-                $minPrice = $this->getProductMinPrice($product);
-                $product->min_price = $minPrice;
-
-                return $product;
-            })
-            ->sortBy('min_price', SORT_REGULAR, $sortDirection === 'desc')
-            ->values();
+        $products = Filters::sortByPrice($this->products->get(), $sortDirection);
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
         $currentItems = $products->slice(($currentPage - 1) * $this->pageSize, $this->pageSize)->all();
@@ -197,71 +216,25 @@ class Catalog extends Component
         return $this->withPagination('products', $paginator);
     }
 
-    private function getProductMinPrice($product): float
-    {
-        $variants = $this->getProductVariants()->where('product_slug', $product->slug())->get();
-
-        $minPrice = $variants->min(function ($variant) {
-            $price = $variant->price;
-            $compareAtPrice = $variant->compare_at_price;
-
-            if ($compareAtPrice && $compareAtPrice < $price) {
-                return $compareAtPrice;
-            }
-
-            return $price;
-        });
-
-        return (float) ($minPrice ?? 0.0);
-    }
-
     /**
-     * Gets the raw data for the filters, before any filtering has taken place.
+     * Gets the manipulated filter map.
+     *
+     * @return array The manipulated filter map.
      */
-    public function getFilterData()
-    {
-        $cache_key = 'gaia/filters/'.$this->currentUrl;
-        $filters = [];
-
-        if (Cache::has($cache_key) && config('gaia.filtering.cache_enabled')) {
-            return json_decode(Cache::get($cache_key), true);
-        } else {
-            $filters = array_merge(
-                $filters,
-                $this->getPriceFilter(),
-                $this->getProductMetadataFilters(),
-            );
-
-            if (config('gaia.filtering.cache_enabled')) {
-                $filtersJSON = json_encode($filters);
-                Cache::put($cache_key, $filtersJSON, config('gaia.filtering.cache_duration'));
-            }
-
-            return $filters;
-        }
-    }
-
-    private function getFilterMap(): array
-    {
-        return $this->areAnyFiltersActive() ? $this->getManipulatedFilterMap() : $this->filterMap;
-    }
-
     private function getManipulatedFilterMap(): array
     {
         // Loop through each filter on the map and count how many matches there are for each filter option
-        $modifiedFilterMap = collect($this->filterMap)->map(function ($filter) {
-
+        return collect($this->filterMap)->map(function ($filter) {
             $options = collect($filter['options'])->map(function ($option) {
                 return collect($option)->when(isset($option['product_count']), function ($option) {
 
                     $count = count($option->get('_products'));
                     $isFilterOptionChecked = $this->isFilterOptionChecked($option->get('url'), $option->get('value'));
 
-                    /**
-                     * Gets the slugs from every selected filter except from the same option (style, colour). We want the count of Colour:red
-                     * on its own. Not the count of products containing colour:red that also have the attribute colour:blue
-                     */
-                    $slugsFromOtherFiltersExceptThisOne = $this->getActiveFilterSlugsFromEverythingButTheSameFilter($option->get('url'), $option->get('value'));
+                    // Gets the slugs from every selected filter except from the same option (style, color).
+                    // We want the count of [color:red] on its own. Not the count of products containing
+                    // [colour:red] that also have the attribute [colour:blue]
+                    $slugsFromOtherFiltersExceptThisOne = Filters::getActiveFilterSlugsFromAllFiltersButThisOne($option->get('url'), $this->filterMap, $this->allActiveFilters());
 
                     if (! empty($slugsFromOtherFiltersExceptThisOne)) {
                         $slugsFromOtherFiltersExceptThisOne = collect($slugsFromOtherFiltersExceptThisOne)->filter(function ($item) use ($option) {
@@ -271,9 +244,8 @@ class Catalog extends Component
                         $count = $slugsFromOtherFiltersExceptThisOne->count();
                     }
 
-                    /**
-                     * If the filter Is the filter is checked, but the count is 0, then remove it from current filters. Prevents issues.
-                     */
+                    // If the filter is the filter is checked, but the count is 0, then remove
+                    // it from current filters. Prevents issues.
                     if ($isFilterOptionChecked && $count == 0) {
                         $this->removeFilterOption($option->get('url'), $option->get('value'));
                     }
@@ -286,15 +258,15 @@ class Catalog extends Component
             });
 
             return [
-                'id' => $filter['id'],
                 'title' => $filter['title'],
                 'options' => $options->toArray(),
             ];
-        });
-
-        return $modifiedFilterMap->toArray();
+        })->toArray();
     }
 
+    /**
+     * Check if a filter option is checked.
+     */
     private function isFilterOptionChecked(string $url, string $value): bool
     {
         // Check in regular filters
@@ -310,176 +282,26 @@ class Catalog extends Component
         return false;
     }
 
-    private function removeFilterOption($url, $value): void
+    /**
+     * Removes a filter option from the active filters.
+     *
+     * @param  string  $url  The filter URL key.
+     * @param  string  $value  The filter option value.
+     */
+    private function removeFilterOption(string $url, string $value): void
     {
         unset($this->activeFilters[$url][$value]);
     }
 
-    private function getActiveFilterSlugsFromEverythingButTheSameFilter($url, $value): array
-    {
-        $options = collect($this->filterMap)
-            ->pluck('options')
-            ->collapse()
-            ->reject(fn ($item) => $item['url'] === $url)
-            ->values();
-
-        $slugs = collect();
-
-        foreach ($this->getAllCurrentFilters() as $filterUrl => $filterData) {
-            if ($filterUrl == $url) {
-                continue;
-            }
-
-            $currentSlugs = collect($filterData)
-                ->keys()
-                ->flatMap(function ($filterValue) use ($filterUrl, $options) {
-                    $matchingOption = $options->first(fn ($item) => $item['url'] === $filterUrl && $item['value'] === $filterValue
-                    );
-
-                    return $matchingOption['_products'] ?? [];
-                })
-                ->unique();
-
-            if ($slugs->isNotEmpty() && $currentSlugs->isNotEmpty()) {
-                $slugs = $slugs->intersect($currentSlugs);
-            } else {
-                $slugs = $slugs->merge($currentSlugs);
-            }
-        }
-
-        return $slugs->unique()->values()->toArray();
-    }
-
-    private function getPriceFilter(): array
-    {
-        $productPriceMap = [];
-
-        $this->products->get()->each(function ($product) use (&$productPriceMap) {
-            $variants = $this->getProductVariants()->where('product_slug', $product->slug())->get();
-            $minPrice = $variants->min(function ($variant) {
-                return min($variant->price, $variant->compare_at_price ?: $variant->price);
-            });
-            $productPriceMap[$product->slug()] = $minPrice;
-        });
-
-        $minPrice = (float) collect($productPriceMap)->min();
-        $maxPrice = (float) collect($productPriceMap)->max();
-
-        $rangeSize = $this->calculateRangeSize($maxPrice);
-
-        $result = [];
-
-        for ($i = 0; $i <= $maxPrice; $i += $rangeSize) {
-            $rangeStart = $i;
-            $rangeEnd = $i + $rangeSize;
-
-            $productsInThisRange = collect($productPriceMap)->filter(function ($price) use ($rangeStart, $rangeEnd) {
-                return $price >= $rangeStart && $price < $rangeEnd;
-            });
-
-            if ($productsInThisRange->isNotEmpty()) {
-                $value = floor($rangeStart).'-'.ceil($rangeEnd);
-
-                $result[] = [
-                    'filter_id' => 'price-'.$value,
-                    'url' => 'price',
-                    'value' => $value,
-                    'model' => 'price.'.$value,
-                    'name' => $this->getRangeName($rangeStart, $rangeEnd),
-                    'checked' => false,
-                    '_products' => $productsInThisRange->keys()->toArray(),
-                    'product_count' => $productsInThisRange->count(),
-                ];
-            }
-        }
-
-        return [[
-            'id' => Str::lower(Str::random(10)),
-            'title' => 'Price',
-            'options' => $result,
-        ]];
-    }
-
-    private function calculateRangeSize(float $maxPrice): float
-    {
-        $maxPrice = max(0, $maxPrice);
-
-        return match (true) {
-            $maxPrice < 50 => 10,
-            $maxPrice < 100 => 25,
-            $maxPrice < 500 => 100,
-            default => $maxPrice / 5,
-        };
-    }
-
-    private function getRangeName($rangeStart, $rangeEnd): string
-    {
-        return Number::currency(
-            (float) $rangeStart,
-            Site::current()->attribute('currency') ?? config('gaia.default_currency'),
-            Site::current()->locale()
-        ).' - '.Number::currency(
-            (float) $rangeEnd,
-            Site::current()->attribute('currency') ?? config('gaia.default_currency'),
-            Site::current()->locale()
-        );
-    }
-
-    private function getProductMetadataFilters(): array
-    {
-        $attributes = collect(config('gaia.filtering.filters'))->where('type', 'product_metadata');
-        $map = [];
-        $filters = [];
-
-        $allProducts = $this->products->get();
-
-        foreach ($attributes as $data) {
-            $attr = $data['use'];
-            $productsWithAttr = $allProducts->whereNotNull($attr);
-
-            if ($productsWithAttr->isNotEmpty()) {
-                $map[$attr] = [];
-
-                foreach ($productsWithAttr as $product) {
-                    $attribute_value = $product->value($attr);
-
-                    if ($this->isArrayAndOneDeep($attribute_value)) {
-                        foreach ($attribute_value as $arrayItem) {
-                            $map[$attr][$arrayItem][] = $product->slug();
-                        }
-                    } elseif (is_string($attribute_value)) {
-                        $map[$attr][$attribute_value][] = $product->slug();
-                    }
-                }
-
-                $options = [];
-                foreach ($map[$attr] as $key => $slugs) {
-                    $options[] = [
-                        'filter_id' => 'filters-'.$data['url'].'-'.$this->encodeFilterOption($key),
-                        'url' => $data['url'],
-                        'name' => $key,
-                        'checked' => false,
-                        'value' => $this->encodeFilterOption($key),
-                        'model' => 'activeFilters.'.$data['url'].'.'.$this->encodeFilterOption($key),
-                        'product_count' => count($slugs),
-                        '_products' => $slugs,
-                    ];
-                }
-
-                $filters[] = [
-                    'id' => Str::lower(Str::random(10)),
-                    'title' => $data['name'],
-                    'options' => $options,
-                ];
-            }
-        }
-
-        return $filters;
-    }
-
+    /**
+     * Cleans the active filters and price arrays by removing false values.
+     *
+     * This method uses a recursive function to remove false values from the active filters
+     * and price arrays. If a filter option is set to false, it is removed from the active filters.
+     * If a price range filter is set to false, it is removed from the price array.
+     */
     private function cleanFilters(): void
     {
-        // Function to remove false values recursively
         $removeFalseValues = function (&$array) use (&$removeFalseValues) {
             foreach ($array as $key => &$value) {
                 if (is_array($value)) {
@@ -493,12 +315,17 @@ class Catalog extends Component
             }
         };
 
-        // Clean filters and price arrays by removing false values
         $removeFalseValues($this->activeFilters);
         $removeFalseValues($this->price);
     }
 
-    private function getAllCurrentFilters(): Collection
+    /**
+     * Gets all current filters.
+     *
+     * This method returns a collection that contains all current filters,
+     * including price filters.
+     */
+    private function allActiveFilters(): array
     {
         $allFilters = collect($this->activeFilters);
 
@@ -506,53 +333,28 @@ class Catalog extends Component
             $allFilters->put('price', $this->price);
         }
 
-        return $allFilters;
+        return $allFilters->toArray();
     }
 
-    private function getSlugsFromFilterMap($filterName, $filterValue)
-    {
-        $options = collect($this->filterMap)->pluck('options')->collapse();
-
-        $match = $options->first(function ($option) use ($filterName, $filterValue) {
-            return $option['url'] === $filterName && $option['value'] == $filterValue;
-        });
-
-        return $match ? $match['_products'] : null;
-    }
-
-    private function isArrayAndOneDeep($array): bool
-    {
-        if (! is_array($array)) {
-            return false;
-        }
-
-        foreach ($array as $value) {
-            if (is_array($value)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
+    /**
+     * Checks if any filters are currently active.
+     *
+     * This method checks if any filters, including price filters, are currently active.
+     *
+     * @return bool True if any filters are currently active, false otherwise.
+     */
     private function areAnyFiltersActive(): bool
     {
-        return ! empty($this->activeFilters) || ! empty($this->price);
+        return ! empty($this->allActiveFilters());
     }
 
-    private function encodeFilterOption($string): string
-    {
-        return Str::of(Str::replace(' ', '_', $string))->lower()->toString();
-    }
-
+    /**
+     * Returns a query builder instance for the products that are visible in the catalog.
+     *
+     * This method takes into account the current collections passed through the Livewire component.
+     */
     #[Computed(persist: true)]
-    private function getProductVariants()
-    {
-        return Entry::query()->where('site', Site::default()->handle())->where('collection', 'variants');
-    }
-
-    #[Computed(persist: true)]
-    private function getProducts()
+    private function getProducts(): EntryQueryBuilder
     {
         $products = Entry::query()
             ->where('site', Site::current()->handle())

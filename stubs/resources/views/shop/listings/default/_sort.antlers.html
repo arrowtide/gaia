@@ -22,7 +22,6 @@
     function sortOptionText() {
         return {
             get text() {
-
                 switch (this.$wire.sortOption) {
                     case 'title_asc':
                       return 'Name: a - z'
@@ -31,9 +30,8 @@
                     case 'price_asc':
                       return 'Price: low to high'
                     case 'price_desc':
-                      return 'Price: high to low<'
-                  }
-                  
+                      return 'Price: high to low'
+                }
             }
         }
     }
