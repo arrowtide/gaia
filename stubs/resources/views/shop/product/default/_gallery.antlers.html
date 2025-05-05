@@ -102,8 +102,6 @@
                 lightboxId,
 
                 init() {
-                    console.log(this.sliderId, this.lightboxId);
-
                     window.addEventListener('product-data-reloaded', () => {
                         try {
                             const imagePath = Alpine.store('product').currentProduct.image;
@@ -120,7 +118,6 @@
 
                 initGallery() {
                     if (this.galleryLength === 1) {
-                        console.log('no gallery');
                         return;
                     }
                     this.gallerySwiper = new Swiper(`[data-swiper-slider="${ this.sliderId }"]`, {
@@ -129,8 +126,6 @@
                             type: "progressbar",
                         },
                     });
-
-                    console.log(this.gallerySwiper);
 
                     // Update active index for the thumnails & so the gallery and lightbox 
                     // can always be on the same slide. 

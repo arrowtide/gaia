@@ -178,7 +178,6 @@
             }
 
             const parents = getAllmodalParents(this.$root);
-            console.log(parents);
 
             parents.forEach(parent => {
                 parent.querySelector('[data-modal-inner]').style.transitionDuration = `0ms`;
