@@ -27,38 +27,38 @@ tree:
                 title: 'Mobile Stack'
                 data:
                   type: mobile_stack
-                  stack_title: Trees
+                  stack_title: 'Example Stack'
                 children:
                   -
                     id: eed92506-e4af-428e-8e4u-e35248c62451
                     title: Links
                     data:
                       type: link_group
-                      links_group_title: Trees
+                      links_group_title: 'Example Title'
                     children:
                       -
                         id: db073ad3-3187-4057-93b0-8ab1ce8f986a
-                        title: Oak
+                        title: Example
                         data:
                           type: link
                       -
                         id: 3c4d5e6f-7a8b-4c9d-8e0f-1a2b3c4d5e6f
-                        title: Birch
+                        title: Example
                         data:
                           type: link
                       -
                         id: 4d5e6f7a-8b9c-4d0e-9f1a-2b3c4d5e6f7a
-                        title: Pine
+                        title: Example
                         data:
                           type: link
                       -
                         id: 5e6f7a8b-9c0d-4e1f-2a3b-4c5d6e7f8a9b
-                        title: Maple
+                        title: Example
                         data:
                           type: link
                       -
                         id: 6f7a8b9c-0d1e-4f2a-3b4c-5d6e7f8a9b0c
-                        title: Cedar
+                        title: Example
                         data:
                           type: link
                   -
@@ -66,16 +66,16 @@ tree:
                     title: Links
                     data:
                       type: link_group
-                      links_group_title: Moar
+                      links_group_title: 'Example Title'
                     children:
                       -
                         id: 6b1b2d91-2439-437f-b037-f031f7eb42fd
-                        title: 'More trees'
+                        title: Example
                         data:
                           type: link
                       -
                         id: 6137a1b4-c4f5-432f-8b1c-14af1834dba8
-                        title: 'More trewes'
+                        title: Example
                         data:
                           type: link
           -
@@ -90,28 +90,28 @@ tree:
                 title: 'Mobile Stack'
                 data:
                   type: mobile_stack
-                  stack_title: Plants
+                  stack_title: 'Example Stack'
                 children:
                   -
                     id: eed92506-e4af-428e-8e4f-e35248k62451
                     title: Links
                     data:
                       type: link_group
-                      links_group_title: Plants
+                      links_group_title: 'Example Title'
                     children:
                       -
                         id: db073ad3-3187-4057-93b0-8ab1ce8f986a
-                        title: Oak
+                        title: Example
                         data:
                           type: link
                       -
                         id: 3c4d5e6f-7a8b-4c9d-8e0f-1a2b3c4d5e6f
-                        title: Birch
+                        title: Example
                         data:
                           type: link
                       -
                         id: 4d5e6f7a-8b9c-4d0e-9f1a-2b3c4d5e6f7a
-                        title: Pine
+                        title: Example
                         data:
                           type: link
           -
@@ -126,28 +126,28 @@ tree:
                 title: 'Mobile Stack'
                 data:
                   type: mobile_stack
-                  stack_title: Trees
+                  stack_title: 'Example Stack'
                 children:
                   -
                     id: eed92206-e4af-428e-8e4f-e35248c62451
                     title: Links
                     data:
                       type: link_group
-                      links_group_title: Trees
+                      links_group_title: 'Example Title'
                     children:
                       -
                         id: a1b2c3d4-e5f6-7a8b-9c0d-e1f2a3b4c5d6
-                        title: 'Boston Fern'
+                        title: Example
                         data:
                           type: link
                       -
                         id: b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e
-                        title: 'Maidenhair Fern'
+                        title: Example
                         data:
                           type: link
                       -
                         id: c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f
-                        title: 'Staghorn Fern'
+                        title: Example
                         data:
                           type: link
           -
@@ -162,33 +162,33 @@ tree:
                 title: 'Mobile Stack'
                 data:
                   type: mobile_stack
-                  stack_title: Cacti
+                  stack_title: 'Example Stack'
                 children:
                   -
                     id: eed92506-e4af-428e-8e4f-e35248c62451
                     title: Links
                     data:
                       type: link_group
-                      links_group_title: Cacti
+                      links_group_title: 'Example Title'
                     children:
                       -
                         id: d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9g
-                        title: Saguaro
+                        title: Example
                         data:
                           type: link
                       -
                         id: e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9g0h
-                        title: 'Prickly Pear'
+                        title: Example
                         data:
                           type: link
                       -
                         id: f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9g0h1i
-                        title: 'Barrel Cactus'
+                        title: Example
                         data:
                           type: link
                       -
                         id: a7b8c9d0-e1f2-3a4b-5c6d-7e8f9g0h1i2j
-                        title: Cholla
+                        title: Example
                         data:
                           type: link
   -
