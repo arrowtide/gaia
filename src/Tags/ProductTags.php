@@ -56,7 +56,7 @@ class ProductTags extends SubTag
             'max_display_price' => $maxDisplayPrice,
             'min_compare_at_price' => $minCompareAtPrice,
             'max_compare_at_price' => $maxCompareAtPrice,
-            'is_discounted' => $isDiscounted
+            'is_discounted' => $isDiscounted,
         ];
 
         $prices['is_uniform_price'] = $prices['min_display_price'] == $prices['max_display_price'];
