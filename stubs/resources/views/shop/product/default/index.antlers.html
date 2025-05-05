@@ -61,8 +61,9 @@
                     this.updateProductData();
                 },
                 findVariantBySelectedOptions(options) {
-                    if (!options || Object.keys(options).length < 3) return undefined;
-                    return this.variants.find(variant => {
+                    if (! options) return undefined;
+
+                    return this.variants.filter(variant => {
                         return Object.keys(options).every(key => {
                             const optionNumber = parseInt(key);
                             const optionKey = `option${optionNumber}`;
@@ -80,12 +81,26 @@
                 updateCurrentProduct() {
                     let variant;
 
-                    variant = this.variants.length === 1 ? this.variants[0] : this.findVariantBySelectedOptions(this.selectedOptions);
+                    // If there is only one variant initially, we know that this is 
+                    // a single, unconfigurable product. The shopify addon adds a 
+                    // single variant, even if there are no product options.
+                    if (this.variants.length === 1) {
+                        variant = this.variants[0];
+                    } else {
+                        variant = this.findVariantBySelectedOptions(this.selectedOptions);
+                    }
 
-                    if (!variant) {
+                    // If there is more than one variant found we know 
+                    // not all selected options have been selected yet
+                    if (! variant || variant.length !== 1) {
                         this.currentProduct = undefined;
+
                         return;
                     }
+
+                    // If there is only one variant found we know all selected options 
+                    // have been selected so grab the first one of the array.
+                    variant = variant[0];
 
                     this.currentProduct =  {
                         ...variant,
