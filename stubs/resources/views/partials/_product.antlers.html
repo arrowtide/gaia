@@ -4,7 +4,7 @@
         {{ if featured_image }}
             <div class="w-full aspect-square" >
                 <a href="{{ url }}" tabindex="-1" class="block">
-                    <x-picture 
+                    <x-picture
                         :src="featured_image"
                         size.default.width="250"
                         size.default.height="250"
@@ -32,24 +32,24 @@
                     {{ if {gaia:product:single} }}
                         {{ if is_discounted }}
                             <span class="flex items-center gap-1 mt-2 text-base font-medium text-red-600 sm:text-lg">
-                                {{ gaia:currency :price="min_discounted_price" }}
-                                {{ if (discount_percentage <= '5') }} 
+                                {{ gaia:currency :price="min_display_price" }}
+                                {{ if (discount_percentage <= '5') }}
                                     <span class="text-xs font-medium text-red-600">(-{{ gaia:currency :price="discount_amount" }})</span>
                                 {{ else }}
                                     <span class="text-xs font-medium text-red-600">(-{{ discount_percentage | floor }}%)</span>
                                 {{ /if }}
                             </span>
                             <div class="flex items-center">
-                                <span class="text-sm line-through text-slate-500">{{ gaia:currency :price="min_regular_price" }}</span>
+                                <span class="text-sm line-through text-slate-500">{{ gaia:currency :price="min_compare_at_price" }}</span>
                             </div>
                         {{ /else }}
-                            <span class="block mt-2 text-base font-medium sm:text-lg">{{ gaia:currency :price="min_price" }}</span>
+                            <span class="block mt-2 text-base font-medium sm:text-lg">{{ gaia:currency :price="min_display_price" }}</span>
                         {{ /if }}
                     {{ /if }}
 
                     {{ if {gaia:product:configurable} }}
                         <span class="block mt-2 font-medium">
-                            {{ unless is_uniform_price }}From{{ /unless }} <span class="text-lg">{{ gaia:currency :price="min_price" }}</span>
+                            {{ unless is_uniform_price }}From{{ /unless }} <span class="text-lg">{{ gaia:currency :price="min_display_price" }}</span>
                         </span>
                     {{ /if }}
                 {{ /gaia:product:price }}

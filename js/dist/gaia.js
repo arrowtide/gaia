@@ -54,6 +54,44 @@ window.gaia = {
                 v = c === 'x' ? r : r & 0x3 | 0x8;
             return v.toString(16);
         });
+    },
+
+    waitForAlpineStore(name, interval = 75) {
+        return new Promise((resolve) => {
+
+          // Check immediately if the store is available
+          if (window.Alpine?.store && Alpine.store(name) !== undefined) {
+            resolve();
+            return;
+          }
+      
+          // Otherwise, wait for the store to be defined
+          const check  = setInterval(() => {
+            if (window.Alpine?.store && Alpine.store(name) !== undefined) {
+                clearInterval(check); // Stop checking once it's available
+                resolve(); // Resolve the promise once store is found
+            }
+          }, interval);
+        });
+    },
+
+    waitForAlpine() {
+        return new Promise((resolve) => {
+
+          // Check immediately if the store is available
+          if (window.Alpine?.store) {
+            resolve();
+            return;
+          }
+      
+          // Otherwise, wait for the store to be defined
+          const check  = setInterval(() => {
+            if (window.Alpine?.store) {
+                clearInterval(check); // Stop checking once it's available
+                resolve(); // Resolve the promise once store is found
+            }
+          }, 75);
+        });
     }
 }
 

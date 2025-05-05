@@ -1,8 +1,18 @@
 {{ isDiscounted = estimatedCost.totalAmount.amount !== estimatedCost.subtotalAmount.amount }}
+{{ hasCompareAt = estimatedCost.compareAtAmount && estimatedCost.compareAtAmount.amount }}
 
 <div class="flex items-center">
-    {{ if isDiscounted }}
-        <p class="block text-sm tracking-wide line-through text-slate-500">{{ gaia:currency :price="estimatedCost.subtotalAmount.amount" }}</p>
+    {{ if hasCompareAt }}
+        <p class="block text-sm tracking-wide line-through text-slate-500">
+            {{ gaia:currency :price="estimatedCost.compareAtAmount.amount" }}
+        </p>
+    {{ elseif isDiscounted }}
+        <p class="block text-sm tracking-wide line-through text-slate-500">
+            {{ gaia:currency :price="estimatedCost.subtotalAmount.amount" }}
+        </p>
     {{ /if }}
-    <p class="ml-2 {{ isDiscounted ?= 'text-red-700'}}">{{ gaia:currency :price="estimatedCost.totalAmount.amount" }}</p>
+
+    <p class="ml-2 {{ if isDiscounted or hasCompareAt }}text-red-700{{ /if }}">
+        {{ gaia:currency :price="estimatedCost.totalAmount.amount" }}
+    </p>
 </div>

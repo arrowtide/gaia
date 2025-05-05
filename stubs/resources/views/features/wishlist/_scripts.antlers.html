@@ -1,214 +1,219 @@
 
 {{ once }}
     {{ push:head }}
-        {{ if logged_in }}
-            <script type="module">
-                window.addEventListener('alpine:init', () => {
-                    Alpine.store('wishlist', {
-                        wishlistData: null,
-                        currentProduct: null,
-                        activeCollectionLength: 0,
+        <script type="module">
+            window.addEventListener('alpine:init', () => {
+                Alpine.store('wishlist', {
+                    wishlistData: null,
+                    currentProduct: null,
+                    activeCollectionLength: 0,
 
-                        init() {
-                            this.getWishlist();
-                        },
-
-                        async getWishlist() {
-                            try {
-                                const response = await fetch('/!/gaia/account/wishlists', {
-                                    method: 'GET',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'X-Requested-With': 'XMLHttpRequest',
-                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                                    }
-                                });
-
-                                const responseData = await response.json();
-
-                                if (responseData.reason == 'no_wishlist_data') {
-                                    this.createWishlist('default');
-                                    return
-                                }
-
-                                this.wishlistData = responseData;
-
-                                const collection = this.wishlistData.collections.find(item => item.id === 'default');
-
-                                this.activeCollectionLength = collection.items.length;
-
-                                window.dispatchEvent(new CustomEvent(`wishlist-data-ready`));
-                            }
-                            catch (error) {
-                                console.log('Error fetching wishlist data:', error);
-
-                                this.wishlistData = null;
-                            }
-                        },
-
-                        async createWishlist(name) {
-                            try {
-                                const response = await fetch('/!/gaia/account/wishlist/create', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'X-Requested-With': 'XMLHttpRequest',
-                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                                    },
-                                    body: JSON.stringify({
-                                        name: 'Saved',
-                                        id: 'default'
-                                    })
-                                });
-
+                    init() {
+                        gaia.waitForAlpineStore('isUserLoggedIn').then(() => {
+                            if (Alpine.store('isUserLoggedIn')) {
                                 this.getWishlist();
                             }
-                            catch (error) {
-                                console.log('Error creating wishlist:', error);
+                        });
+                    },
 
-                                gaia.toast({
-                                    text: `{{ "We couldn't add this product to your wishlist at this time" | trans }}`,
-                                    type: `error`
-                                });
+                    async getWishlist() {
+                        try {
+                            const response = await fetch('/!/gaia/account/wishlists', {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-Requested-With': 'XMLHttpRequest',
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                                }
+                            });
 
-                                this.status = ! this.status;
+                            const responseData = await response.json();
+
+                            if (! response.ok) {
+                                throw Error('Get wishlist request failed');
                             }
-                            finally {
-                                this.loading = false;
+
+                            if (responseData.reason == 'no_wishlist_data') {
+                                this.createWishlist('default');
+                                return
                             }
-                        },
 
-                        async addToWishlist(productId) {
-                            let collectionId = 'default';
+                            this.wishlistData = responseData;
 
-                            try {
-                                const response = await fetch('/!/gaia/account/wishlist/update', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'X-Requested-With': 'XMLHttpRequest',
-                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                                    },
-                                    body: JSON.stringify({
-                                        product_id: productId,
-                                        wishlist_ids: ['default'],
-                                    })
-                                });
+                            const collection = this.wishlistData.collections.find(item => item.id === 'default');
 
-                                this.wishlistData.collections.find(item => item.id == collectionId).items.push(productId);
+                            this.activeCollectionLength = collection.items.length;
 
-                                gaia.toast({
-                                    text: `{{ "Added product to wishlist" | trans }}`,
-                                    type: `success`
-                                });
-                            }
-                            catch (error) {
-                                console.log('Error adding to wishlist:', error);
+                            window.dispatchEvent(new CustomEvent(`wishlist-data-ready`));
+                        }
+                        catch (error) {
+                            console.log('Error fetching wishlist data:', error);
 
-                                gaia.toast({
-                                    text: `{{ "We couldn't add this product to your wishlist at this time" | trans }}`,
-                                    type: `error`
-                                });
-                            }
-                            finally {
-                                window.dispatchEvent(new CustomEvent(`wishlist-add-${productId}`, {
-                                    detail: {
-                                        isProductInWishlist: this.isProductInWishlistData(productId)
-                                    },
-                                }));
-                            }
-                        },
+                            this.wishlistData = null;
+                        }
+                    },
 
-                        async removeFromWishlist(productId) {
-                            let collectionId = 'default';
+                    async createWishlist(name) {
+                        try {
+                            const response = await fetch('/!/gaia/account/wishlist/create', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-Requested-With': 'XMLHttpRequest',
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                                },
+                                body: JSON.stringify({
+                                    name: 'Saved',
+                                    id: 'default'
+                                })
+                            });
 
-                            try {
-                                const response = await fetch('/!/gaia/account/wishlist/removeItem', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'X-Requested-With': 'XMLHttpRequest',
-                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                                    },
-                                    body: JSON.stringify({
-                                        product_id: productId,
-                                        wishlist_ids: ['default'],
-                                    })
-                                });
+                            this.getWishlist();
+                        }
+                        catch (error) {
+                            console.log('Error creating wishlist:', error);
 
-                                this.wishlistData.collections.find(item => item.id == collectionId).items.splice(this.wishlistData.collections.find(item => item.id == collectionId).items.indexOf(productId), 1);
-                            }
-                            catch (error) {
-                                console.log('Error removing from wishlist:', error);
+                            gaia.toast({
+                                text: `{{ "We couldn't add this product to your wishlist at this time" | trans }}`,
+                                type: `error`
+                            });
 
-                                gaia.toast({
-                                    text: `{{ "We couldn't remove this product from your wishlist at this time" | trans }}`,
-                                    type: `error`
-                                });
-                            }
-                            finally {
-                                window.dispatchEvent(new CustomEvent(`wishlist-remove-${productId}`, {
-                                    detail: {
-                                        isProductInWishlist: this.isProductInWishlistData(productId)
-                                    },
-                                }));
-                            }
-                        },
+                            this.status = ! this.status;
+                        }
+                        finally {
+                            this.loading = false;
+                        }
+                    },
 
-                        isProductInWishlistData(productId) {
-                            return this.wishlist.items.includes(productId)
-                        },
+                    async addToWishlist(productId) {
+                        let collectionId = 'default';
 
-                        get wishlist() {
-                            return this.wishlistData.collections[0];
-                        },
-                    });
-                })
-            </script>
-        {{ /if }}
+                        try {
+                            const response = await fetch('/!/gaia/account/wishlist/update', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-Requested-With': 'XMLHttpRequest',
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                                },
+                                body: JSON.stringify({
+                                    product_id: productId,
+                                    wishlist_ids: ['default'],
+                                })
+                            });
+
+                            this.wishlistData.collections.find(item => item.id == collectionId).items.push(productId);
+
+                            gaia.toast({
+                                text: `{{ "Added product to wishlist" | trans }}`,
+                                type: `success`
+                            });
+                        }
+                        catch (error) {
+                            console.log('Error adding to wishlist:', error);
+
+                            gaia.toast({
+                                text: `{{ "We couldn't add this product to your wishlist at this time" | trans }}`,
+                                type: `error`
+                            });
+                        }
+                        finally {
+                            window.dispatchEvent(new CustomEvent(`wishlist-add-${productId}`, {
+                                detail: {
+                                    isProductInWishlist: this.isProductInWishlistData(productId)
+                                },
+                            }));
+                        }
+                    },
+
+                    async removeFromWishlist(productId) {
+                        let collectionId = 'default';
+
+                        try {
+                            const response = await fetch('/!/gaia/account/wishlist/removeItem', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-Requested-With': 'XMLHttpRequest',
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                                },
+                                body: JSON.stringify({
+                                    product_id: productId,
+                                    wishlist_ids: ['default'],
+                                })
+                            });
+
+                            this.wishlistData.collections.find(item => item.id == collectionId).items.splice(this.wishlistData.collections.find(item => item.id == collectionId).items.indexOf(productId), 1);
+                        }
+                        catch (error) {
+                            console.log('Error removing from wishlist:', error);
+
+                            gaia.toast({
+                                text: `{{ "We couldn't remove this product from your wishlist at this time" | trans }}`,
+                                type: `error`
+                            });
+                        }
+                        finally {
+                            window.dispatchEvent(new CustomEvent(`wishlist-remove-${productId}`, {
+                                detail: {
+                                    isProductInWishlist: this.isProductInWishlistData(productId)
+                                },
+                            }));
+                        }
+                    },
+
+
+                    isProductInWishlistData(productId) {
+                        return this.wishlist.items.includes(productId)
+                    },
+
+                    get wishlist() {
+                        return this.wishlistData.collections[0];
+                    },
+                });
+            })
+        </script>
     {{ /push:head }}
 {{ /once }}
 
 {{ once }}
     {{ push:scripts }}
-        {{ if logged_in }}
-            <script type="module">
-                Alpine.data('productWishlist', (productId, isProductInWishlist) => ({
-                    loading: false,
-                    changed: false,
-                    isProductInWishlist: isProductInWishlist,
-                    productId: productId,
+        <script type="module">
+            Alpine.data('productWishlist', (productId, isProductInWishlist) => ({
+                loading: false,
+                changed: false,
+                isProductInWishlist: isProductInWishlist,
+                productId: productId,
 
-                    handleWishlistButtonClick() {
-                        if (this.loading) {
-                            return;
-                        }
-
-                        this.changed = true;
-                        this.loading = true;
-
-
-                        if (this.isProductInWishlist) {
-                            Alpine.store('wishlist').removeFromWishlist(this.productId);
-                        } else {
-                            Alpine.store('wishlist').addToWishlist(this.productId);
-                        }
-
-                        this.isProductInWishlist = ! this.isProductInWishlist;
-                    },
-
-                    eventListeners: {
-                        [`@wishlist-remove-${productId}.window`](event) {
-                            this.loading = false;
-                            this.isProductInWishlist = event.detail.isProductInWishlist;
-                        },
-                        [`@wishlist-add-${productId}.window`](event) {
-                            this.loading = false;
-                            this.isProductInWishlist = event.detail.isProductInWishlist;
-                        }
+                handleWishlistButtonClick() {
+                    if (this.loading) {
+                        return;
                     }
-                }))
-            </script>
-        {{ /if }}
+
+                    this.changed = true;
+                    this.loading = true;
+
+
+                    if (this.isProductInWishlist) {
+                        Alpine.store('wishlist').removeFromWishlist(this.productId);
+                    } else {
+                        Alpine.store('wishlist').addToWishlist(this.productId);
+                    }
+
+                    this.isProductInWishlist = ! this.isProductInWishlist;
+                },
+
+                eventListeners: {
+                    [`@wishlist-remove-${productId}.window`](event) {
+                        this.loading = false;
+                        this.isProductInWishlist = event.detail.isProductInWishlist;
+                    },
+                    [`@wishlist-add-${productId}.window`](event) {
+                        this.loading = false;
+                        this.isProductInWishlist = event.detail.isProductInWishlist;
+                    }
+                }
+            }))
+        </script>
     {{ /push:scripts }}
 {{ /once }}

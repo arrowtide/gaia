@@ -41,32 +41,30 @@ class ProductTags extends SubTag
         $priceMap = $variants->map(function ($variant) {
             return [
                 'price' => $variant->price,
-                'discounted_price' => $variant->compare_at_price,
+                'compare_at_price' => $variant->compare_at_price,
             ];
         });
 
-        $minRegularPrice = $priceMap->min('price');
-        $maxRegularPrice = $priceMap->max('price');
-        $minDiscountedPrice = $priceMap->min('discounted_price');
-        $maxDiscountedPrice = $priceMap->max('discounted_price');
-        $isDiscounted = $minDiscountedPrice && ($minDiscountedPrice < $minRegularPrice);
+        $minDisplayPrice = $priceMap->min('price');
+        $maxDisplayPrice = $priceMap->max('price');
+        $minCompareAtPrice = $priceMap->min('compare_at_price');
+        $maxCompareAtPrice = $priceMap->max('compare_at_price');
+        $isDiscounted = $minCompareAtPrice && ($minCompareAtPrice > $minDisplayPrice);
 
         $prices = [
-            'min_regular_price' => $minRegularPrice,
-            'max_regular_price' => $maxRegularPrice,
-            'min_discounted_price' => $minDiscountedPrice,
-            'max_discounted_price' => $maxDiscountedPrice,
+            'min_display_price' => $minDisplayPrice,
+            'max_display_price' => $maxDisplayPrice,
+            'min_compare_at_price' => $minCompareAtPrice,
+            'max_compare_at_price' => $maxCompareAtPrice,
             'is_discounted' => $isDiscounted,
-            'min_price' => $isDiscounted ? $minDiscountedPrice : $minRegularPrice,
-            'max_price' => $maxDiscountedPrice ?: $maxRegularPrice,
         ];
 
-        $prices['is_uniform_price'] = $prices['min_price'] == $prices['max_price'];
+        $prices['is_uniform_price'] = $prices['min_display_price'] == $prices['max_display_price'];
 
         if ($isDiscounted) {
-            $discountAmount = $maxRegularPrice - $maxDiscountedPrice;
+            $discountAmount = $minCompareAtPrice - $maxDisplayPrice;
             $prices['discount_amount'] = $discountAmount;
-            $prices['discount_percentage'] = round(($discountAmount / $maxRegularPrice) * 100, 2);
+            $prices['discount_percentage'] = round(($discountAmount / $maxCompareAtPrice) * 100, 2);
         }
 
         return $prices;
