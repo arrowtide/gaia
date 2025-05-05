@@ -18,7 +18,7 @@
             {{ /if }}
 
             {{ if {gaia:product:configurable} }}
-                <span class="block mt-2 text-3xl">From {{ gaia:currency :price="min_display_price" }}</span>
+                <span class="block mt-2 text-3xl">{{ unless is_uniform_price }}From{{ /unless }} {{ gaia:currency :price="min_display_price" }}</span>
             {{ /if }}
         {{ /gaia:product:price }}
     </span>
@@ -37,11 +37,11 @@
                 </div>
             </template>
 
-            <template x-if="(! $store.product.priceTable.isDiscounted) && ($store.product.areAllOptionsSelected)">
+            <template x-if="(! $store.product.priceTable.isDiscounted) && $store.product.currentProduct != undefined">
                 <span class="block mt-2 text-3xl" x-text="$store.product.priceTable.formattedMinPrice"></span>
             </template>
 
-            <span x-show="! $store.product.areAllOptionsSelected" class="block mt-2 text-3xl">From <span x-text="$store.product.priceTable.formattedMinPrice"></span>
+            <span x-show="$store.product.currentProduct == undefined" class="block mt-2 text-3xl">From <span x-text="$store.product.priceTable.formattedMinPrice"></span>
         </span>
     {{ /if }}
 </div>
