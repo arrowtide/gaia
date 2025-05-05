@@ -14,22 +14,11 @@
 
     {{ partial:layout/head/favicon }}
 
-    {{ vite src="resources/css/site.css" }}
-    {{ vite src="resources/js/site.js" }}
-
-    {{ livewire:styles }}
-
-    {{ stack:head }}
-
-    {{ gaia:head }}
+    {{ partial:layout/layout/head_end }}
 </head>
 <body class="text-sm antialiased leading-normal bg-slate-100 md:text-base font-default text-slate-800">
 
-    {{ stack:after_body_start }}
-
-    <livewire:minicart lazy="on-load" />
-    <livewire:live-search />
-    {{ partial:layout/toasts/toasts }}
+    {{ partial:layout/layout/body_start }}
 
     <div class="flex flex-col min-h-screen">
         {{ partial:layout/header/header }}
@@ -41,47 +30,7 @@
         {{ partial:layout/footer/footer }}
     </div>
 
-    {{ stack:before_body_end }}
-
-    <script type="module">
-        gaia.swiperReady = () => {
-            return new Promise(function(resolve, reject) {
-
-                const complete = () => {
-                    document.removeEventListener('swiper-is-ready', complete);
-                    resolve();
-                }
-
-                if (window.Swiper) {
-                    resolve();
-                } else {
-                    document.addEventListener('swiper-is-ready', complete, {once: true})
-                }
-            });
-        },
-
-        gaia.onInteraction().then(() => {
-            gaia.loadScript(`{{ vite:asset src="resources/js/swiper.js" }}`).then(() => {
-                document.dispatchEvent(new CustomEvent('swiper-is-ready'));
-            })
-        })
-    </script>
-
-
-    {{ livewire:scriptConfig }}
-
-    {{ vite src="resources/js/alpine.js" }}
-
-    {{ stack:stores }}
-    {{ stack:scripts }}
-
-    <!-- Blade components scripts -->
-    <x-scripts />
-
-    <!-- Wishlist scripts -->
-    {{ partial:features/wishlist/scripts }}
-
-    {{ gaia:livewire_start }}
+    {{ partial:layout/layout/body_end }}
 
 </body>
 </html>

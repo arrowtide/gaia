@@ -1,0 +1,14 @@
+{{ vite src="resources/css/site.css" }}
+{{ vite src="resources/js/site.js" }}
+
+{{ livewire:styles }}
+
+{{ stack:head }}
+
+{{ nocache }}
+    <script type="module">
+        await gaia.waitForAlpine();
+        Alpine.store('isUserLoggedIn', JSON.parse('{{ logged_in | bool_string }}'));
+    </script>
+{{ /nocache }}
+
