@@ -69,13 +69,13 @@
         tabindex="-1"
         style="transition-duration: {{  $duration }}ms;"
     >
-        <div class="relative flex flex-col h-full overflow-auto">
+        <div class="relative grid grid-rows-[auto_1fr_auto] h-full">
             <header class="py-4 border-b border-b-slate-200">
                 <x-drawer.section class="flex items-center justify-between">
                     @if (isset($back))
                         {{ $back }}
-                    @endif  
-                    <x-heading level="2" size="4" class="w-full text-center">{{ $heading }}</x-heading>
+                    @endif
+                    <x-heading level="2" size="4" class="w-full text-center {{ isset($back) ? '' : 'ml-11' }}">{{ $heading }}</x-heading>
                     <x-button label="Close" variant="ghost" icon="close" class="btn-round" @click="closeAllDrawers()" />
                 </x-drawer.section>
             </header>

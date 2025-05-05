@@ -30,8 +30,12 @@ window.gaia = {
         });
     },
 
-    formatPrice: (price, currency) => {
-        return price.toLocaleString("en-GB", { style: "currency", currency: "GBP" });
+    formatPrice: (price, locale, currency) => {
+        // Since the code comes from Statamic it should be in POSIX format, we 
+        // will attempt to convert to a valid BCP 47 locale.
+        locale = locale.replace('_', '-');
+        
+        return price.toLocaleString(locale, { style: "currency", currency: currency });
     },
 
     getCSRF: () => {

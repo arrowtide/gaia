@@ -1,19 +1,6 @@
 # Tags
 
-<div class="column-nav">
-
-- [currency](#currency)
-- [customer:orders](#customer-orders)
-- [customer:order](#customer-order)
-- [id](#id)
-- [product:single](#product-single)
-- [product:configurable](#product-configurable)
-- [product:price](#product-price)
-- [product:options](#product-options)
-- [store:countries](#store-countries)
-- [wishlist:contains](#test)
-
-</div>
+[TOC]
 
 
 ## Introduction
@@ -53,6 +40,13 @@ Attach it to a variable to make it reusable:
 		...
 	});
 </script>
+```
+
+## siteCurrency
+Returns the current currency that is being used by the site. This will either be the `default_currency` defined in `gaia.php` or the `currency` attribute set on the site if you're on a multisite setup.
+
+```twig
+{{ gaia:site_currency }}
 ```
 
 
