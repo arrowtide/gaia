@@ -58,7 +58,7 @@
     @endif
 
     @if ($loading)
-        <span class="inline-flex gap-2 group-data-loading/button:opacity-0" x-ignore>
+        <span class="inline-flex gap-2 group-data-loading/button:opacity-0">
     @endif
 
     @if ($icon)
