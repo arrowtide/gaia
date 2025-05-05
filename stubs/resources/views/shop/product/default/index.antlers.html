@@ -85,7 +85,9 @@
                     // a single, unconfigurable product. The shopify addon adds a 
                     // single variant, even if there are no product options.
                     if (this.variants.length === 1) {
-                        variant = this.variants[0];
+                        // findVariantBySelectedOptions returns an array, 
+                        // so we put this inside an array too
+                        variant = [this.variants[0]]
                     } else {
                         variant = this.findVariantBySelectedOptions(this.selectedOptions);
                     }
@@ -98,11 +100,12 @@
                         return;
                     }
 
-                    // If there is only one variant found we know all selected options 
-                    // have been selected so grab the first one of the array.
                     variant = variant[0];
 
-                    this.currentProduct =  {
+                    // Clone the variant so we arent using the original
+                    variant = JSON.parse(JSON.stringify(variant));
+
+                    this.currentProduct = {
                         ...variant,
                         isSaleable: variant.inventory_quantity > 0,
                         inStock: variant.inventory_quantity > 0,
@@ -276,9 +279,7 @@
                 // Product form
                 loading: false,
                 disabled: false,
-                async handleProductFormSubmit($event) {
-                    $event.preventDefault();
-
+                async handleProductFormSubmit() {
                     if (this.disabled) {
                         return;
                     }
