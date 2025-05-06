@@ -58,7 +58,6 @@ return [
         ]
     ],
 
-    // User menu links
     'user_menu' => [
         'title' => 'Account',
         'profile' => 'Profile',
