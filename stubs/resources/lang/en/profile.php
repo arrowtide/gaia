@@ -24,7 +24,7 @@ return [
 
         'password' => [
             'title' => 'Change Password',
-        ]
+        ],
     ],
 
     'orders' => [
@@ -41,13 +41,13 @@ return [
         'end_of_orders' => 'You\'ve reached the end of your orders.',
         'order_not_found' => 'We couldn\’t find this order',
         'ordered_items' => 'Ordered Items',
-    
+
         'tracking' => [
             'shipped_with' => 'Your package has shipped with',
             'tracking_number' => 'Tracking number',
             'track_package_button' => 'Track your package',
         ],
-    
+
         'status' => [
             'cancelled' => 'Cancelled',
             'fulfilled' => 'Fulfilled',
@@ -68,6 +68,6 @@ return [
             'partially_paid' => 'Partially Paid',
             'partially_refunded' => 'aPartially Refunded',
             'voided' => 'Voided',
-        ]
-    ]
+        ],
+    ],
 ];

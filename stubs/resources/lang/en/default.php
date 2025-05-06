@@ -55,7 +55,7 @@ return [
         'added_to_cart_with_product' => [
             'title' => 'Added to cart',
             'text' => ':product has been added to cart.',
-        ]
+        ],
     ],
 
     'user_menu' => [

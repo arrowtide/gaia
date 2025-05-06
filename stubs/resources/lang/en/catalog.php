@@ -1,11 +1,11 @@
-<?php 
+<?php
 
 return [
     'no_results_text' => 'No products found.',
     'select_options' => 'Please select options',
 
     'pagination' => [
-        'progress_text' => ':current_page of :last_page pages (There are <strong class="font-medium">:total</strong> products)'
+        'progress_text' => ':current_page of :last_page pages (There are <strong class="font-medium">:total</strong> products)',
     ],
 
     'sort_name' => [
