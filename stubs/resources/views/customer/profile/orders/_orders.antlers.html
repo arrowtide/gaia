@@ -5,7 +5,7 @@
             {{ if no_results }}
                 <p class="flex flex-col items-center justify-center py-32 text-lg text-center font-display card">
                     {{ svg src="orders" class="w-12 h-12 mb-6 fill-slate-500" aria-hidden="true" }}
-                    You've not made any orders yet
+                    {{ trans:profile.orders.no_orders }}
                 </p>
             {{ /if  }}
 
@@ -16,65 +16,65 @@
                         <div class="flex items-center">
                             {{ if cancelReason }}
                                 <span class="flex items-center justify-center w-12 mr-5 border-2 aspect-square rounded-xl border-rose-600 bg-rose-100 text-rose-900">
-                                    <span class="sr-only">Cancelled</span>
+                                    <span class="sr-only">{{ trans:profile.orders.status.cancelled }}</span>
                                     {{ svg src="close" class="w-6 h-6 fill-current" }}
                                 </span>
                             {{ else }}
                                 {{ if (displayFulfillmentStatus == 'FULFILLED') }}
                                     <span class="flex items-center justify-center w-12 mr-5 border-2 aspect-square rounded-xl border-emerald-600 bg-emerald-100 text-emerald-900">
-                                        <span class="sr-only">Fulfilled</span>
+                                        <span class="sr-only">{{ trans:profile.orders.status.fulfilled }}</span>
                                         {{ svg src="check" class="w-6 h-6 fill-current" }}
                                     </span>
                                 {{ elseif (displayFulfillmentStatus == 'IN_PROGRESS') }}
                                     <span class="flex items-center justify-center w-12 mr-5 text-blue-900 bg-blue-100 border-2 border-blue-600 border-dashed aspect-square rounded-xl">
-                                        <span class="sr-only">In progress</span>
+                                        <span class="sr-only">{{ trans:profile.orders.status.in_progress }}</span>
                                         {{ svg src="hourglass-empty" class="w-6 h-6 fill-current" }}
                                     </span>
                                 {{ elseif (displayFulfillmentStatus == 'ON_HOLD') }}
                                     <span class="flex items-center justify-center w-12 mr-5 text-yellow-900 bg-yellow-100 border-2 border-yellow-600 border-dashed aspect-square rounded-xl">
-                                        <span class="sr-only">On hold</span>
+                                        <span class="sr-only">{{ trans:profile.orders.status.on_hold }}</span>
                                         {{ svg src="pause" class="w-6 h-6 fill-current" }}
                                     </span>
                                 {{ elseif (displayFulfillmentStatus == 'OPEN' || displayFulfillmentStatus == 'UNFULFILLED') }}
                                     <span class="flex items-center justify-center w-12 mr-5 text-blue-900 bg-blue-100 border-2 border-blue-600 border-dashed aspect-square rounded-xl">
-                                        <span class="sr-only">Unfulfilled</span>
+                                        <span class="sr-only">{{ trans:profile.orders.status.unfulfilled }}</span>
                                         {{ svg src="hourglass-empty" class="w-6 h-6 fill-current" }}
                                     </span>
                                 {{ elseif (displayFulfillmentStatus == 'PARTIALLY_FULFILLED') }}
                                     <span class="flex items-center justify-center w-12 mr-5 text-blue-900 bg-blue-100 border-2 border-blue-600 border-dashed aspect-square rounded-xl">
-                                        <span class="sr-only">Partially fulfilled</span>
+                                        <span class="sr-only">{{ trans:profile.orders.status.partially_fulfilled }}</span>
                                         {{ svg src="minus" class="w-6 h-6 fill-current" }}
                                     </span>
                                 {{ elseif (displayFulfillmentStatus == 'PENDING_FULFILLMENT') }}
                                     <span class="flex items-center justify-center w-12 mr-5 text-indigo-900 bg-indigo-100 border-2 border-indigo-600 border-dashed aspect-square rounded-xl">
-                                        <span class="sr-only">Pending fulfillment</span>
+                                        <span class="sr-only">{{ trans:profile.orders.status.pending_fulfillment }}</span>
                                         {{ svg src="hourglass-empty" class="w-6 h-6 fill-current" }}
                                     </span>
                                 {{ elseif (displayFulfillmentStatus == 'REQUEST_DECLINED') }}
                                     <span class="flex items-center justify-center w-12 mr-5 text-red-900 bg-red-100 border-2 border-red-600 aspect-square rounded-xl">
-                                        <span class="sr-only">Request declined</span>
+                                        <span class="sr-only">{{ trans:profile.orders.status.request_declined }}</span>
                                         {{ svg src="close" class="w-6 h-6 fill-current" }}
                                     </span>
                                 {{ elseif (displayFulfillmentStatus == 'RESTOCKED') }}
                                     <span class="flex items-center justify-center w-12 mr-5 text-teal-900 bg-teal-100 border-2 border-teal-600 border-dashed aspect-square rounded-xl">
-                                        <span class="sr-only">Restocked</span>
+                                        <span class="sr-only">{{ trans:profile.orders.status.restocked }}</span>
                                         {{ svg src="cycle" class="w-6 h-6 fill-current" }}
                                     </span>
                                 {{ elseif (displayFulfillmentStatus == 'SCHEDULED') }}
                                     <span class="flex items-center justify-center w-12 mr-5 text-blue-900 bg-blue-100 border-2 border-blue-600 border-dashed aspect-square rounded-xl">
-                                        <span class="sr-only">Scheduled</span>
+                                        <span class="sr-only">{{ trans:profile.orders.status.scheduled }}</span>
                                         {{ svg src="calendar-clock" class="w-6 h-6 fill-current" }}
                                     </span>
                                 {{ else }}
                                     <span class="flex items-center justify-center w-12 mr-5 border-2 border-dashed aspect-square rounded-xl border-sky-600 bg-sky-100 text-sky-900">
-                                        <span class="sr-only">Pending</span>
+                                        <span class="sr-only">{{ trans:profile.orders.status.pending }}</span>
                                         {{ svg src="schedule" class="w-6 h-6 fill-current" }}
                                     </span>
                                 {{ /if }}
                             {{ /if }}
 
                             <a href="/account/orders/{{ id | trim_shopify_id }}" class="text-lg font-medium stretched-link">
-                                Ordered on {{ createdAt | format('j M o') }}
+                                {{ trans:profile.orders.ordered_on }} {{ createdAt | format('j M o') }}
                             </a>
                         </div>
 
@@ -99,37 +99,39 @@
                                                 <div class="ml-2 sm:ml-5">
                                                     <h2 class="mb-2 font-medium">{{ title }}</h2>
                                                         <p class="text-sm text-slate-700">
-                                                            Quantity: {{ quantity }}
+                                                            {{ trans:default.quantity }}: {{ quantity }}
                                                         </p>
                                                 </div>
                                             </div>
                                         {{ /collection:products }}
-                                    {{ /lineItems}}
+                                    {{ /lineItems }}
                                 </div>
                             </div>
 
                             <div class="flex flex-wrap items-center pt-8 pb-2 border-t sm:flex-nowrap mt-7 border-slate-200">
                                 <div class="flex w-full sm:w-auto">
                                     <p class="relative z-10 flex flex-col mr-4 font-medium">
-                                        <span class="text-sm font-normal text-slate-700 min-w-[110px]">Order Total:</span>
+                                        <span class="text-sm font-normal text-slate-700 min-w-[110px]">{{ trans:profile.orders.order_total }}:</span>
                                         <span>{{ gaia:currency price="{ totalPriceSet.shopMoney.amount }" }}</span>
                                     </p>
 
                                     <p class="relative z-10 flex flex-col font-medium">
-                                        <span class="text-sm font-normal text-slate-700min-w-[110px]">Order Number</span>
+                                        <span class="text-sm font-normal text-slate-700min-w-[110px]">{{ trans:profile.orders.order_number }}:</span>
                                         <span>{{ name }}</span>
                                     </p>
                                 </div>
 
                                 <x-button variant="secondary" icon="arrow_right_alt" icon_position="end" class="mt-12 ml-auto sm:mt-0">
-                                    View order
+                                    {{ trans:profile.orders.view_order }}
                                 </x-button>
                             </div>
                         </li>
                     {{ /orders }}
                 </ul>
 
-                <p class="text-sm text-center mt-14 text-slate-500">You've reached the end of your orders.</p>
+                <p class="text-sm text-center mt-14 text-slate-500">
+                    {{ trans:profile.orders.end_of_orders }}
+                </p>
             {{ /unless }}
         {{ /gaia:customer:orders }}
     </div>

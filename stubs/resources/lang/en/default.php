@@ -9,6 +9,21 @@ return [
     'save' => 'Save',
     'reset' => 'Reset',
     'close' => 'Close',
+    'quantity' => 'Quantity',
+    'sku' => 'SKU',
+
+    'totals' => [
+        'subtotal' => 'Subtotal',
+        'shipping' => 'Shipping',
+        'discounts' => 'Discounts',
+        'refunded' => 'Refunded',
+        'grand_total' => 'Grand Total',
+    ],
+
+    'shipping_address' => 'Shipping Address',
+    'billing_address' => 'Billing Address',
+
+    
 
     // Forms
     'form_select_placeholder' => 'Please select an option...',
