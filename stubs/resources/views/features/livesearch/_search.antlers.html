@@ -1,8 +1,8 @@
 {{#
     @livewire app/Livewire/LiveSearch.php
-    
+
     @name Livesearch Component
-    @desc The live search component dropdown. 
+    @desc The live search component dropdown.
 #}}
 <div>
     <x-drawer name="livesearch" heading="Search" wire:ignore.self>
@@ -82,7 +82,7 @@
                 {{ if livesearch_characters_left == false && products.no_results && shop.no_results }}
                     <div class="mb-10">
                         <x-heading level="2" size="4" class="mb-3">{{ trans:default.livesearch_no_results_heading }}</x-heading>
-                        <p>{{ trans:default.livesearch_no_results_description}} <strong>"{{ search }}"</strong></p>
+                        <p>{{ trans:default.livesearch_no_results_description}} <strong>"{{ search | sanitize }}"</strong></p>
                     </div>
                 {{ /if }}
             {{ /results }}
