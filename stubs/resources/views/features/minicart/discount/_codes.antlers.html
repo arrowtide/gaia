@@ -1,7 +1,7 @@
 {{ discount_codes as="codes" }}
     {{ unless no_results }}
         <section class="mt-1">
-            <x-heading level="2" size="4" class="sr-only">Active Codes</x-heading>
+            <x-heading level="2" size="4" class="sr-only">{{ trans:minicart.discounts.active_codes_heading }}</x-heading>
             <ol class="flex flex-wrap gap-3">
                 {{ codes }}
                     <li>

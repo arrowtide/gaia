@@ -1,15 +1,19 @@
 <?php
 
 return [
+    'apply' => 'Apply',
     'delete' => 'Delete',
     'confirm' => 'Confirm',
     'cancel' => 'Cancel',
     'save' => 'Save',
     'reset' => 'Reset',
+    'remove' => 'Remove',
     'close' => 'Close',
     'from' => 'From',
     'quantity' => 'Quantity',
+    'qty' => 'Qty',
     'sku' => 'SKU',
+    'cart' => 'Cart',
 
     'totals' => [
         'subtotal' => 'Subtotal',

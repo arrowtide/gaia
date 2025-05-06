@@ -4,9 +4,14 @@
         <p class="relative inline-flex items-center px-3 py-2 text-xs text-black rounded-lg bg-blue-50">
             {{ svg src="sell" class="mt-1 fill-current size-4" aria-hidden="true" }}
             {{ if discount.title }}
-                <span class="ml-2">{{ discount.title }} <span class="sr-only">is active</span></span>
+                <span class="ml-2">
+                    {{ discount.title }}
+                </span>
+                </span>
             {{ else }}
-                <span class="ml-2">Discount: -{{ gaia:currency :price="discount.discountedAmount.amount" }}</span>
+                <span class="ml-2">
+                    {{ trans:minicart.lineitem.discount_amount amount="{ gaia:currency :price="discount.discountedAmount.amount" }" }}
+                </span>
             {{ /if }}
         </p>
         {{ /line:discountAllocations }}
