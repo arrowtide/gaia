@@ -1,3 +1,4 @@
+# Gaia
 Gaia is a startkit for rapidly building Shopify stores on Statamic, and a companion to the [Shopify](https://github.com/arrowtide/shopify-the-rad-pack) addon.
 
 
@@ -30,7 +31,7 @@ To get started, follow the installation guide [here](https://gaiakit.com/docs).
 
 
 ## Demo 
-[View the demo](https://gaiakit.com). (Some features may not be available in the demo)
+[View the demo](https://demo.gaiakit.com). (Some features may not be available in the demo)
 
 
 ---
