@@ -1,8 +1,6 @@
 <?php
 
 return [
-
-    // Common
     'delete' => 'Delete',
     'confirm' => 'Confirm',
     'cancel' => 'Cancel',
@@ -23,11 +21,6 @@ return [
     'shipping_address' => 'Shipping Address',
     'billing_address' => 'Billing Address',
 
-    
-
-    // Forms
-    'form_select_placeholder' => 'Please select an option...',
-
     // Stock Status
     'in_stock' => 'In Stock',
     'out_of_stock' => 'Out of Stock',
@@ -43,9 +36,6 @@ return [
     'livesearch_reset_form' => 'Reset',
     'livesearch_close_modal' => 'Close Search',
     'livesearch_search_trigger_text' => 'Search...',
-
-    // Forms
-    'form_forgot_password' => 'Forgot Password?',
 
     // Filters
     'filters_title' => 'Filters',

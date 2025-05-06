@@ -18,7 +18,7 @@
     {{ nocache }}
         {{ user }}
             <span>
-                <x-heading level="1" class="mb-10">Welcome, {{ name }}</x-heading>
+                <x-heading level="1" class="mb-10">{{ trans:profile.welcome_title :name="name" }}</x-heading>
             </span>
         {{ /user }}
     {{ /nocache }}
@@ -27,36 +27,44 @@
         <li class="relative flex flex-col justify-center card hover:shadow-lg focus-within:shadow-lg">
             {{ svg src="orders" class="size-7 fill-slate-700" }}
             <a href="/account/orders" class="flex items-center mt-2 h3 stretched-link">
-                Orders
+                {{ trans:profile.cards.orders_title }}
                 {{ svg src="arrow_right_alt" class="ml-2 size-5 fill-slate-500" }}
             </a>
-            <p class="mt-2 text-sm text-slate-500">View and track orders, see order history.</p>
+            <p class="mt-2 text-sm text-slate-500">
+                {{ trans:profile.cards.orders_sub_title }}
+            </p>
         </li>
 
         <li class="relative flex flex-col justify-center card hover:shadow-lg focus-within:shadow-lg">
             {{ svg src="favorite" class="size-7 fill-slate-700" }}
             <a href="/account/saved" class="flex items-center mt-2 h3 stretched-link">
-                Saved
+                {{ trans:profile.cards.saved_title }}
                 {{ svg src="arrow_right_alt" class="ml-2 size-5 fill-slate-500" }}
             </a>
-            <p class="mt-2 text-sm text-slate-500">See all of your saved products.</p>
+            <p class="mt-2 text-sm text-slate-500">
+                {{ trans:profile.cards.saved_sub_title }}
+            </p>
         </li>
         <li class="relative flex flex-col justify-center card hover:shadow-lg focus-within:shadow-lg">
             {{ svg src="settings" class="size-7 fill-slate-700" }}
             <a href="/account/settings" class="flex items-center mt-2 h3 stretched-link">
-                Settings
+                {{ trans:profile.cards.settings_title }}
                 {{ svg src="arrow_right_alt" class="ml-2 size-5 fill-slate-500" }}
             </a>
-            <p class="mt-2 text-sm text-slate-500">View your account settings or change your password.</p>
+            <p class="mt-2 text-sm text-slate-500">
+                {{ trans:profile.cards.settings_sub_title }}
+            </p>
         </li>
         
         <li class="relative flex flex-col justify-center card hover:shadow-lg focus-within:shadow-lg">
             {{ svg src="logout" class="size-7 fill-slate-700" }}
             <a href="{{ user:logout_url }}" class="flex items-center mt-2 h3 stretched-link">
-                Logout
+                {{ trans:profile.cards.logout_title }}
                 {{ svg src="arrow_right_alt" class="ml-2 size-5 fill-slate-500" }}
             </a>
-            <p class="mt-2 text-sm text-slate-500">Logout of your account.</p>
+            <p class="mt-2 text-sm text-slate-500">
+                {{ trans:profile.cards.logout_sub_title }}
+            </p>
         </li>
     </ul>
 </div>

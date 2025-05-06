@@ -1,9 +1,31 @@
 <?php
 
 return [
-
     'back_to_profile' => 'Back to account',
     'back_to_orders' => 'Back to orders',
+    'welcome_title' => 'Welcome, :name',
+
+    'cards' => [
+        'orders_title' => 'Orders',
+        'orders_sub_title' => 'View and track orders, see order history.',
+
+        'saved_title' => 'Saved',
+        'saved_sub_title' => 'See all of your saved products.',
+
+        'settings_title' => 'Settings',
+        'settings_sub_title' => 'View your account settings or change your password.',
+
+        'logout_title' => 'Logout',
+        'logout_sub_title' => 'Logout of your account.',
+    ],
+
+    'settings' => [
+        'title' => 'Settings',
+
+        'password' => [
+            'title' => 'Change Password',
+        ]
+    ],
 
     'orders' => [
         'heading' => 'Orders',
@@ -19,13 +41,13 @@ return [
         'end_of_orders' => 'You\'ve reached the end of your orders.',
         'order_not_found' => 'We couldn\’t find this order',
         'ordered_items' => 'Ordered Items',
-
+    
         'tracking' => [
             'shipped_with' => 'Your package has shipped with',
             'tracking_number' => 'Tracking number',
             'track_package_button' => 'Track your package',
         ],
-
+    
         'status' => [
             'cancelled' => 'Cancelled',
             'fulfilled' => 'Fulfilled',
@@ -44,9 +66,8 @@ return [
             'authorized' => 'Authorized',
             'expired' => 'Expired',
             'partially_paid' => 'Partially Paid',
-            'partially_refunded' => 'Partially Refunded',
+            'partially_refunded' => 'aPartially Refunded',
             'voided' => 'Voided',
-
         ]
-    ],
+    ]
 ];
