@@ -3,10 +3,10 @@
     {{ redirect to="/account/login" }}
 {{ /if }}
 
-{{ partial:customer/profile/partials/back_link text="Back to account" url="/account" }}
+{{ partial:customer/profile/partials/back_link text="{ trans:profile.back_to_profile }" url="/account" }}
 
 <div class="container max-w-5xl py-head">
-    <x-heading level="1" class="mb-14" >Orders</x-heading>
+    <x-heading level="1" class="mb-14">{{ trans:profile.orders.heading }}</x-heading>
 
     {{ livewire:customer-orders lazy="true" }}
 </div>

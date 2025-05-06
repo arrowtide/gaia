@@ -3,9 +3,9 @@
         {{ gaia:product:price }}
             {{ if {gaia:product:single} }}
                 {{ if is_discounted }}
-                    <span class="block mt-2 text-3xl font-medium text-red-600">Now {{ gaia:currency :price="min_display_price" }}</span>
+                    <span class="block mt-2 text-3xl font-medium text-red-600">{{ trans:default.now }} {{ gaia:currency :price="min_display_price" }}</span>
                     <div class="flex items-center mt-2">
-                        <span class="text-sm text-slate-500">Was {{ gaia:currency :price="min_compare_at_price" }}</span>
+                        <span class="text-sm text-slate-500">{{ trans:default.was }} {{ gaia:currency :price="min_compare_at_price" }}</span>
                         {{ if (discount_percentage <= '5') }}
                             <span class="p-1 ml-2 text-sm text-red-600 rounded-xs">(-{{ gaia:currency :price="discount_amount" }})</span>
                         {{ else }}
@@ -18,7 +18,7 @@
             {{ /if }}
 
             {{ if {gaia:product:configurable} }}
-                <span class="block mt-2 text-3xl">{{ unless is_uniform_price }}From{{ /unless }} {{ gaia:currency :price="min_display_price" }}</span>
+                <span class="block mt-2 text-3xl">{{ unless is_uniform_price }}{{ trans:default.from }}{{ /unless }} {{ gaia:currency :price="min_display_price" }}</span>
             {{ /if }}
         {{ /gaia:product:price }}
     </span>
@@ -27,9 +27,9 @@
         <span x-show="show" x-cloak>
             <template x-if="$store.product.priceTable.isDiscounted">
                 <div>
-                    <span class="block mt-2 text-3xl font-medium text-red-600">Now <span x-text="$store.product.priceTable.formattedMinPrice"></span></span>
+                    <span class="block mt-2 text-3xl font-medium text-red-600">{{ trans:default.now }} <span x-text="$store.product.priceTable.formattedMinPrice"></span></span>
                     <div class="flex items-center mt-2">
-                        <span class="text-sm text-slate-500">Was <span x-text="$store.product.priceTable.formattedMaxPrice"></span></span>
+                        <span class="text-sm text-slate-500">{{ trans:default.was }} <span x-text="$store.product.priceTable.formattedMaxPrice"></span></span>
                         <span class="p-1 ml-2 text-sm font-medium text-red-600 rounded-xs">
                             (-<span x-text="$store.product.priceTable.discountPercentage"></span>%)
                         </span>
@@ -41,7 +41,7 @@
                 <span class="block mt-2 text-3xl" x-text="$store.product.priceTable.formattedMinPrice"></span>
             </template>
 
-            <span x-show="$store.product.currentProduct == undefined" class="block mt-2 text-3xl">From <span x-text="$store.product.priceTable.formattedMinPrice"></span>
+            <span x-show="$store.product.currentProduct == undefined" class="block mt-2 text-3xl">{{ trans:default.from }} <span x-text="$store.product.priceTable.formattedMinPrice"></span>
         </span>
     {{ /if }}
 </div>

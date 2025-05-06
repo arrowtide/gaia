@@ -1,40 +1,68 @@
 <?php
 
 return [
-
-    // Common
+    'apply' => 'Apply',
     'delete' => 'Delete',
     'confirm' => 'Confirm',
     'cancel' => 'Cancel',
     'save' => 'Save',
     'reset' => 'Reset',
+    'add' => 'Add',
+    'remove' => 'Remove',
     'close' => 'Close',
-
-    // Forms
-    'form_select_placeholder' => 'Please select an option...',
-
-    // Stock Status
-    'in_stock' => 'In Stock',
+    'from' => 'From',
+    'quantity' => 'Quantity',
+    'qty' => 'Qty',
+    'sku' => 'SKU',
+    'cart' => 'Cart',
+    'search' => 'Search',
+    'show_results' => 'Show results',
+    'show' => 'Show',
+    'next' => 'Next',
+    'previous' => 'Previous',
+    'now' => 'Now',
+    'was' => 'Was',
+    'from' => 'From',
     'out_of_stock' => 'Out of Stock',
+    'add_to_cart' => 'Add to Cart',
+    'open_in_full' => 'Open in full',
+    'logo_link_text' => 'Homepage',
+    'open_main_navigation' => 'Open Main Navigation',
+    'shipping_address' => 'Shipping Address',
+    'billing_address' => 'Billing Address',
 
-    // Gaia Livesearch
-    'livesearch_title' => 'Search',
-    'livesearch_product_results_heading' => 'Products:',
-    'livesearch_no_results_heading' => 'No Results Found',
-    'livesearch_no_results_description' => 'We couldn\'t find anything for ',
-    'livesearch_trending_searches_heading' => 'Trending Searches',
-    'livesearch_shop_results_heading' => 'Pages:',
-    'livesearch_characters_left' => 'You need 1 more character|You need :count more characters',
-    'livesearch_reset_form' => 'Reset',
-    'livesearch_close_modal' => 'Close Search',
-    'livesearch_search_trigger_text' => 'Search...',
+    'totals' => [
+        'subtotal' => 'Subtotal',
+        'shipping' => 'Shipping',
+        'discounts' => 'Discounts',
+        'refunded' => 'Refunded',
+        'grand_total' => 'Grand Total',
+    ],
 
-    // Forms
-    'form_forgot_password' => 'Forgot Password?',
+    'toast' => [
+        'unknown_error_try_again' => [
+            'title' => 'Unknown error',
+            'text' => 'Something went wrong, please try again',
+        ],
+        'unknown_error' => [
+            'title' => 'Unknown error',
+            'text' => 'Something went wrong',
+        ],
+        'not_enough_stock' => [
+            'title' => 'Not enough stock',
+            'text' => 'Sorry, we don\'t have enough stock for that quantity.',
+        ],
+        'added_to_cart_with_product' => [
+            'title' => 'Added to cart',
+            'text' => ':product has been added to cart.',
+        ],
+    ],
 
-    // Filters
-    'filters_title' => 'Filters',
-    'filters_mobile_open_button' => 'Filters',
-    'filters_mobile_back_button' => 'All Filters',
-    'filters_mobile_show_results' => 'Show Results',
+    'user_menu' => [
+        'title' => 'Account',
+        'profile' => 'Profile',
+        'orders' => 'Orders',
+        'saved' => 'Saved',
+        'logout' => 'Logout',
+    ],
 ];

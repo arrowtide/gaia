@@ -3,31 +3,35 @@
     {{ redirect to="/account/login" }}
 {{ /if }}
 
-{{ partial:customer/profile/partials/back_link text="Back to account" url="/account" }}
+{{ partial:customer/profile/partials/back_link text="{trans:profile.back_to_profile}" url="/account" }}
 
 <div class="container max-w-5xl py-head">
-    <x-heading level="1" class="mb-14">Settings</x-heading>
+    <x-heading level="1" class="mb-14">{{ trans:profile.settings.title }}</x-heading>
     
     <div class="grid grid-gap-5">
         <section class="card">
-            <x-heading level="2" size="3" class="mb-10">Change Password</x-heading>
+            <x-heading level="2" size="3" class="mb-10">{{ trans:profile.settings.password.title }}</x-heading>
 
             {{ user:password_form }}
                 {{ if errors }}
-                    <x-alert variant="error" class="mb-10">There are issues with your form. Please check and try again.</x-alert>
+                    <x-alert variant="error" class="mb-10">
+                        {{ trans:forms.message.error.default }}
+                    </x-alert>
                 {{ /if }}
     
                 {{ if success }}
-                    <x-alert variant="success" class="mb-10">You've submitted the form successfully.</x-alert>
+                    <x-alert variant="success" class="mb-10">
+                        {{ trans:forms.message.success.default }}
+                    </x-alert>
                 {{ /if }}
             
                 <div class="grid gap-6">
-                    <x-input name="current_password" type="password" label="Current Password" required autocomplete="none" autocapitalize="none" spellcheck="false" />
-                    <x-input name="password" label="New Password" type="password" required reveal autocomplete="new-password" autocapitalize="none" spellcheck="false" />
-                    <x-input name="password_confirmation" label="Confirm New Password" type="password" required reveal autocomplete="new-password" autocapitalize="none" spellcheck="false" />
+                    <x-input name="current_password" type="password" label="{{ trans:forms.label.current_password }}" required autocomplete="none" autocapitalize="none" spellcheck="false" />
+                    <x-input name="password" label="{{ trans:forms.label.new_password }}" type="password" required reveal autocomplete="new-password" autocapitalize="none" spellcheck="false" />
+                    <x-input name="password_confirmation" label="{{ trans:forms.label.confirm_password }}" type="password" required reveal autocomplete="new-password" autocapitalize="none" spellcheck="false" />
                 </div>
                 
-                <x-button type="submit" class="mt-10">Submit</x-button>
+                <x-button type="submit" class="mt-10">{{ trans:default.confirm }}</x-button>
             {{ /user:password_form }}
         </section>
     </div>

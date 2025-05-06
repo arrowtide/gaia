@@ -5,7 +5,7 @@
     @desc The minicart pop out Livewire component. 
 #}}
 <div>
-    <x-drawer name="minicart" heading="Your Basket" wire:ignore.self>
+    <x-drawer name="minicart" heading="{{ trans:minicart.title }}" wire:ignore.self>
         <div class="flex flex-col h-full">
             <x-drawer.section class="py-10">
                 <div wire:loading.flex>
@@ -30,7 +30,7 @@
                         {{ partial:features/minicart/totals }}
 
                         <x-button href="{{ checkoutUrl }}" @click="open = false" wire:loading.attr="disabled" class="w-full md:btn-lg">
-                            Continue to checkout
+                            {{ trans:minicart.checkout_button }}
                         </x-button>
                     </div>
                 {{ /unless }}

@@ -286,8 +286,8 @@
 
                     if (this.isProductQtyMoreThanAvailable) {
                         gaia.toast({
-                            title: 'Not enough stock',
-                            text: `Sorry, we don't have enough stock for that quantity. Please select something less than ${this.currentProduct.inventory_quantity + 1}`,
+                            title: '{{ trans:default.toast.not_enough_stock.title }}',
+                            text: `{{ trans:default.toast.not_enough_stock.text }}`,
                             type: 'error'
                         });
 
@@ -296,7 +296,8 @@
 
                     if (this.isProductDataMissing) {
                         gaia.toast({
-                            text: 'Something went wrong, please try again',
+                            title: '{{ trans:default.toast.unknown_error_try_again.title }}',
+                            text: '{{ trans:default.toast.unknown_error_try_again.text }}',
                             type: 'error'
                         });
 
@@ -306,7 +307,7 @@
                     try {
                         this.disabled = true;
                         this.loading = true;
-                        
+
                         const response = await fetch('/!/gaia/cart/add', {
                             method: 'POST',
                             headers: {
@@ -321,13 +322,15 @@
                         });
 
                         gaia.toast({
-                            text: `Added ${ this.title } to cart`,
+                            title: '{{ trans:default.toast.added_to_cart_with_product.title }}',
+                            text: `{{ trans:default.toast.added_to_cart_with_product.text \product="${ this.title }"  }}`,
                             type: 'success'
                         });
                     }
                     catch {
                         gaia.toast({
-                            text: `Couldn't add ${ this.title } to cart at this time`,
+                            title: '{{ trans:default.toast.unknown_error.title }}',
+                            text: '{{ trans:default.toast.unknown_error.text }}',
                             type: 'error'
                         });
                     }

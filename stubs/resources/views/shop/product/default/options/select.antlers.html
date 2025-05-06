@@ -6,9 +6,14 @@
     x-bind="select"
     class="max-w-xs text-sm form-select invalid:border-red-500"
 >
-    <option>{{ trans:default.form_select_placeholder }}</option>
+    <option>
+        {{ trans:forms.select_placeholder }}
+    </option>
+    
     {{ values }}
-        <option name="{{ name }}" option="{{ option }}" value="{{ value }}">{{ value }}</option>
+        <option name="{{ name }}" option="{{ option }}" value="{{ value }}">
+            {{ value }}
+        </option>
     {{ /values }}
 </select>
 

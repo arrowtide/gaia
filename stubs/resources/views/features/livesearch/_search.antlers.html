@@ -5,13 +5,13 @@
     @desc The live search component dropdown.
 #}}
 <div>
-    <x-drawer name="livesearch" heading="Search" wire:ignore.self>
+    <x-drawer name="livesearch" heading="{{ trans:livesearch.title }}" wire:ignore.self>
         <x-drawer.section>
             <div class="my-10">
                 <div class="relative flex items-center">
                     <x-input
                         class="w-full xl:text-lg pl-14 form-input bg-slate-50"
-                        placeholder="Search everything"
+                        placeholder="{{ trans:livesearch.input_placeholder }}"
                         type="search"
                         x-ref="searchInput"
                         wire:key="search-input"
@@ -31,13 +31,13 @@
                     </div>
 
                     {{ if {search | length} > 1 }}
-                        <x-button label="{{ trans:default.livesearch_reset_form }}" variant="ghost" icon="close" type="reset" class="absolute right-0 mx-3 btn-round btn-sm" wire:click="search = ''" />
+                        <x-button label="{{ trans:default.reset }}" variant="ghost" icon="close" type="reset" class="absolute right-0 mx-3 btn-round btn-sm" wire:click="search = ''" />
                     {{ /if }}
                 </div>
 
                 <p class="w-full mt-3 mb-10 text-xs text-right text-black/70">
                     {{ if livesearch_characters_left }}
-                        {{ trans_choice:default.livesearch_characters_left :count="livesearch_characters_left" }}
+                        {{ trans_choice:livesearch.characters_left :count="livesearch_characters_left" }}
                     {{ /if }}
                 </p>
             </div>
@@ -47,7 +47,7 @@
                     {{ unless no_results }}
                         <div class="mb-10">
                             <h3 class="flex justify-between pb-2 mb-3 border-b text-slate-500 border-slate-100">
-                                {{ trans:default.livesearch_shop_results_heading }}
+                                {{ trans:livesearch.shop_results_heading }}
 
                                 <span class="text-xs">{{ count }}</span>
                             </h3>
@@ -65,7 +65,7 @@
                     {{ unless no_results }}
                         <div class="mb-5">
                             <h3 class="flex justify-between pb-2 mb-3 border-b text-slate-500 border-slate-100">
-                                {{ trans:default.livesearch_product_results_heading }}
+                                {{ trans:livesearch.product_results_heading }}
 
                                 <span class="text-xs">{{ count }}</span>
                             </h3>
@@ -81,8 +81,8 @@
 
                 {{ if livesearch_characters_left == false && products.no_results && shop.no_results }}
                     <div class="mb-10">
-                        <x-heading level="2" size="4" class="mb-3">{{ trans:default.livesearch_no_results_heading }}</x-heading>
-                        <p>{{ trans:default.livesearch_no_results_description}} <strong>"{{ search | sanitize }}"</strong></p>
+                        <x-heading level="2" size="4" class="mb-3">{{ trans:livesearch.no_results_heading }}</x-heading>
+                        <p>{{ trans:livesearch.no_results_description}} <strong>"{{ search | sanitize }}"</strong></p>
                     </div>
                 {{ /if }}
             {{ /results }}
