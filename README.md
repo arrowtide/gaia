@@ -1,10 +1,3 @@
-<p align="center">
-    <img src="./cover.svg" alt="Gaia" width="460"/>
-</p>
-
----
-
-# Gaia - Shopify Starterkit for Statamic
 Gaia is a startkit for rapidly building Shopify stores on Statamic, and a companion to the [Shopify](https://github.com/arrowtide/shopify-the-rad-pack) addon.
 
 
