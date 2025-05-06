@@ -9,10 +9,14 @@
             {{ !prev_page_url ?= 'disabled' }}
         >
                 {{ svg src="arrow_left_alt" class="fill-current size-4" aria-disabled="true" }}
-            <span class="ml-2">Previous</span>
+            <span class="ml-2">
+                {{ trans:default.previous }}
+            </span>
         </button>
 
-        <span class="order-first col-span-2 mb-5 text-xs text-center md:mb-0 md:order-none">{{ current_page }} of {{ last_page }} pages (There are <strong class="font-medium">{{ total }}</strong> products)</span>
+        <span class="order-first col-span-2 mb-5 text-xs text-center md:mb-0 md:order-none">
+            {{ trans:catalog.pagination.progress_text :current_page="current_page" :last_page="last_page" :total="total" }}
+        </span>
 
         <button 
             wire:click="nextPage"
@@ -22,7 +26,9 @@
             class="gap-2 btn btn-primary min-w-32"
             {{ !next_page_url ?= 'disabled' }}
         >
-            <span>Next</span>
+            <span>
+                {{ trans:default.next }}
+            </span>
             {{ svg src="arrow_right_alt" class="fill-current size-4" aria-disabled="true" }}
         </button>
     </nav>

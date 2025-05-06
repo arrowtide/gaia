@@ -1,18 +1,18 @@
-<x-drawer name="filters" heading="Filters" wire:ignore.self>
+<x-drawer name="filters" heading="{{ trans:catalog.filters.title }}" wire:ignore.self>
     <x-drawer.section class="grow">
         <form class="py-10">
             {{ filters }}
                 <x-heading level="3" size="4" class="mb-4">{{ title }}</x-heading>
 
                 <div name="filter-{{ id }}" title="{{ title }}" overlay="false" noscroll="false" wire:ignore.self>
-                    <x-slot:headerstart>
-                        <x-button variant="blank" icon="arrow_left_alt" class="justify-start w-full px-0 mb-10" @click="closeFilter('filter-{{ id }}')">{{ trans:default.filters_mobile_back_button }}</x-button>
-                    </x-slot:headerstart>
-
                     {{ options | where('product_count', '>=', '1') }}
                         <label for="{{ filter_id }}-mobile" class="flex items-center py-4 transition-opacity cursor-pointer text-slate-600 hover:text-black">
-                            <span>{{ name }}</span>
-                            <span class="px-4 text-sm text-[0.7rem] ml-auto  font-medium text-slate-700">{{ product_count }}</span>
+                            <span>
+                                {{ name }}
+                            </span>
+                            <span class="px-4 text-sm text-[0.7rem] ml-auto  font-medium text-slate-700">
+                                {{ product_count }}
+                            </span>
                             <input
                                 type="checkbox"
                                 class="mr-2 form-checkbox size-5"
@@ -26,7 +26,9 @@
                     {{ /options }}
                 </div>
 
-                {{ unless last }} <x-divider class="my-6" /> {{ /unless }}
+                {{ unless last }} 
+                    <x-divider class="my-6" /> 
+                {{ /unless }}
             {{ /filters }}
         </form>
     </x-drawer.section>
@@ -35,7 +37,7 @@
         <x-drawer.section>
             <div class="grid w-full gap-5 pb-10 mb-safe-bottom">
                 <x-button variant="primary" class="w-full btn-base md:btn-lg grow" @click="$dispatch('drawer:close:filters')">
-                    {{ trans:default.filters_mobile_show_results }}
+                    {{ trans:default.show_results }}
                 </x-button>
                 <x-button variant="ghost" icon="restart_alt" x-show="Object.keys($wire.activeFilters).length > 0 || Object.keys($wire.price).length" wire:click="resetFilters()" x-cloak>
                     {{ trans:default.reset }}

@@ -1,5 +1,5 @@
 <label for="quantity" class="sr-only">
-    Quantity
+    {{ trans:default.quantity }}
 </label>
 
 <div
@@ -8,7 +8,7 @@
     x-defer:interact
 >
     <x-button
-        label="Remove"
+        label="{{ trans:default.remove }}"
         icon="remove" 
         variant="secondary" 
         class="btn-round btn-sm" 
@@ -29,7 +29,7 @@
     >
 
     <x-button
-        label="Add"
+        label="{{ trans:default.add }}"
         icon="add" 
         variant="secondary" 
         class="btn-sm btn-round" 

@@ -7,6 +7,7 @@ return [
     'cancel' => 'Cancel',
     'save' => 'Save',
     'reset' => 'Reset',
+    'add' => 'Add',
     'remove' => 'Remove',
     'close' => 'Close',
     'from' => 'From',
@@ -14,6 +15,21 @@ return [
     'qty' => 'Qty',
     'sku' => 'SKU',
     'cart' => 'Cart',
+    'search' => 'Search',
+    'show_results' => 'Show results',
+    'show' => 'Show',
+    'next' => 'Next',
+    'previous' => 'Previous',
+    'now' => 'Now',
+    'was' => 'Was',
+    'from' => 'From',
+    'out_of_stock' => 'Out of Stock',
+    'add_to_cart' => 'Add to Cart',
+    'open_in_full' => 'Open in full',
+    'logo_link_text' => 'Homepage',
+    'open_main_navigation' => 'Open Main Navigation',
+    'shipping_address' => 'Shipping Address',
+    'billing_address' => 'Billing Address',
 
     'totals' => [
         'subtotal' => 'Subtotal',
@@ -23,16 +39,31 @@ return [
         'grand_total' => 'Grand Total',
     ],
 
-    'shipping_address' => 'Shipping Address',
-    'billing_address' => 'Billing Address',
+    'toast' => [
+        'unknown_error_try_again' => [
+            'title' => 'Unknown error',
+            'text' => 'Something went wrong, please try again',
+        ],
+        'unknown_error' => [
+            'title' => 'Unknown error',
+            'text' => 'Something went wrong',
+        ],
+        'not_enough_stock' => [
+            'title' => 'Not enough stock',
+            'text' => 'Sorry, we don\'t have enough stock for that quantity.',
+        ],
+        'added_to_cart_with_product' => [
+            'title' => 'Added to cart',
+            'text' => ':product has been added to cart.',
+        ]
+    ],
 
-    // Stock Status
-    'in_stock' => 'In Stock',
-    'out_of_stock' => 'Out of Stock',
-
-    // Filters
-    'filters_title' => 'Filters',
-    'filters_mobile_open_button' => 'Filters',
-    'filters_mobile_back_button' => 'All Filters',
-    'filters_mobile_show_results' => 'Show Results',
+    // User menu links
+    'user_menu' => [
+        'title' => 'Account',
+        'profile' => 'Profile',
+        'orders' => 'Orders',
+        'saved' => 'Saved',
+        'logout' => 'Logout',
+    ],
 ];

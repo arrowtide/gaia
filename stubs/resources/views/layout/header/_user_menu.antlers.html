@@ -2,12 +2,12 @@
     {{ if logged_out }}
         <a href="/account/login?redirect={{ current_url | urlencode }}" class="flex-col h-auto p-2 btn btn-ghost min-w-11 sm:min-w-16">
             {{ svg src="account_circle" class="transition fill-current size-6" }}
-            <span class="text-xs sr-only sm:not-sr-only">{{ 'Account' | trans }}</span>
+            <span class="text-xs sr-only sm:not-sr-only">{{ trans:default.user_menu.title }}</span>
         </a>
     {{ else }}
         <x-dropdown>
             <x-slot:button>
-                <x-header-button title="{{ 'Account' | trans }}" icon="account_circle" x-ref="button" x-bind="button"  />
+                <x-header-button title="{{ trans:default.user_menu.title}}" icon="account_circle" x-ref="button" x-bind="button"  />
             </x-slot:button>
 
             <x-slot:content>
@@ -31,15 +31,23 @@
                 <x-dropdown.divider />
 
                 <x-dropdown.menu>
-                    <x-dropdown.item variant="ghost" icon="person" as="a" href="/account" class="justify-start w-full">Profile</x-dropdown.item>
-                    <x-dropdown.item variant="ghost" icon="favorite" as="a" href="/account/saved" class="justify-start w-full">Saved</x-dropdown.item>
-                    <x-dropdown.item variant="ghost" icon="orders" as="a" href="/account/orders" class="justify-start w-full">Orders</x-dropdown.item>
+                    <x-dropdown.item variant="ghost" icon="person" as="a" href="/account" class="justify-start w-full">
+                        {{ trans:default.user_menu.profile }}
+                    </x-dropdown.item>
+                    <x-dropdown.item variant="ghost" icon="favorite" as="a" href="/account/saved" class="justify-start w-full">
+                        {{ trans:default.user_menu.saved }}
+                    </x-dropdown.item>
+                    <x-dropdown.item variant="ghost" icon="orders" as="a" href="/account/orders" class="justify-start w-full">
+                        {{ trans:default.user_menu.orders }}
+                    </x-dropdown.item>
                 </x-dropdown.menu>
 
                 <x-dropdown.divider />
-
+                
                 <x-dropdown.menu>
-                    <x-dropdown.item variant="ghost" icon="person" as="a" href="{ user:logout_url }?redirect={ current_url | urlencode }" class="justify-start w-full">Sign Out</x-dropdown.item>
+                    <x-dropdown.item variant="ghost" icon="person" as="a" href="{ user:logout_url }?redirect={ current_url | urlencode }" class="justify-start w-full">
+                        {{ trans:default.user_menu.logout }}
+                    </x-dropdown.item>
                 </x-dropdown.menu>
             </x-slot:content>
         </x-dropdown>

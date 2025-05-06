@@ -17,7 +17,7 @@
         <script type="module">
             Alpine.data('productAddToCartButton', () => ({
                 disabled: true,
-                buttonText: 'Add to Cart',
+                buttonText: '{{ trans:default.add_to_cart }}',
 
                 init() {
                     this.$watch('$store.product.currentProduct', value => {
@@ -40,20 +40,20 @@
                     // If currentProduct is undefined, not all options have been selected yet
                     if (! value) {
                         this.disabled = true;
-                        this.buttonText = 'Please select options';
+                        this.buttonText = '{{ trans:catalog.select_options }}';
 
                         return;
                     }
 
                     if (value.isSaleable == false) {
                         this.disabled = true;
-                        this.buttonText = 'Out of Stock';
+                        this.buttonText = '{{ trans:default.out_of_stock }}';
 
                         return;
                     }
 
                     this.disabled = false;
-                    this.buttonText = 'Add to Cart';
+                    this.buttonText = '{{ trans:default.add_to_cart }}';
                 }
             }));
         </script>

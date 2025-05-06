@@ -2,17 +2,25 @@
     <x-slot:button>
         <x-button variant="blank" icon="expand_more" icon_position="end" for="dropdown" class="w-full">
             <span x-data="sortOptionText()">
-                <span x-text="text">Sort by: Name (a - z)</span>
+                <span x-text="text">{{ trans:catalog.sort_name.sort_prefix }} {{ trans:catalog.sort_name.title_asc }}</span>
             </span>
         </x-button>
     </x-slot:button>
 
     <x-slot:content>
         <x-dropdown.menu>
-            <x-dropdown.item class="justify-start" \x-bind:class="{'btn-active': $wire.sortOption == 'title_asc'}" wire:click="sort('title_asc');" @click="dropdownClose()">Name: a - z</x-dropdown.item>
-            <x-dropdown.item class="justify-start" \x-bind:class="{'btn-active': $wire.sortOption == 'title_desc'}" wire:click="sort('title_desc');" @click="dropdownClose()">Name: z - a</x-dropdown.item>
-            <x-dropdown.item class="justify-start" \x-bind:class="{'btn-active': $wire.sortOption == 'price_asc'}" wire:click="sort('price_asc');" @click="dropdownClose()">Price: low to high</x-dropdown.item>
-            <x-dropdown.item class="justify-start" \x-bind:class="{'btn-active': $wire.sortOption == 'price_desc'}" wire:click="sort('price_desc');" @click="dropdownClose()">Price: high to low</x-dropdown.item>
+            <x-dropdown.item class="justify-start" \x-bind:class="{'btn-active': $wire.sortOption == 'title_asc'}" wire:click="sort('title_asc');" @click="dropdownClose()">
+                {{ trans:catalog.sort_name.title_asc }}
+            </x-dropdown.item>
+            <x-dropdown.item class="justify-start" \x-bind:class="{'btn-active': $wire.sortOption == 'title_desc'}" wire:click="sort('title_desc');" @click="dropdownClose()">
+                {{ trans:catalog.sort_name.title_desc }}
+            </x-dropdown.item>
+            <x-dropdown.item class="justify-start" \x-bind:class="{'btn-active': $wire.sortOption == 'price_asc'}" wire:click="sort('price_asc');" @click="dropdownClose()">
+                {{ trans:catalog.sort_name.price_asc }}
+            </x-dropdown.item>
+            <x-dropdown.item class="justify-start" \x-bind:class="{'btn-active': $wire.sortOption == 'price_desc'}" wire:click="sort('price_desc');" @click="dropdownClose()">
+                {{ trans:catalog.sort_name.price_desc }}
+            </x-dropdown.item>
         </x-dropdown.menu>
     </x-slot:content>
 </x-dropdown>
@@ -24,13 +32,13 @@
             get text() {
                 switch (this.$wire.sortOption) {
                     case 'title_asc':
-                      return 'Name: a - z'
+                      return '{{ trans:catalog.sort_name.title_asc }}'
                     case 'title_desc':
-                      return 'Name: z - a'
+                      return '{{ trans:catalog.sort_name.title_desc }}'
                     case 'price_asc':
-                      return 'Price: low to high'
+                      return '{{ trans:catalog.sort_name.price_asc }}'
                     case 'price_desc':
-                      return 'Price: high to low'
+                      return '{{ trans:catalog.sort_name.price_desc }}'
                 }
             }
         }

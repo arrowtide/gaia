@@ -2,19 +2,17 @@
     @livewire app/Livewire/Catalog.php
 #}}
 <div class="container relative flex flex-col flex-wrap pb-32 md:flex-row">
-    
     {{ partial:shop/listings/default/filters }}
     
     <div class="flex w-full gap-5 mb-8">
         {{ partial:shop/listings/default/pagesize }}
         {{ partial:shop/listings/default/sort }}
-        <x-button variant="primary" icon="filter" class="ml-auto rounded-full" @click="$dispatch('drawer:open:filters')">{{ trans:default.filters_mobile_open_button }}</x-button>
+        <x-button variant="primary" icon="filter" class="ml-auto rounded-full" @click="$dispatch('drawer:open:filters')">
+            {{ trans:catalog.filters.open_button_text }}
+        </x-button>
     </div>
 
     <div class="flex w-full">
-        {{ unless no_filters }}
-        {{ /unless }}
-
         <div class="grow scroll-m-10" id="catalog">
             <div class="grid w-full grid-cols-2 gap-3 sm:gap-5 md:grid-cols-3 lg:grid-cols-4 scroll-m-32">
                 {{ products }}
@@ -23,5 +21,6 @@
             </div>
 
             {{ links }}
+        </div>
     </div>
 </div>
