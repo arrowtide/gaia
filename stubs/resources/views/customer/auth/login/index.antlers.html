@@ -17,8 +17,8 @@
                     </x-alert>
                 {{ /if }}   
 
-                <x-input name="email" label="Email" value="{{ old:email }}" required="input" autocomplete="email" autocapitalize="none" spellcheck="false" />
-                <x-input name="password" label="Password" type="password" required="input" reveal autocomplete="current-password" autocapitalize="none" spellcheck="false" />
+                <x-input name="email" label="{{ trans:forms.label.email }}" value="{{ old:email }}" required="input" autocomplete="email" autocapitalize="none" spellcheck="false" />
+                <x-input name="password" label="{{ trans:forms.label.password }}" type="password" required="input" reveal autocomplete="current-password" autocapitalize="none" spellcheck="false" />
 
                 <div class="flex justify-end">
                     <x-button variant="link" class="text-sm" as="a" href="/account/recover">
@@ -33,7 +33,7 @@
         {{ /user:login_form }}
 
         <div class="flex justify-center mt-24">
-            <x-button variant="link" as="a" href="/account/register">{{ trans:auth.login_no_account_link_text }}</x-button>
+            <x-button variant="link" as="a" href="/account/register">{{ trans:forms.login_no_account_link_text }}</x-button>
         </div>
     </div
 </div>

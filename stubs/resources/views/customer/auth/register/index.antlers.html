@@ -10,20 +10,20 @@
             {{ user:register_form }}
                 <div class="grid gap-6">
                     <div class="grid grid-cols-2 gap-6">
-                        <x-input name="first-name" label="First Name" value="{{ old:first-name }}" required autocomplete="given-name" autocapitalize="none" spellcheck="false" />
-                        <x-input name="last-name" label="First Name" value="{{ old:last-name }}" required autocomplete="family-name" autocapitalize="none" spellcheck="false" />
+                        <x-input name="first-name" label="{{ trans:forms.label.first_name }}" value="{{ old:first-name }}" required autocomplete="given-name" autocapitalize="none" spellcheck="false" />
+                        <x-input name="last-name" label="{{ trans:forms.label.last_name }}" value="{{ old:last-name }}" required autocomplete="family-name" autocapitalize="none" spellcheck="false" />
                     </div>
 
-                    <x-input name="email" label="Email" value="{{ old:email }}" required autocomplete="email" autocapitalize="none" spellcheck="false" />
-                    <x-input name="password" label="Password" type="password" required reveal autocomplete="new-password" autocapitalize="none" spellcheck="false" />
-                    <x-input name="password_confirmation" type="password" label="Confirm Password" required reveal autocomplete="new-password" autocapitalize="none" spellcheck="false" />
+                    <x-input name="email" label="{{ trans:forms.label.email }}" value="{{ old:email }}" required autocomplete="email" autocapitalize="none" spellcheck="false" />
+                    <x-input name="password" label="{{ trans:forms.label.password }}" type="password" required reveal autocomplete="new-password" autocapitalize="none" spellcheck="false" />
+                    <x-input name="password_confirmation" type="password" label="{{ trans:forms.label.confirm_password }}" required reveal autocomplete="new-password" autocapitalize="none" spellcheck="false" />
 
                     <x-button variant="primary" type="submit" class="w-full mt-5">{{ trans:auth.register_button_text }}</x-button>
                 </div>
             {{ /user:register_form }}
 
             <div class="flex justify-center mt-24">
-                <x-button variant="link" as="a" href="/account/login">{{ trans:auth.register_has_account_link_text }}</x-button>
+                <x-button variant="link" as="a" href="/account/login">{{ trans:forms.register_has_account_link_text }}</x-button>
             </div>
         </div>
     </div>

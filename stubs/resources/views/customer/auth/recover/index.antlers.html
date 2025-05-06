@@ -11,13 +11,14 @@
 
                 {{ if success }}
                     <x-alert variant="success" class="mb-10">
-                        {{ trans:auth.recover_success_text }}
+                        {{ trans:forms.message.success.recover_password }}
                     </x-alert>
                 {{ /if }}
             
                 {{ unless success }}
                     <div class="grid gap-6">
-                        <x-input name="email" label="Email" value="{{ old:email }}" required autocomplete="email" autocapitalize="none" spellcheck="false" />
+                        <x-input name="email" label="{{ trans:forms.label.email }}" value="{{ old:email }}" required autocomplete="email" autocapitalize="none" spellcheck="false" />
+                        
                         <x-button variant="primary" type="submit" class="w-full mt-5">
                             {{ trans:auth.recover_button_text }}
                         </x-button>

@@ -15,20 +15,20 @@
             {{ user:password_form }}
                 {{ if errors }}
                     <x-alert variant="error" class="mb-10">
-                        {{ trans:forms.standard_errors_message }}
+                        {{ trans:forms.message.error.default }}
                     </x-alert>
                 {{ /if }}
     
                 {{ if success }}
                     <x-alert variant="success" class="mb-10">
-                        {{ trans:forms.standard_success_message }}
+                        {{ trans:forms.message.success.default }}
                     </x-alert>
                 {{ /if }}
             
                 <div class="grid gap-6">
-                    <x-input name="current_password" type="password" label="{{ trans:forms.current_password_label }}" required autocomplete="none" autocapitalize="none" spellcheck="false" />
-                    <x-input name="password" label="{{ trans:forms.new_password_label }}" type="password" required reveal autocomplete="new-password" autocapitalize="none" spellcheck="false" />
-                    <x-input name="password_confirmation" label="{{ trans:forms.confirm_password_label }}" type="password" required reveal autocomplete="new-password" autocapitalize="none" spellcheck="false" />
+                    <x-input name="current_password" type="password" label="{{ trans:forms.label.current_password }}" required autocomplete="none" autocapitalize="none" spellcheck="false" />
+                    <x-input name="password" label="{{ trans:forms.label.new_password }}" type="password" required reveal autocomplete="new-password" autocapitalize="none" spellcheck="false" />
+                    <x-input name="password_confirmation" label="{{ trans:forms.label.confirm_password }}" type="password" required reveal autocomplete="new-password" autocapitalize="none" spellcheck="false" />
                 </div>
                 
                 <x-button type="submit" class="mt-10">{{ trans:default.confirm }}</x-button>

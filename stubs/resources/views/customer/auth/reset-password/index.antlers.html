@@ -10,12 +10,12 @@
             {{ user:reset_password_form }}
                 {{ if url_invalid }}
                     <x-alert variant="error" class="mt-20">
-                        {{ trans:auth.recover_reset_error_url_invalid_text }}
+                        {{ trans:forms.message.error.recover_reset_error_url_invalid_text }}
                     </x-alert>
                 {{ else }}
                     {{ if errors }}
                         <x-alert variant="error" class="my-20">
-                            {{ trans:auth.recover_reset_error_url_invalid_text }}
+                            {{ trans:forms.message.error.recover_reset_error_url_invalid_text }}
                         </x-alert>
                     {{ /if }}
 
