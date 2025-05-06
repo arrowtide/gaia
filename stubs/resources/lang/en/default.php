@@ -7,6 +7,7 @@ return [
     'save' => 'Save',
     'reset' => 'Reset',
     'close' => 'Close',
+    'from' => 'From',
     'quantity' => 'Quantity',
     'sku' => 'SKU',
 
@@ -24,18 +25,6 @@ return [
     // Stock Status
     'in_stock' => 'In Stock',
     'out_of_stock' => 'Out of Stock',
-
-    // Gaia Livesearch
-    'livesearch_title' => 'Search',
-    'livesearch_product_results_heading' => 'Products:',
-    'livesearch_no_results_heading' => 'No Results Found',
-    'livesearch_no_results_description' => 'We couldn\'t find anything for ',
-    'livesearch_trending_searches_heading' => 'Trending Searches',
-    'livesearch_shop_results_heading' => 'Pages:',
-    'livesearch_characters_left' => 'You need 1 more character|You need :count more characters',
-    'livesearch_reset_form' => 'Reset',
-    'livesearch_close_modal' => 'Close Search',
-    'livesearch_search_trigger_text' => 'Search...',
 
     // Filters
     'filters_title' => 'Filters',
