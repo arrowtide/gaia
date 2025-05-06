@@ -29,7 +29,7 @@
                     <div class="py-5">
                         {{ partial:features/minicart/totals }}
 
-                        <x-button href="{{ checkoutUrl }}" @click="open = false" wire:loading.attr="disabled" class="w-full md:btn-lg">
+                        <x-button as="a" href="{{ checkoutUrl }}" @click="open = false" wire:loading.attr="disabled" class="w-full md:btn-lg">
                             {{ trans:minicart.checkout_button }}
                         </x-button>
                     </div>
