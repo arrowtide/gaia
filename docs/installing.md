@@ -13,7 +13,7 @@ composer require arrowtide/gaia
 ```
 
 This will also install the following dependencies:
-- [Livewire](https://statamic.com/addons/jonassiewertsen/livewire)
+- [Livewire](https://statamic.com/addons/marcorieser/livewire)
 - [Rad Pack Shopify](https://statamic.com/addons/rad-pack/shopify)
 - [Tailwind Merge](https://statamic.com/addons/marcorieser/tailwind-merge-statamic)
 
