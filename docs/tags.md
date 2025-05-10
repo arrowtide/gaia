@@ -42,7 +42,8 @@ Attach it to a variable to make it reusable:
 </script>
 ```
 
-## siteCurrency
+## site_currency
+
 Returns the current currency that is being used by the site. This will either be the `default_currency` defined in `gaia.php` or the `currency` attribute set on the site if you're on a multisite setup.
 
 ```twig

@@ -12,6 +12,7 @@ We ship with the essential blocks to get you started:
 - Mobile Stack
 - Link Group
 - Link
+- Image
 
 ## Adding custom blocks
 If you want a purely link based navigation, the base blocks are all you will need. If you find you want to extend the menu with your own blocks, we've made this really easy. 

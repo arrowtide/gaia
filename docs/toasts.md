@@ -13,6 +13,17 @@ gaia.toast({
 });
 ```
 
+## Titles
+You can provide a title with the `title` key. If no title is provided, it will default to the corrosponding variant.
+
+```js
+gaia.toast({
+    title: 'Added to wishlist',
+    text: `This is an success status!`,
+    type: 'success'
+});
+```
+
 ## Variants
 There are four variants of toasts which you can use by changing the `type` key:
 

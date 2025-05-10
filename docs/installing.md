@@ -14,8 +14,11 @@ composer require arrowtide/gaia
 
 This will also install the following dependencies:
 - [Livewire](https://statamic.com/addons/marcorieser/livewire)
-- [Rad Pack Shopify](https://statamic.com/addons/rad-pack/shopify)
-- [Tailwind Merge](https://statamic.com/addons/marcorieser/tailwind-merge-statamic)
+- [Shopify](https://statamic.com/addons/rad-pack/shopify)
+- [Payment Icons](https://statamic.com/addons/arrowtide/payment-icons)
+- [Antlers Components](https://statamic.com/addons/stillat/antlers-components)
+
+
 
 ## 2. Running the Install Command
 To streamline setup, use Gaia's built-in install command. This will automatically transfer all relevant template files to the correct directories:
@@ -30,12 +33,18 @@ To get live search up and running we first need to head over to the `config/stat
         'live-search' => [
             'driver' => 'local',
             'searchables' => ['collection:shop', 'collection:products'],
-            'fields' => ['title', 'url', 'collections'],
+            'fields' => ['title', 'collections'],
         ],
     ],
 ```
 You can read more about Statamic search indexes [here](https://statamic.dev/search#indexes).
 
-## 4. Start coding
-Your setup is complete! You’re now ready to begin crafting your storefront.
-Happy building!
+## 4. Set up currency
+Head over to `config/gaia.php` and set `default_currency` to your desired currency code. The code should be a valid [ISO 4217](https://www.iso.org/iso-4217-currency-codes.html) currency code.
+
+If you're building a multisite store you can follow [these instructions](/multisite#currencies) instead.
+
+## 5. Set up the Shopify addon
+You're now ready to set up the Shopify addon. It is already installed, so you can skip the `composer require statamic-rad-pack/shopify` step.
+
+[Please follow these steps](https://statamic-shopify-docs.vercel.app/setup).

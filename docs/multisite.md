@@ -2,18 +2,10 @@
 
 [TOC]
 
-## Updating Translations
-You can find the translation files under your `resources/lang` folder. There is a single common file `default.php`, and then a file for each substantial feature. 
+## Translations
+You can find the translation files under your `resources/lang` folder.
 
-```md
-// The default translation file.
-default.php
-
-// If you have enabled multiple wishlists, the templates will use this file
-wishlist_collections.php
-```
-
-## Setting up per site currencies
+## Currencies
 When you set up multi-site, you'll probably want to display different currencies for each site you have. These currencies should match what you have set up in Shopify. Currently this is only used for the `{{ gaia:currency }}` tag, but may be expanded in the future.
 
 Let's say you have set up two markets and changed their currency:

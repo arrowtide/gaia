@@ -1,31 +1,18 @@
 # AJAX
-Gaia comes with a tiny Fetch wrapper called Wretch. This takes away some of the boilerplate code required to make a request.
 
-Included is a preset function that fills in some of the options for you, further streamlining the request. It will automatically resolve as JSON, which is the equivilent of the `response.json()` method.
+AJAX (Asynchronous JavaScript and XML) is used around the frontend to make requests to the backend and update the UI without refreshing the page.
 
-```js
-gaia.fetch = wretch()
-    .options({
-        headers: {
-            "Content-Type": "application/json",
-            'X-Requested-With': 'XMLHttpRequest',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        }
-    })
-    .errorType("json")
-    .resolve(r => r.json());
-```
+We use the standard [`fetch()`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) API to make requests.
 
-You can use it in your application:
+Here a simple example:
 
 ```js
-const response = await gaia.fetch.url('/!/your-url').post({
-    secret_sauce: 'extra-spicy',
-    who: 'mystery-guest',
+const response =  await fetch('/!/gaia/account/wishlists', {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    }
 });
 ```
-
-- [Wretch GitHub](https://github.com/elbywan/wretch)
-- [Wretch Docs](https://elbywan.github.io/wretch/api/index.html)
-
-
